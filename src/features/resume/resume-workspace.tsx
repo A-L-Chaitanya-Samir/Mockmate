@@ -34,7 +34,12 @@ import type { ResumeAnalysis } from "@/types";
 import { useFeatureAccess } from "@/hooks/use-feature-access";
 import { FeatureGate, UpgradePrompt } from "@/components/plan-access";
 const MAX_PDF_BYTES = 5 * 1024 * 1024;
+import { DEMO_MODE } from "@/lib/mode";
+import { LiveResumes } from "@/features/live/resumes";
 export function ResumeWorkspace({ analyze = false }: { analyze?: boolean }) {
+  return DEMO_MODE ? <DemoResumeWorkspace analyze={analyze} /> : <LiveResumes />;
+}
+function DemoResumeWorkspace({ analyze = false }: { analyze?: boolean }) {
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
@@ -338,6 +343,7 @@ function ResumeResults({ analysis }: { analysis: ResumeAnalysis }) {
   );
 }
 export function ResumeImprove() {
+  if (!DEMO_MODE) return <LiveResumes improve />;
   return (
     <FeatureGate
       feature="advancedResume"

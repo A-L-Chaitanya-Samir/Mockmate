@@ -12,6 +12,8 @@ import { errorMessage } from "@/services/api-client";
 import { useDemoStore } from "@/stores/demo-store";
 import { Button } from "@/components/ui/button";
 import { Badge, Field, Spinner } from "@/components/ui/primitives";
+import { DEMO_MODE } from "@/lib/mode";
+import { LiveAuthForm } from "./live-auth-form";
 const authSchema = z.object({
   name: z.string().optional(),
   email: z.email("Enter a valid email address."),
@@ -20,6 +22,9 @@ const authSchema = z.object({
 });
 type Values = z.infer<typeof authSchema>;
 export function AuthForm({ mode }: { mode: "login" | "register" | "forgot" }) {
+  return DEMO_MODE ? <DemoAuthForm mode={mode} /> : <LiveAuthForm mode={mode} />;
+}
+function DemoAuthForm({ mode }: { mode: "login" | "register" | "forgot" }) {
   const router = useRouter();
   const login = useDemoStore((s) => s.login);
   const [visible, setVisible] = useState(false);

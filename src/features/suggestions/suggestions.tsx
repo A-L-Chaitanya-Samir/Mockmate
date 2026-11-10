@@ -13,7 +13,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { UpgradePrompt } from "@/components/plan-access";
 import { buildSuggestions } from "./suggestions-data";
+import { DEMO_MODE } from "@/lib/mode";
+import { LiveDashboard } from "@/features/live/dashboard";
 export function Suggestions() {
+  return DEMO_MODE ? <DemoSuggestions /> : <LiveDashboard suggestions />;
+}
+function DemoSuggestions() {
   const { resumes, history, codingRounds, profile } = useDemoStore();
   const { can } = useFeatureAccess();
   const [category, setCategory] = useState("All advice");

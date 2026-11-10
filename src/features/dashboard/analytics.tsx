@@ -16,7 +16,12 @@ import {
 import { useDemoStore } from "@/stores/demo-store";
 import { InterviewHistory } from "./interview-history";
 import { mockReport } from "@/data/mock-data";
+import { DEMO_MODE } from "@/lib/mode";
+import { LiveDashboard } from "@/features/live/dashboard";
 export function Analytics() {
+  return DEMO_MODE ? <DemoAnalytics /> : <LiveDashboard analytics />;
+}
+function DemoAnalytics() {
   const history = useDemoStore((s) => s.history);
   const [range, setRange] = useState("all");
   const shown = range === "recent" ? history.slice(0, 3) : history;

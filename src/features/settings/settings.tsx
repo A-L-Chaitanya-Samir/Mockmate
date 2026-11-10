@@ -1,4 +1,6 @@
 "use client";
+import { DEMO_MODE } from "@/lib/mode";
+import { LiveSettings } from "@/features/live/dashboard";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
@@ -76,6 +78,9 @@ function ProfileForm() {
   );
 }
 export function Settings() {
+  return DEMO_MODE ? <DemoSettings /> : <LiveSettings />;
+}
+function DemoSettings() {
   const ready = useDemoReady();
   return ready ? <SettingsContent /> : <Skeleton />;
 }

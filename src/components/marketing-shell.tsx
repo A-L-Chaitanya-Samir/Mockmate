@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Brand } from "./brand";
 import { ThemeToggle } from "./theme-toggle";
 import { Button } from "./ui/button";
+import { DEMO_MODE } from "@/lib/mode";
 export function MarketingShell({ children }: { children: ReactNode }) {
   return (
     <>
@@ -36,12 +37,11 @@ export function MarketingShell({ children }: { children: ReactNode }) {
         </div>
         <div className="footer-links">
           <Link href="/about">About Mockmate</Link>
-          <Link href="/pricing">Demo plans</Link>
-          <Link href="/dashboard">Explore demo</Link>
+          <Link href="/pricing">{DEMO_MODE ? "Demo plans" : "Plans"}</Link>
+          <Link href="/dashboard">{DEMO_MODE ? "Explore demo" : "Your workspace"}</Link>
         </div>
         <p className="text-subtle text-[10px] w-full">
-          © {new Date().getFullYear()} Mockmate · Portfolio frontend demo · No
-          real AI processing
+          © {new Date().getFullYear()} Mockmate · {DEMO_MODE ? "Portfolio frontend demo · No real AI processing" : "Text interviews & resume coaching · External AI processing"}
         </p>
       </footer>
     </>

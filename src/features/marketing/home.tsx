@@ -18,6 +18,7 @@ import { Badge, ScoreRing, Progress } from "@/components/ui/primitives";
 import { Button } from "@/components/ui/button";
 import { PricingCards } from "./pricing";
 import { plans } from "@/config/plans";
+import { DEMO_MODE } from "@/lib/mode";
 export function Home() {
   return (
     <>
@@ -43,12 +44,12 @@ export function Home() {
           </Button>
           <Button asChild variant="secondary">
             <Link href="/dashboard">
-              Explore the demo <ArrowRight size={15} />
+              {DEMO_MODE ? "Explore the demo" : "Open your workspace"} <ArrowRight size={15} />
             </Link>
           </Button>
         </div>
         <span className="hero-note">
-          No credit card. No pressure. Just progress. · Phase 1 frontend demo
+          No credit card. No pressure. Just progress. · {DEMO_MODE ? "Phase 1 frontend demo" : "Phase 2 text interviews & resume coaching"}
         </span>
       </section>
       <div

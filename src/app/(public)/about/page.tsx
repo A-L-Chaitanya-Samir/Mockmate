@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Compass, ShieldCheck, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { DEMO_MODE } from "@/lib/mode";
 export const metadata = { title: "About" };
 export default function Page() {
   return (
@@ -44,7 +45,7 @@ export default function Page() {
             {
               icon: ShieldCheck,
               title: "Honest by design",
-              text: "This portfolio demo clearly labels simulated feedback. Your camera and microphone are never recorded or uploaded.",
+              text: DEMO_MODE ? "This portfolio demo clearly labels simulated feedback. Your camera and microphone are never recorded or uploaded." : "Resume excerpts and interview text use external AI. Voice, video, coding execution and payments are future features.",
             },
           ].map((x) => (
             <article className="feature-block" key={x.title}>
@@ -58,14 +59,11 @@ export default function Page() {
       <section className="marketing-section">
         <p className="eyebrow mb-5">THE PROJECT</p>
         <h2 className="text-3xl mb-6">
-          A frontend today.
-          <br />A foundation for tomorrow.
+          Preparation today.
+          <br />Progress for tomorrow.
         </h2>
         <p className="text-muted max-w-2xl mb-7">
-          Mockmate is a student portfolio project built with Next.js, React, and
-          TypeScript. Phase 1 explores the complete product experience through
-          typed mock services. A future phase will connect FastAPI, real
-          authentication, and AI services.
+          {DEMO_MODE ? "Mockmate’s separate demo build uses simulated services and browser-local data." : "Mockmate connects its Next.js and TypeScript interface to Supabase authentication, private storage, PostgreSQL and a FastAPI backend with a durable AI worker. Resume analysis and text interview feedback use your own submitted content."}
         </p>
         <Button asChild>
           <Link href="/dashboard">

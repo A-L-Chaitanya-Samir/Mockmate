@@ -1,4 +1,6 @@
 "use client";
+import { DEMO_MODE } from "@/lib/mode";
+import { LiveInterviewRoom } from "@/features/live/interviews";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -40,6 +42,9 @@ import { Tooltip } from "@/components/ui/tooltip";
 import { CompetencyChart } from "@/components/charts";
 import type { InterviewSession } from "@/types";
 export function InterviewRoom({ interviewId }: { interviewId: string }) {
+  return DEMO_MODE ? <DemoInterviewRoom interviewId={interviewId} /> : <LiveInterviewRoom interviewId={interviewId} />;
+}
+function DemoInterviewRoom({ interviewId }: { interviewId: string }) {
   const ready = useDemoReady();
   const session = useDemoStore((s) =>
     s.sessions.find((x) => x.id === interviewId),

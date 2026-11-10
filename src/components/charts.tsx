@@ -16,6 +16,8 @@ import {
 } from "recharts";
 import { useHydrated } from "@/hooks/use-hydrated";
 import { mockReport } from "@/data/mock-data";
+import { DEMO_MODE } from "@/lib/mode";
+const defaultScores = DEMO_MODE ? mockReport.scores : [];
 const tooltipStyle = {
   background: "var(--surface)",
   border: "1px solid var(--border)",
@@ -97,18 +99,18 @@ export function PerformanceChart({
     </div>
   );
 }
-export function CompetencyChart({ height = 230 }: { height?: number }) {
+export function CompetencyChart({ height = 230, scores = defaultScores }: { height?: number; scores?: { skill: string; score: number }[] }) {
   const ready = useHydrated();
   return (
     <div
       style={{ height, minWidth: 0 }}
       role="img"
-      aria-label="Sample competencies: technical 85, communication 90, problem solving 86, confidence 82, clarity 88"
+      aria-label={`${DEMO_MODE ? "Sample competencies: " : "Text competencies: "}${scores.map(s => `${s.skill}: ${s.score}`).join(", ")}`}
     >
       {ready && (
         <ResponsiveContainer width="100%" height="100%">
           <RadarChart
-            data={mockReport.scores.map((item) => ({
+            data={scores.map((item) => ({
               ...item,
               axis:
                 item.skill === "Communication"
@@ -139,7 +141,7 @@ export function CompetencyChart({ height = 230 }: { height?: number }) {
     </div>
   );
 }
-export function SkillChart() {
+export function SkillChart({ scores = defaultScores }: { scores?: { skill: string; score: number }[] }) {
   const ready = useHydrated();
   return (
     <div
@@ -150,7 +152,7 @@ export function SkillChart() {
       {ready && (
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
-            data={mockReport.scores}
+            data={scores}
             layout="vertical"
             margin={{ left: 0, right: 15 }}
           >

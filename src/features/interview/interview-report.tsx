@@ -19,7 +19,12 @@ import { Button } from "@/components/ui/button";
 import { CompetencyChart } from "@/components/charts";
 import { useFeatureAccess } from "@/hooks/use-feature-access";
 import { UpgradePrompt } from "@/components/plan-access";
+import { DEMO_MODE } from "@/lib/mode";
+import { LiveReport } from "@/features/live/interviews";
 export function InterviewReport({ interviewId }: { interviewId: string }) {
+  return DEMO_MODE ? <DemoInterviewReport interviewId={interviewId} /> : <LiveReport interviewId={interviewId} />;
+}
+function DemoInterviewReport({ interviewId }: { interviewId: string }) {
   const ready = useDemoReady();
   const { can } = useFeatureAccess();
   const session = useDemoStore((s) =>

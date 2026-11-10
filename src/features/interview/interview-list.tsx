@@ -14,7 +14,12 @@ import { Button } from "@/components/ui/button";
 import { Panel, PageHeading, Badge } from "@/components/ui/primitives";
 import { InterviewHistory } from "@/features/dashboard/interview-history";
 import { useDemoStore } from "@/stores/demo-store";
+import { DEMO_MODE } from "@/lib/mode";
+import { LiveInterviewList } from "@/features/live/interviews";
 export function InterviewList() {
+  return DEMO_MODE ? <DemoInterviewList /> : <LiveInterviewList />;
+}
+function DemoInterviewList() {
   const [filter, setFilter] = useState("All");
   const sessions = useDemoStore((s) => s.sessions);
   const active = sessions.find((s) => s.status === "active");

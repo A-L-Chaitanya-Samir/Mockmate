@@ -16,7 +16,12 @@ import { SidebarContent } from "./sidebar";
 import { ThemeToggle } from "./theme-toggle";
 import { DemoNotice } from "./ui/primitives";
 import { cn } from "@/lib/utils";
-export function AppShell({
+import { DEMO_MODE } from "@/lib/mode";
+import { WorkspaceProvider, useOptionalWorkspace } from "@/features/live/workspace";
+export function AppShell(props: { children: ReactNode; room?: boolean }) {
+  return DEMO_MODE ? <Shell {...props} /> : <WorkspaceProvider><Shell {...props} /></WorkspaceProvider>;
+}
+function Shell({
   children,
   room = false,
 }: {
@@ -26,7 +31,9 @@ export function AppShell({
   const path = usePathname();
   const [mobile, setMobile] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
-  const profile = useDemoStore((s) => s.profile);
+  const demoProfile = useDemoStore((s) => s.profile);
+  const live = useOptionalWorkspace();
+  const profile = live?.data?.profile ?? demoProfile;
   const current =
     navigation.find((n) => n.href !== "/dashboard" && path.startsWith(n.href))
       ?.label ??
@@ -99,7 +106,7 @@ export function AppShell({
             <div className="flex items-center gap-3">
               <span className="header-demo">
                 <span className="status-dot" />
-                Demo workspace
+                {DEMO_MODE ? "Demo workspace" : "Your workspace"}
               </span>
               <ThemeToggle />
               <Link

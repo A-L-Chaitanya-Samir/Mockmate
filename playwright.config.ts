@@ -2,6 +2,7 @@ import { defineConfig, devices } from "@playwright/test";
 const external = process.env.PLAYWRIGHT_BASE_URL;
 export default defineConfig({
   testDir: "./tests",
+  testMatch: process.env.MOCKMATE_BROWSER_MODE === "live" ? "live.spec.ts" : /(?:frontend|product-focus|visual)\.spec\.ts/,
   fullyParallel: false,
   workers: 1,
   timeout: 45000,

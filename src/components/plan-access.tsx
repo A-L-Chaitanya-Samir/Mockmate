@@ -11,6 +11,7 @@ import { useDemoStore } from "@/stores/demo-store";
 import { Button } from "./ui/button";
 import { Dialog } from "./ui/dialog";
 import { Panel, Badge, CheckList, Skeleton } from "./ui/primitives";
+import { DEMO_MODE } from "@/lib/mode";
 export function UpgradeButton({
   label = "Upgrade to Pro",
   destination,
@@ -18,6 +19,9 @@ export function UpgradeButton({
   label?: string;
   destination?: string;
 }) {
+  return DEMO_MODE ? <DemoUpgradeButton label={label} destination={destination} /> : <Button disabled variant="secondary">Pro checkout coming later</Button>;
+}
+function DemoUpgradeButton({ label = "Upgrade to Pro", destination }: { label?: string; destination?: string }) {
   const [open, setOpen] = useState(false);
   const setPlan = useDemoStore((s) => s.setPlan);
   const router = useRouter();

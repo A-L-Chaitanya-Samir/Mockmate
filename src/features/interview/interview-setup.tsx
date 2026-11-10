@@ -32,7 +32,12 @@ import { useDemoReady } from "@/hooks/use-demo-ready";
 import { Skeleton } from "@/components/ui/primitives";
 import { useFeatureAccess } from "@/hooks/use-feature-access";
 import { InterviewLimitNotice } from "@/components/plan-access";
+import { DEMO_MODE } from "@/lib/mode";
+import { LiveInterviewSetup } from "@/features/live/interviews";
 export function InterviewSetup({ initialType }: { initialType?: string }) {
+  return DEMO_MODE ? <DemoInterviewSetup initialType={initialType} /> : <LiveInterviewSetup initialType={initialType} />;
+}
+function DemoInterviewSetup({ initialType }: { initialType?: string }) {
   const ready = useDemoReady();
   const { interviews } = useFeatureAccess();
   if (!ready) return <Skeleton />;

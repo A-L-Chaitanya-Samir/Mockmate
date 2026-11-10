@@ -1,58 +1,61 @@
 # Mockmate
 
-A complete Phase 1 career-readiness frontend built with Next.js App Router, React, TypeScript, Tailwind CSS, shadcn-style Radix UI components, Recharts, React Hook Form, Zod, and Zustand.
+Phase 2 connects the existing Next.js/TypeScript frontend to Supabase Auth, PostgreSQL, private resume storage, FastAPI and a separate durable Python worker. It implements PDF resume coaching, text interviews, saved reports, analytics, suggestions, profiles and preferences.
 
-The product focuses on **Resume Analysis, AI Interview Practice, AI Coding Rounds, and Suggestions & Advice**.
+Live mode is the default. On 10 November 2026, the owner's development Supabase database, private Storage, Auth and Groq were connected and tested end to end. The API, separate worker and local frontend use ignored environment files. Automated regression checks also retain separate deterministic adapters. Email delivery to a real inbox still needs an owner check; see the verification record.
 
-**This is a frontend portfolio demo.** AI feedback, resume analysis, password recovery, coding questions, and coding output are predefined simulations. There is no backend, production authentication, real AI, code execution, media recording, or file upload.
+## Windows quick start
 
-## Free and Pro
+Prerequisites: Node 24, Python 3.10+ (3.12 recommended), and Docker Desktop for local Supabase.
 
-Exactly two plans: **Free — ₹0** and **Mockmate Pro — ₹299**, with no billing interval specified. Free includes basic resume analysis, basic interview reports, suggestions, and three created demo interview sessions. Pro includes twenty sessions, full coding rounds, advanced resume recommendations, and detailed feedback. Sample history does not consume the quota.
-
-`src/config/plans.ts` is the source of truth for prices, benefits, capabilities, and quotas. `useFeatureAccess` and `FeatureGate` apply these capabilities consistently. The upgrade dialog explicitly enables a local Pro demo without payment. Settings → Demo account can switch back to Free.
-
-## Run locally
-
-Use Node.js 20.9 or newer (Node 24 was used during implementation).
-
-```sh
-npm ci
-npm run dev
+```powershell
+Set-Location A:\Mockmate
+npm.cmd ci
+python -m venv backend/.venv
+.\backend\.venv\Scripts\python.exe -m pip install -r backend/requirements.txt
+Copy-Item .env.example .env.local
+Copy-Item backend/.env.example backend/.env
+# Edit ignored environment files with credentials issued to your own accounts.
+npx.cmd supabase start
+npx.cmd supabase db push
 ```
 
-On Windows PowerShell, if execution policy blocks npm’s `.ps1` launcher, use `npm.cmd ci` and `npm.cmd run dev`. No execution-policy change is necessary.
+Follow [the setup guide](docs/phase-2-setup.md) for credentials, hosted/local migrations, email delivery, callback URLs, Groq and exact test commands. Keep secrets out of chat and Git.
 
-Open http://localhost:3000. Click **Explore the demo** or **Continue with demo account**. All dashboard routes are intentionally accessible for portfolio review; demo sign-in is a UX simulation, not an access-control boundary.
+Open three terminals at the repository root:
 
-```sh
-npm run typecheck
-npm run lint
-npm run build
-npm start
+```powershell
+# Frontend: http://localhost:3000
+npm.cmd run dev
+# API, separate terminal: http://localhost:8000/docs
+$env:PYTHONPATH='backend'
+.\backend\.venv\Scripts\python.exe -m uvicorn app.main:app --reload --port 8000 --no-access-log
+# Worker, separate terminal
+$env:PYTHONPATH='backend'
+.\backend\.venv\Scripts\python.exe -m app.workers.runner
 ```
 
-## Browser tests
+## Verification
 
-```sh
-npx playwright install chromium
-npm run test:e2e
+```powershell
+npm.cmd run typecheck
+npm.cmd run lint
+npm.cmd run build
+.\backend\.venv\Scripts\python.exe scripts/export-openapi.py
+npx.cmd openapi-typescript contracts/openapi.json -o src/lib/api/generated.ts
+$env:PYTHONPATH='backend'
+.\backend\.venv\Scripts\python.exe -m pytest backend/tests -q
+.\backend\.venv\Scripts\python.exe scripts/check-secrets.py
+# Calls your actual Groq account only after its server key is configured:
+.\backend\.venv\Scripts\python.exe scripts/provider-smoke.py
 ```
 
-The test configuration starts a dedicated production server on port 3100. Run `npm run build` first. Set `PLAYWRIGHT_BASE_URL` to explicitly reuse another server. To use installed Chrome on Windows: `$env:PLAYWRIGHT_CHANNEL='chrome'; npm.cmd run test:e2e`.
+Database tests need an isolated TEST_DATABASE_URL. [Setup and browser commands](docs/phase-2-setup.md#automated-verification) explain PGlite, native PostgreSQL and both browser modes. CI runs native PostgreSQL concurrency checks and browser regressions. [Verification evidence](docs/phase-2-verification.md) distinguishes local checks from outstanding real-service acceptance.
 
-Study [the frontend guide](docs/phase-1-frontend-guide.md) for architecture, route map, data flow, theme tokens, and Phase 2 integration. [The checklist](docs/phase-1-checklist.md) records scope and verification.
+## Product boundaries
 
-## Persistence and privacy
+Free/Pro names and ₹0/₹299 presentation remain. Paid checkout is disabled. Introductory server-controlled allowances are account lifetime, not monthly subscriptions: Free defaults to three analyses and three interviews; operator-controlled Pro testing defaults to twenty each. Failed initial processing releases reservations; retry reacquires capacity; deletion does not reset usage.
 
-The versioned `mockmate-demo-v1` Local Storage key contains demo profile/preferences, plan selection, typed interview answers, resume metadata with sample analyses, coding drafts, follow-up answers, and integrity logs. Older saves default to Free, preserve relevant progress, and discard retired course-completion data. The theme uses the `theme` key. Email, passwords, PDF bytes, camera video, and microphone audio are never persisted. Use fictional, non-sensitive practice content. Settings → Demo account → Reset demo data restores Free and the sample workspace.
+Resume excerpts and interview text go to Groq. Common resume email/phone/link patterns are removed where detected, which is not full anonymization. Files are private; download links expire after 60 seconds. Resume quality is coaching under a documented rubric, not an ATS score or hiring prediction. Only text communication is assessed.
 
-## Coding-round safeguards
-
-Active rounds disable ordinary problem-text selection, copy/cut and context-menu actions inside the environment, and pastes/drops into the editor. Native typing, code selection, deletion, undo, and focus navigation remain available. Tab visibility and window focus changes are logged locally with neutral warnings. The review threshold and timer are configurable in `src/config/coding.ts`.
-
-These controls are deterrents, not tamper-proof security. They cannot reliably prevent screenshots, external devices, developer tools, modified local state, or all clipboard workarounds. Events cause no automatic accusation or score penalty. Phase 2 needs authenticated subscription verification, trusted event recording, server validation, and isolated code execution.
-
-See [the product refinement guide](docs/product-scope-refinement.md) for the updated workflows, removals, and access architecture.
-
-The original `docs/design-reference/` images remain untouched. All UI uses the **Mockmate** product name. The starting workspace had no Git metadata or remote; no GitHub push or deployment has been performed.
+Coding execution/evaluation, voice, video, face detection, proctoring and paid subscriptions remain future features. Set NEXT_PUBLIC_DEMO_MODE=true before building to run the separate Phase 1 demo and its simulated features. Live accounts never import its sample history or browser-local records. Original branding, themes, navigation and design references remain.

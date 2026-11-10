@@ -18,7 +18,12 @@ import { InterviewHistory } from "./interview-history";
 import { useFeatureAccess } from "@/hooks/use-feature-access";
 import { UpgradePrompt } from "@/components/plan-access";
 import { buildSuggestions } from "@/features/suggestions/suggestions-data";
+import { DEMO_MODE } from "@/lib/mode";
+import { LiveDashboard } from "@/features/live/dashboard";
 export function Overview() {
+  return DEMO_MODE ? <DemoOverview /> : <LiveDashboard />;
+}
+function DemoOverview() {
   const { profile, history, resumes, codingRounds } = useDemoStore();
   const { can, definition, interviews } = useFeatureAccess();
   const advice = buildSuggestions(

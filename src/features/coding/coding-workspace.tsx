@@ -5,7 +5,10 @@ import { PageHeading, DemoNotice } from "@/components/ui/primitives";
 import { FeatureGate } from "@/components/plan-access";
 import { CodingSetup } from "./coding-setup";
 import { CodingRound } from "./coding-round";
+import { DEMO_MODE } from "@/lib/mode";
+import { FutureCoding } from "@/features/live/dashboard";
 export function CodingWorkspace() {
+  if (!DEMO_MODE) return <FutureCoding />;
   return (
     <>
       <PageHeading

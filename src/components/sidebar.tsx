@@ -8,6 +8,10 @@ import { cn } from "@/lib/utils";
 import { Brand } from "./brand";
 import { Button } from "./ui/button";
 import { useFeatureAccess } from "@/hooks/use-feature-access";
+import { DEMO_MODE } from "@/lib/mode";
+import { useOptionalWorkspace } from "@/features/live/workspace";
+import { signOut } from "@/services/live-api";
+import { toast } from "sonner";
 export function SidebarContent({
   collapsed = false,
   path,
@@ -22,7 +26,9 @@ export function SidebarContent({
   mobile?: boolean;
 }) {
   const router = useRouter();
-  const profile = useDemoStore((s) => s.profile);
+  const demoProfile = useDemoStore((s) => s.profile);
+  const live = useOptionalWorkspace();
+  const profile = live?.data?.profile ?? demoProfile;
   const logout = useDemoStore((s) => s.logout);
   const { definition } = useFeatureAccess();
   return (
@@ -45,7 +51,7 @@ export function SidebarContent({
         <div>
           <strong>Personal workspace</strong>
           <small>
-            {definition.name} · Demo <span className="status-dot" />
+            {DEMO_MODE ? `${definition.name} · Demo` : `${live?.data?.capabilities.plan === "pro" ? "Mockmate Pro" : "Free"} · Account`} <span className="status-dot" />
           </small>
         </div>
       </div>
@@ -110,6 +116,7 @@ export function SidebarContent({
             size="icon"
             aria-label="Log out"
             onClick={() => {
+              if (!DEMO_MODE) { void signOut().catch(e => toast.error(String(e))); return; }
               logout();
               close();
               router.push("/login");

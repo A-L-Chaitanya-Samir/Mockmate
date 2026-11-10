@@ -4,6 +4,7 @@ import { plans, planOrder, planComparison } from "@/config/plans";
 import { UpgradeButton } from "@/components/plan-access";
 import { Badge, Panel, CheckList } from "@/components/ui/primitives";
 import { Button } from "@/components/ui/button";
+import { DEMO_MODE } from "@/lib/mode";
 export function PricingCards() {
   return (
     <div
@@ -23,9 +24,15 @@ export function PricingCards() {
               {plan.recommended ? "RECOMMENDED UPGRADE" : "A STRONG START"}
             </Badge>
             <h3>{plan.name}</h3>
-            <p className="text-muted text-xs mt-2">{plan.description}</p>
+            <p className="text-muted text-xs mt-2">
+              {DEMO_MODE
+                ? plan.description
+                : plan.recommended
+                  ? "Preview of a larger practice allowance. Checkout is not enabled."
+                  : "Build a strong foundation with resume coaching and text interviews."}
+            </p>
             <div className="price">{plan.price}</div>
-            {plan.capabilities.codingRounds && (
+            {DEMO_MODE && plan.capabilities.codingRounds && (
               <div className="pro-differentiator">
                 <Code2 size={21} />
                 <div>
@@ -37,10 +44,25 @@ export function PricingCards() {
                 </div>
               </div>
             )}
-            <CheckList items={plan.benefits} />
+            <CheckList
+              items={
+                DEMO_MODE
+                  ? plan.benefits
+                  : [
+                      "PDF resume analysis with evidence",
+                      "Text interviews and saved reports",
+                      "Analytics and practice suggestions",
+                      plan.recommended
+                        ? "Larger operator-controlled test allowance"
+                        : "Introductory account allowance",
+                      "Coding, voice, video and payments: future features",
+                    ]
+              }
+            />
             <p className="text-subtle text-[10px] mb-5">
-              {plan.limits.interviews} created interview sessions in this
-              browser. Sample history doesn’t use your demo allowance.
+              {DEMO_MODE
+                ? `${plan.limits.interviews} created sessions in this browser. Sample history does not use your allowance.`
+                : "Introductory usage is controlled by the server. Pro pricing is a preview; paid checkout is unavailable."}
             </p>
             {plan.recommended ? (
               <UpgradeButton destination="/dashboard/coding" />
@@ -71,8 +93,9 @@ export function PricingComparison() {
           </h2>
         </div>
         <p>
-          Coding rounds are the main Pro difference. AI generation, evaluation,
-          and recommendations use mock data in Phase 1.
+          {DEMO_MODE
+            ? "Coding rounds are the main Pro difference. AI generation and evaluation use mock data in the demo."
+            : "Both plans support resume coaching and text interviews. Pro is available for server-controlled testing only; coding, voice, video and checkout are future features."}
         </p>
       </div>
       <div className="table-wrap">
@@ -85,7 +108,41 @@ export function PricingComparison() {
             </tr>
           </thead>
           <tbody>
-            {planComparison.map((row) => (
+            {(DEMO_MODE
+              ? planComparison
+              : [
+                  {
+                    label: "Resume coaching & text interviews",
+                    free: "Included",
+                    pro: "Included",
+                    coding: false,
+                  },
+                  {
+                    label: "Reports, analytics & suggestions",
+                    free: "Included",
+                    pro: "Included",
+                    coding: false,
+                  },
+                  {
+                    label: "Usage",
+                    free: "Introductory allowance",
+                    pro: "Larger test allowance",
+                    coding: false,
+                  },
+                  {
+                    label: "Coding, voice & video",
+                    free: "Future",
+                    pro: "Future",
+                    coding: true,
+                  },
+                  {
+                    label: "Paid checkout",
+                    free: "Unavailable",
+                    pro: "Unavailable",
+                    coding: false,
+                  },
+                ]
+            ).map((row) => (
               <tr
                 className={row.coding ? "pricing-coding-row" : ""}
                 key={row.label}
@@ -104,9 +161,9 @@ export function PricingComparison() {
         </table>
       </div>
       <p className="text-subtle text-[10px] mt-5">
-        Prices have no stated billing frequency. Demo plan changes never create
-        a subscription or take payment. Quotas are browser-local and
-        configurable.
+        {DEMO_MODE
+          ? "Prices have no stated billing frequency. Demo plans never take payment. Quotas are browser-local."
+          : "Prices are a presentation preview without a billing frequency. No subscriptions or payments are enabled. Introductory allowances are server-controlled and do not renew monthly."}
       </p>
     </section>
   );

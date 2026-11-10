@@ -1,6 +1,7 @@
 import type { ReactNode, ComponentProps } from "react";
 import { Check, Info, ArrowUpRight, LoaderCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { DEMO_MODE } from "@/lib/mode";
 export function Panel({
   children,
   className,
@@ -26,7 +27,7 @@ export function DemoNotice({ compact = false }: { compact?: boolean }) {
     <div className={cn("demo-notice", compact && "demo-compact")}>
       <Info size={14} />
       <span>
-        {compact
+        {!DEMO_MODE ? "Phase 2 · External AI processes resume excerpts and interview text. Coding, voice, video and payments are future features." : compact
           ? "Demo workspace · simulated insights"
           : "Demo experience. Scores, feedback, AI responses, and code execution are simulated. Your media stays on your device."}
       </span>
