@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     ai_max_tokens: int = 4096
     groq_reasoning_effort: Literal['low','medium','high'] = 'low'
     ai_input_chars: int = 11000
-    free_resume_limit: int = 3
+    free_resume_limit: int = 20
     free_interview_limit: int = 3
     pro_resume_limit: int = 20
     pro_interview_limit: int = 20

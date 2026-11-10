@@ -54,7 +54,7 @@ Database tests need an isolated TEST_DATABASE_URL. [Setup and browser commands](
 
 ## Product boundaries
 
-Free/Pro names and ₹0/₹299 presentation remain. Paid checkout is disabled. Introductory server-controlled allowances are account lifetime, not monthly subscriptions: Free defaults to three analyses and three interviews; operator-controlled Pro testing defaults to twenty each. Failed initial processing releases reservations; retry reacquires capacity; deletion does not reset usage.
+Free/Pro names and ₹0/₹299 presentation remain. Paid checkout is disabled. Introductory server-controlled allowances are account lifetime, not monthly subscriptions: Free defaults to twenty analyses for testing and three interviews; operator-controlled Pro testing defaults to twenty each. Failed initial processing releases reservations; retry reacquires capacity; deletion does not reset usage.
 
 Resume excerpts and interview text go to Groq. Common resume email/phone/link patterns are removed where detected, which is not full anonymization. Files are private; download links expire after 60 seconds. Resume quality is coaching under a documented rubric, not an ATS score or hiring prediction. Only text communication is assessed.
 

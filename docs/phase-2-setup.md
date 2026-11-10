@@ -26,7 +26,7 @@ Backend variables:
 - `SUPABASE_SECRET_KEY`: server secret or local legacy service-role key for private Storage.
 - `GROQ_API_KEY`: your own Groq key; `GROQ_MODEL=openai/gpt-oss-20b` initially.
 - `CORS_ORIGINS=["http://localhost:3000"]`: explicit frontend origins only.
-- `FREE_RESUME_LIMIT=3`, `FREE_INTERVIEW_LIMIT=3`, `PRO_RESUME_LIMIT=20`, `PRO_INTERVIEW_LIMIT=20`.
+- `FREE_RESUME_LIMIT=20`, `FREE_INTERVIEW_LIMIT=3`, `PRO_RESUME_LIMIT=20`, `PRO_INTERVIEW_LIMIT=20`.
 - `AI_MAX_TOKENS=4096`: bounded output limit per call; `GROQ_REASONING_EFFORT=low` for GPT-OSS models; `AI_INPUT_CHARS=11000`: redacted resume excerpt limit.
 - Optional `LEASE_SECONDS=180`, `MAX_JOB_ATTEMPTS=3`, `MAX_PDF_BYTES=5242880`.
 
@@ -136,7 +136,7 @@ Four generated questions start the server deadline; at most two follow-ups can b
 
 Shared database counters limit authenticated requests to 120 per user per minute. Counters older than a day are removed by the worker. Configure ingress limits of 6 MB and appropriate timeouts when hosting; Content-Length and PDF validation enforce application limits, while chunked ingress must also be bounded by the proxy.
 
-Introductory allowances are account lifetime, **not monthly subscriptions**: Free defaults to 3 analyses/3 interviews; Pro testing to 20/20. Server environment limits apply against saved reservations. Both plans include core reports, evidence, analytics and suggestions. Coding/voice/video/checkout are disabled in live mode. ₹299 remains a pricing preview without billing frequency.
+Introductory allowances are account lifetime, **not monthly subscriptions**: Free defaults to 20 analyses for testing and 3 interviews; Pro testing to 20/20. Server environment limits apply against saved reservations. Existing installations must set `FREE_RESUME_LIMIT=20` in their private backend environment and restart the API and worker to override an older value of 3. Both plans include core reports, evidence, analytics and suggestions. Coding/voice/video/checkout are disabled in live mode. ₹299 remains a pricing preview without billing frequency.
 
 Operator-only Pro testing requires a real existing account and database credentials:
 
