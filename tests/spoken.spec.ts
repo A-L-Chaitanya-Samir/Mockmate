@@ -49,8 +49,10 @@ test("a real quick browser tab switch remains visible on return", async ({
 }) => {
   // Normal Playwright pages force visibility/focus. Use the browser's default
   // context over CDP without those overrides to exercise real tab transitions.
+  // Full Chromium's new headless mode has browser tabs; the default headless
+  // shell used on CI does not reproduce their visibility transitions.
   const host = await playwright.chromium.launchServer({
-    channel: process.env.PLAYWRIGHT_CHANNEL,
+    channel: process.env.PLAYWRIGHT_CHANNEL || "chromium",
     args: [
       "--remote-debugging-port=9223",
       "--use-fake-device-for-media-stream",

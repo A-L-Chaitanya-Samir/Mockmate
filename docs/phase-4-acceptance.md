@@ -88,3 +88,10 @@ Phase 4 can be fully accepted only after:
 - The intended browser/device scope is explicitly accepted, and remaining scoring cases and the wording refinement receive bounded real-model evaluation when provider capacity permits.
 
 Retain failures and skips in the evidence. Fix reproducible problems and repeat the affected checks; do not mark a pending item passed from implementation review alone. Existing phase documents describe earlier synthetic audio/reference-image Groq checks; those were not repeated here and do not satisfy these gates.
+
+
+## GitHub Actions follow-up — 11 November 2026
+
+The first pushed run (`42989361324`, commit `fedf202`) passed all **82 native PostgreSQL backend tests**, migration preservation, contract consistency, typecheck/lint and all 15 demo browser tests. The live suite passed 16 of 17 checks. Its one failure was the real-tab-switch test: the runner’s default Chromium headless shell kept `document.hidden` false after bringing another tab forward. The local branded Chrome run used a different browser channel. This is a test-browser mismatch; it does not establish a product tab-observation failure or a product pass on that shell.
+
+The tab-switch test now explicitly selects full Chromium (`channel=chromium`) when no branded browser channel is configured, retaining the real hidden/visible transition assertions and CDP default-context behavior. No assertion was removed, mocked or skipped. See [Playwright’s full Chromium/new headless guidance](https://playwright.dev/docs/browsers). The corrected remote run must pass before recording remote CI acceptance; earlier local results remain historical evidence.
