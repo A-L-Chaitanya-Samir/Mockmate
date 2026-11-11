@@ -5,7 +5,6 @@ import type {
   Question,
   InterviewType,
 } from "@/types";
-// All scores and feedback are fixtures. No AI evaluation runs in Phase 1.
 export const seedHistory: InterviewSummary[] = [
   {
     id: "sample-frontend",

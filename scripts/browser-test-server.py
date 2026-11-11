@@ -52,6 +52,9 @@ async def login(request: Request):
     user = users[1] if body.get('email') == 'account2@example.test' else users[0]
     if body.get('password') != 'test-password-123' and not body.get('refresh_token'):
         return JSONResponse(status_code=400,content={'error':'invalid_grant','error_description':'Invalid login credentials'})
+    # Each synthetic login starts a test boundary; suite speed must not exhaust the account's minute bucket.
+    with transaction() as conn:
+        conn.execute('DELETE FROM api_rate_limits WHERE user_id=%s', (user,))
     return {'access_token':token(user),'refresh_token':str(user),'token_type':'bearer','expires_in':3600,'expires_at':int(time.time())+3600,'user':user_view(user)}
 
 @app.get('/auth/v1/user')

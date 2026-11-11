@@ -363,3 +363,63 @@ test("frozen frames and ended device tracks produce availability warnings", asyn
     page.getByRole("region", { name: "Live practice observations" }),
   ).toContainText("Microphone unavailable or disconnected.");
 });
+
+for (const interruption of ["recorder-error", "microphone-ended"] as const) {
+  test(`${interruption} discards partial audio without uploading an answer`, async ({
+    page,
+  }) => {
+    await fixtureDetector(page, 1);
+    await newSpoken(page);
+    await deviceCheck(page);
+    let uploads = 0;
+    page.on("request", (request) => {
+      if (
+        request.method() === "POST" &&
+        request.url().endsWith("/transcriptions")
+      )
+        uploads++;
+    });
+    await page.evaluate(() => {
+      const Native = window.MediaRecorder;
+      window.MediaRecorder = class extends Native {
+        constructor(stream: MediaStream, options?: MediaRecorderOptions) {
+          super(stream, options);
+          (
+            window as unknown as { answerRecorder: MediaRecorder }
+          ).answerRecorder = this;
+        }
+      };
+    });
+    await page
+      .getByRole("button", { name: "Start answering", exact: true })
+      .click();
+    await expect(
+      page.getByRole("button", { name: /Stop & transcribe answer.*2s/ }),
+    ).toBeVisible();
+    await page.evaluate((kind) => {
+      if (kind === "recorder-error") {
+        (
+          window as unknown as { answerRecorder: MediaRecorder }
+        ).answerRecorder.dispatchEvent(new Event("error"));
+      } else {
+        (document.querySelector("video")!.srcObject as MediaStream)
+          .getAudioTracks()[0]
+          .stop();
+      }
+    }, interruption);
+    await expect(
+      page.getByText(
+        "Recording interrupted. Check the microphone and re-record.",
+        { exact: true },
+      ),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: /Stop & transcribe answer/ }),
+    ).toHaveCount(0);
+    expect(uploads).toBe(0);
+    await page
+      .getByRole("button", { name: "Complete interview", exact: true })
+      .click();
+    await expect(page).toHaveURL(/\/report$/);
+  });
+}

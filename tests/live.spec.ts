@@ -123,6 +123,7 @@ test("server-relative renewal and returning from a stale tab refetch eligibility
   await expect(page.getByLabel("Daily allowances")).toContainText(
     "your local time",
   );
+  await page.unrouteAll({ behavior: "wait" });
 });
 
 test("protected routes, recovery, registration and invalid redirects", async ({

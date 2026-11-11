@@ -1,5 +1,7 @@
 # Phase 4 manual acceptance record
 
+> Latest revision: [remaining quality work and acceptance limits](phase-4-quality-closure.md) supersedes earlier grading/version and verification status where noted. Historical results below remain dated evidence.
+
 Last reviewed: 11 November 2026 (Asia/Kolkata). **This checklist is the original pending baseline; subsequent partial evidence is recorded in [follow-up acceptance](phase-4-followup-acceptance.md) and [physical results](physical-acceptance-results.jsonl).** This is an execution record for the original Phase 4 prompt, not a claim that the tests were performed. Automated results and setup instructions are in [Phase 4 acceptance](phase-4-acceptance.md).
 
 Record each result as passed, failed, unavailable or intentionally unsupported. Preserve failures and limitations. Use synthetic/non-sensitive resume and answer content. Never attach credentials, verification/recovery tokens, private inbox contents, raw audio or camera images as evidence without separate authorization. Prefer sanitized request IDs, event metadata, status codes and descriptions.

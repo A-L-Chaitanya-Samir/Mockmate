@@ -25,7 +25,7 @@ def test_totals_are_computed_from_criteria_and_all_questions():
     assert report.questions[0].score==78 # 80*.4 + 60*.35 + 100*.25
     assert report.questions[1].score==0 and 'Unanswered' in report.questions[1].feedback
     assert report.overall==39 and report.answered==1 and report.total_questions==2
-    assert report.rubric_version=='transcript-v3-rigorous'
+    assert report.rubric_version=='transcript-v4-isolated'
     assert [d.score for d in report.scores]==[40,30,50]
 
 
@@ -69,3 +69,75 @@ def test_observations_never_enter_model_context_or_change_marks():
     context = {'history': [q | {'integrity': 'phone visible'}], 'integrity': {'tab_switches': 100}}
     report = evaluate(InspectProvider(), context)
     assert report.overall == grade([q], [mark]).overall
+
+
+def test_each_answer_is_isolated_and_summary_keeps_question_attribution():
+    first, first_mark = sample('I use a transaction with rollback and verify both balances.')
+    second, second_mark = sample('I role back changes, but I do not know how to verify them.')
+    missing, _ = sample(None)
+    seen = []
+    class IsolatedProvider:
+        def generate(self, task, content, schema):
+            assert len(content['history']) == 1
+            current = content['history'][0]
+            seen.append(current['id'])
+            mark = first_mark if current['id'] == first['id'] else second_mark
+            assert content['configuration'] == {'role': 'Backend engineer', 'seniority': 'Junior', 'difficulty': 'Medium'}
+            assert set(current) == {'id', 'prompt', 'answer'}
+            assert current['answer'] == (first if current['id'] == first['id'] else second)['answer']
+            return InterviewEvaluation(questions=[mark], strengths=[current['answer']],
+                improvements=[], recommendations=['Explain the requested verification.'])
+    report = evaluate(IsolatedProvider(), {'configuration': {'role': 'Backend engineer',
+        'seniority': 'Junior', 'difficulty': 'Medium', 'phone_vision': True},
+        'history': [first | {'original_transcript': 'wrong transcript', 'integrity': 'phone'}, second, missing]})
+    assert seen == [first['id'], second['id']]
+    assert report.strengths == ['Question 1: ' + first['answer'], 'Question 2: ' + second['answer']]
+    assert report.questions[0].evidence == first['answer']
+    assert 'role back' not in report.questions[0].feedback
+    assert report.answered == 2 and report.total_questions == 3
+
+
+@pytest.mark.parametrize('failure', ['other_answer_quote', 'other_question_id', 'extra_question'])
+def test_isolated_result_rejects_cross_answer_attribution_before_next_call(failure):
+    first, mark = sample('I verify rollback using an injected failure.')
+    second, other = sample('Unique wording belonging only to the other answer.')
+    calls = []
+    class WrongProvider:
+        def generate(self, task, content, schema):
+            calls.append(content)
+            if failure == 'other_answer_quote': mark['evidence'] = second['answer']
+            if failure == 'other_question_id': mark['question_id'] = second['id']
+            return InterviewEvaluation(questions=[mark, other] if failure == 'extra_question' else [mark],
+                strengths=[], improvements=[], recommendations=[])
+    with pytest.raises(ProviderError):
+        evaluate(WrongProvider(), {'history': [first, second]})
+    assert len(calls) == 1
+
+
+def test_isolation_keeps_full_credit_and_half_up_rounding_without_extra_calls():
+    question, mark = sample('A transaction commits all changes together or rolls them back.')
+    mark['rubric'] = dict(correctness_relevance=100, reasoning_evidence=100, clarity_structure=100)
+    class FullCredit:
+        def generate(self, task, content, schema):
+            return InterviewEvaluation(questions=[mark], strengths=[], improvements=[], recommendations=[])
+    report = evaluate(FullCredit(), {'history': [question]})
+    assert report.overall == 100
+    mark['rubric'] = dict(correctness_relevance=0, reasoning_evidence=0, clarity_structure=2)
+    assert evaluate(FullCredit(), {'history': [question]}).overall == 1
+
+
+@pytest.mark.parametrize('field', ['feedback', 'strengths', 'improvements', 'recommendations'])
+def test_quotes_in_feedback_and_summaries_must_belong_to_this_answer(field):
+    q, mark = sample('I use a transaction and inject a failure to check rollback.')
+    payload = dict(questions=[mark], strengths=[], improvements=[], recommendations=[])
+    if field == 'feedback': mark['feedback'] = 'You said "role back" in this answer.'
+    else: payload[field] = ['You said "role back" in this answer.']
+    class InventedQuote:
+        def generate(self, task, content, schema): return InterviewEvaluation(**payload)
+    with pytest.raises(ProviderError): evaluate(InventedQuote(), {'history': [q]})
+
+
+def test_feedback_accepts_a_real_quote_with_normalized_whitespace():
+    q, mark = sample('I use a transaction\nand check rollback.')
+    mark['feedback'] = 'You said "transaction and check rollback"; describe a failure injection.'
+    assert grade([q], [mark]).questions[0].score == 78

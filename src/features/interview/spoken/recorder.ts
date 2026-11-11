@@ -12,6 +12,7 @@ export function useRecorder(
   const [error, setError] = useState("");
   const [seconds, setSeconds] = useState(0);
   const recorder = useRef<MediaRecorder | null>(null);
+  const stopRequested = useRef(false);
   const timers = useRef<ReturnType<typeof setInterval>[]>([]);
   const mounted = useRef(true);
   const recorded = useRef(onRecorded);
@@ -25,6 +26,7 @@ export function useRecorder(
       if (document.hidden && recorder.current?.state === "recording") {
         timers.current.forEach(clearInterval);
         timers.current = [];
+        stopRequested.current = true;
         recorder.current.stop();
       }
     };
@@ -38,6 +40,7 @@ export function useRecorder(
     };
   }, []);
   function stop() {
+    stopRequested.current = true;
     timers.current.forEach(clearInterval);
     timers.current = [];
     if (recorder.current?.state === "recording") recorder.current.stop();
@@ -66,6 +69,8 @@ export function useRecorder(
       });
       const chunks: Blob[] = [];
       let bytes = 0;
+      let failed = false;
+      stopRequested.current = false;
       recorder.current = next;
       next.ondataavailable = (e) => {
         bytes += e.data.size;
@@ -79,6 +84,7 @@ export function useRecorder(
         if (e.data.size) chunks.push(e.data);
       };
       next.onerror = () => {
+        failed = true;
         stop();
         if (mounted.current)
           setError(
@@ -90,7 +96,17 @@ export function useRecorder(
         timers.current = [];
         if (mounted.current) {
           setRecording(false);
-          if (bytes && bytes <= 8 * 1024 * 1024) {
+          // Recorder errors may still emit a partial blob; never upload it as an answer.
+          if (
+            failed ||
+            !stopRequested.current ||
+            mic.readyState !== "live" ||
+            mic.muted
+          ) {
+            setError(
+              "Recording interrupted. Check the microphone and re-record.",
+            );
+          } else if (bytes && bytes <= 8 * 1024 * 1024) {
             const audio = new Blob(chunks, { type: mime });
             setBlob(audio);
             recorded.current?.(audio);

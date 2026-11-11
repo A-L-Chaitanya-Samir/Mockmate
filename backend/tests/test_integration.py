@@ -268,3 +268,18 @@ def test_shared_per_user_request_limit(accounts, monkeypatch):
     with pytest.raises(AppError) as error:
         identity(HTTPAuthorizationCredentials(scheme='Bearer',credentials='test-token'))
     assert error.value.status == 429
+
+
+def test_evaluation_lease_covers_six_sequential_answer_requests(client):
+    resource = create(client).json()['id']
+    job = claim()
+    with transaction() as conn:
+        normal = conn.execute('SELECT extract(epoch FROM lease_until-now()) seconds FROM jobs WHERE id=%s', (job['id'],)).fetchone()['seconds']
+        conn.execute("UPDATE jobs SET status='succeeded' WHERE id=%s", (job['id'],))
+        conn.execute("INSERT INTO jobs(user_id,kind,resource_id,idempotency_key) VALUES(%s,'evaluate',%s,%s)", (job['user_id'], resource, str(uuid4())))
+    evaluation = claim()
+    assert evaluation['kind'] == 'evaluate'
+    with transaction() as conn:
+        extended = conn.execute('SELECT extract(epoch FROM lease_until-now()) seconds FROM jobs WHERE id=%s', (evaluation['id'],)).fetchone()['seconds']
+    assert 170 < normal <= 180
+    assert 350 < extended <= 360

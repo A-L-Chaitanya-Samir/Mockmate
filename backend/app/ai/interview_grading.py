@@ -5,10 +5,13 @@ from app.ai.evidence import canonical
 from app.core.errors import ProviderError
 from app.modules.schemas import InterviewEvaluation, QuestionFeedback, QuestionRubric, Report
 
-VERSION = 'transcript-v3-rigorous'
+VERSION = 'transcript-v4-isolated'
+PROMPT_VERSION = 'interview-grading-v4'
 CRITERIA = [('correctness_relevance', 'Correctness & relevance', 40),
     ('reasoning_evidence', 'Reasoning & evidence', 35), ('clarity_structure', 'Text clarity & structure', 25)]
-TASK = '''Grade EVERY supplied question against its actual confirmed answer. Do not choose an overall score.
+TASK = '''Grade the ONE supplied question against its actual confirmed answer. Do not choose an overall score.
+You have no other answers to compare. Ground feedback, strengths and suggestions only in this answer.
+Treat any quotation in feedback as evidence: copy it verbatim from this answer or do not quote it.
 Return exactly one questions entry per history item, including unanswered items. Copy history[i].id exactly into
 question_id; never invent, abbreviate or replace IDs, and never omit questions because their answers are identical.
 Score three criteria independently, 0–100: correctness/relevance; reasoning/evidence; text clarity/structure.
@@ -83,6 +86,7 @@ def report_from_marks(evaluation: InterviewEvaluation, history: list[dict]) -> R
                 evidence = answer[spans[position][0]:spans[position+len(quote)-1][1]]
             elif any(getattr(rubric,key) for key,_,_ in CRITERIA):
                 raise ProviderError('Interview grading lacked answer evidence. Please retry.')
+            validate_feedback_quotes(mark.feedback, answer)
             feedback = mark.feedback
             # A submitted answer can be nonresponsive, but it is not missing. Some
             # models reuse the unanswered label despite the explicit prompt rule.
@@ -107,9 +111,44 @@ def evaluate(provider, context):
             improvements=['Submit confirmed answers to demonstrate your knowledge.'],
             recommendations=['Practise answering each question with the relevant facts and a short explanation.'])
     else:
-        # Only question/answer content and practice configuration belong in grading.
-        clean = {'configuration': {key: value for key, value in context.get('configuration', {}).items()
-            if key in ('role', 'seniority', 'type', 'difficulty', 'language')}, 'history': [
-            {key: q[key] for key in ('id', 'position', 'prompt', 'topic', 'answer') if key in q} for q in history]}
-        evaluation = provider.generate(TASK, clean, InterviewEvaluation)
+        configuration = {key: value for key, value in context.get('configuration', {}).items()
+            if key in ('role', 'seniority', 'type', 'difficulty', 'language')}
+        marks = []
+        summaries = {key: [] for key in ('strengths', 'improvements', 'recommendations')}
+        # Isolation prevents another confirmed answer from supplying this question's feedback.
+        # Calls are sequential to limit provider bursts; evaluation jobs have a longer lease.
+        for index, question in enumerate(history):
+            if not (question.get('answer') or '').strip():
+                marks.append({'question_id': question['id'],
+                    'rubric': {key: 0 for key, _, _ in CRITERIA},
+                    'evidence': None, 'feedback': 'Unanswered.'})
+                continue
+            clean = {'configuration': configuration, 'history': [
+                {key: question[key] for key in ('id', 'position', 'prompt', 'topic', 'answer') if key in question}]}
+            result = provider.generate(TASK, clean, InterviewEvaluation)
+            report_from_marks(result, [question])
+            for key in summaries:
+                for item in getattr(result, key):
+                    validate_feedback_quotes(item, question['answer'])
+            marks.extend(result.questions)
+            for key in summaries:
+                summaries[key].append([f'Question {index + 1}: {item}'[:3000] for item in getattr(result, key)])
+        evaluation = InterviewEvaluation(questions=marks, strengths=[], improvements=[], recommendations=[])
+        report = report_from_marks(evaluation, history)
+        # Interleave question summaries so a verbose first answer cannot crowd out later ones.
+        return report.model_copy(update={key: [item for row in zip_lists(groups) for item in row][:8]
+            for key, groups in summaries.items()})
     return report_from_marks(evaluation, history)
+
+
+def zip_lists(groups):
+    for index in range(max((len(group) for group in groups), default=0)):
+        yield [group[index] for group in groups if index < len(group)]
+
+
+def validate_feedback_quotes(text, answer):
+    normalized, _ = canonical(answer)
+    for quote in re.findall(r'["\u201c]([^"\u201c\u201d\n]+)["\u201d]', text):
+        candidate, _ = canonical(quote)
+        if candidate and candidate not in normalized:
+            raise ProviderError('Interview feedback quoted text outside its confirmed answer. Please retry.')

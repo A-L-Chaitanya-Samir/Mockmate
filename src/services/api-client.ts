@@ -1,4 +1,3 @@
-/** Phase 1 transport boundary. Replace this adapter with fetch + FastAPI in Phase 2. */
 export async function mockRequest<T>(
   factory: () => T,
   delay = 650,

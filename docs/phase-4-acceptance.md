@@ -1,5 +1,7 @@
 # Phase 4 acceptance and operations
 
+> Latest revision: [remaining quality work and acceptance limits](phase-4-quality-closure.md) supersedes earlier grading/version and verification status where noted. Historical results below remain dated evidence.
+
 > Latest follow-up: [rigorous interview, responsive and physical acceptance](phase-4-followup-acceptance.md) records the subsequent implementation and testing, including explicit media consent, the completed six-answer physical spoken journey and limited positive face/phone evidence. Earlier statements below are dated historical results, not the current full scope. Phase 4 remains partially accepted.
 
 **Overall status: partially accepted; Phase 4 is not fully complete.** The software changes and automated checks below passed, while hosted email capacity/delivery, consenting physical-device acceptance and parts of real-model scoring evaluation remain open.

@@ -1,7 +1,6 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Edit this single token layer to retheme every feature. */
 :root {
   --background: #f6f8fc;
   --background-secondary: #eef2f8;
@@ -954,7 +953,6 @@ tr:last-child td {
   place-items: center;
   margin-bottom: 22px;
 }
-/* Interview room: shell + conversation column + performance column. */
 .room-content {
   max-width: 1660px;
   padding: 24px;
@@ -1200,7 +1198,6 @@ tr:last-child td {
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
-/* Public website */
 .public-nav {
   max-width: var(--marketing-width);
   margin: auto;

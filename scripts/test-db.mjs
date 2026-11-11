@@ -7,7 +7,6 @@ await db.exec(await readFile("backend/tests/bootstrap.sql", "utf8"));
 for (const name of (await readdir("supabase/migrations")).filter(n => n.endsWith(".sql")).sort()) {
   await db.exec(await readFile(`supabase/migrations/${name}`, "utf8"));
 }
-// Also supports already-running test databases when Python fixtures initialize users.
 const port = Number(process.env.TEST_DB_PORT || 55432);
 const server = new PGLiteSocketServer({ db, host: "127.0.0.1", port, maxConnections: 4 });
 await server.start();

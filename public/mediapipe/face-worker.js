@@ -1,4 +1,4 @@
-/* MediaPipe inference stays in this worker; no image ever leaves the browser. */
+/* This worker processes frames locally. Separately consented uploads use the phone-vision hook. */
 self.exports = {};
 let detector, phoneDetector;
 let lastPhoneAt = 0;

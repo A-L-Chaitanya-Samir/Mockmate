@@ -1,5 +1,7 @@
 # Phase 4 follow-up: rigorous interviews and responsive acceptance
 
+> Latest revision: [remaining quality work and acceptance limits](phase-4-quality-closure.md) supersedes earlier grading/version and verification status where noted. Historical results below remain dated evidence.
+
 Evidence date: 11 November 2026. This supplements the [original acceptance record](phase-4-acceptance.md) and [manual checklist](phase-4-manual-acceptance.md). It does not turn unperformed provider/device checks into passes.
 
 ## Changes

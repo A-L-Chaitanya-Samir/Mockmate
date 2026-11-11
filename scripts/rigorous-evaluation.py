@@ -20,6 +20,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--questions', action='store_true', help='Also make one question-generation and one follow-up request')
 parser.add_argument('--output', default='docs/rigorous-evaluation-results.jsonl')
 parser.add_argument('--case', action='append', choices=list(fixture['cases']))
+parser.add_argument('--max-provider-calls', type=int, default=6, choices=range(1, 10))
 args = parser.parse_args()
 
 
@@ -32,21 +33,20 @@ def record(result):
 
 
 try:
-    # Six questions maximum per report. Two requests assess all categories, including
-    # previously unverified filler and transcription-error cases. No retries on quota errors.
-    groups = [['excellent', 'incorrect', 'off_topic', 'filler', 'transcription_errors'],
-              ['competent', 'borderline', 'weak', 'unanswered']]
-    if args.case:
-        groups = [args.case[i:i+6] for i in range(0, len(args.case), 6)]
-    for group in groups:
-        history = [dict(id=str(uuid5(NAMESPACE_DNS, fixture['version']+case)), position=i,
-            prompt=fixture['question'], topic='Transactions', answer=fixture['cases'][case]) for i, case in enumerate(group)]
+    cases = args.case or ['excellent', 'competent', 'incorrect', 'filler', 'transcription_errors', 'unanswered']
+    required = sum(bool((fixture['cases'][case] or '').strip()) for case in cases) + (2 if args.questions else 0)
+    if required > args.max_provider_calls:
+        parser.error('Selected cases exceed --max-provider-calls; choose a smaller explicit --case set.')
+    for index, case in enumerate(cases):
+        history = [dict(id=str(uuid5(NAMESPACE_DNS, fixture['version']+case)), position=0,
+            prompt=fixture['question'], topic='Transactions', answer=fixture['cases'][case])]
         report = evaluate(GroqProvider(), dict(configuration=fixture['configuration'], history=history))
-        for case, question in zip(group, report.questions):
-            record(dict(case=case, question=fixture['question'], answer=fixture['cases'][case],
-                score=question.score, criteria=question.rubric.model_dump(), feedback=question.feedback,
-                evidence=question.evidence, kind='quality_observation'))
-        time.sleep(45)  # Leave free-tier token headroom; do not hammer the provider.
+        question = report.questions[0]
+        record(dict(case=case, question=fixture['question'], answer=fixture['cases'][case],
+            score=question.score, criteria=question.rubric.model_dump(), feedback=question.feedback,
+            evidence=question.evidence, kind='quality_observation'))
+        if index < len(cases)-1 or args.questions:
+            time.sleep(20)
     if args.questions:
         context = dict(configuration=fixture['configuration'] | {'duration': 20}, history=[])
         questions = validate_questions(GroqProvider().generate(QUESTION_TASK, context, Questions))

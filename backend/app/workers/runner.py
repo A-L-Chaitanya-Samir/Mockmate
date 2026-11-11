@@ -10,7 +10,7 @@ from app.core.db import transaction, owned
 from app.core.errors import AppError
 from app.ai.provider import GroqProvider, Provider
 from app.ai.evidence import ground_analysis
-from app.ai.interview_grading import evaluate, VERSION as INTERVIEW_RUBRIC_VERSION
+from app.ai.interview_grading import evaluate, VERSION as INTERVIEW_RUBRIC_VERSION, PROMPT_VERSION
 from app.ai.interview_prompts import QUESTION_TASK, RESPONSE_TASK, validate_questions, VERSION as QUESTION_POLICY_VERSION
 from app.integrations.pdf import extract_pdf, minimize
 from app.integrations.storage import Storage
@@ -50,8 +50,8 @@ def claim():
             (status='running' AND lease_until<now())) AND attempts<%s
             ORDER BY available_at FOR UPDATE SKIP LOCKED LIMIT 1)
             UPDATE jobs j SET status='running',attempts=attempts+1,lease_token=%s,
-            lease_until=now()+make_interval(secs=>%s) FROM candidate c WHERE j.id=c.id RETURNING j.*""",
-            (settings().max_job_attempts, uuid4(), settings().lease_seconds)).fetchone()
+            lease_until=now()+make_interval(secs=>CASE WHEN j.kind='evaluate' THEN greatest(%s,360) ELSE %s END) FROM candidate c WHERE j.id=c.id RETURNING j.*""",
+            (settings().max_job_attempts, uuid4(), settings().lease_seconds, settings().lease_seconds)).fetchone()
         return row
 
 
@@ -146,7 +146,7 @@ class Worker:
                     conn.execute('INSERT INTO questions(user_id,session_id,position,prompt,topic) VALUES(%s,%s,%s,%s,%s) ON CONFLICT(session_id,position) DO NOTHING', (user, resource, count, result.follow_up, 'Follow-up'))
                 conn.execute('UPDATE answers SET response=%s WHERE question_id=%s AND user_id=%s', (Jsonb(result.model_dump()), job['payload']['question_id'], user))
             elif kind == 'evaluate':
-                conn.execute('INSERT INTO interview_reports(user_id,session_id,result,model,rubric_version,prompt_version) VALUES(%s,%s,%s,%s,%s,%s) ON CONFLICT(session_id) DO NOTHING', (user, resource, Jsonb(result.model_dump(mode='json')), settings().groq_model, INTERVIEW_RUBRIC_VERSION, 'interview-grading-v3'))
+                conn.execute('INSERT INTO interview_reports(user_id,session_id,result,model,rubric_version,prompt_version) VALUES(%s,%s,%s,%s,%s,%s) ON CONFLICT(session_id) DO NOTHING', (user, resource, Jsonb(result.model_dump(mode='json')), settings().groq_model, INTERVIEW_RUBRIC_VERSION, PROMPT_VERSION))
                 conn.execute("UPDATE interview_sessions SET status='completed' WHERE id=%s AND user_id=%s", (resource, user))
             if kind in ('questions', 'response'):
                 conn.execute('UPDATE jobs SET payload=payload || %s WHERE id=%s', (Jsonb({'question_policy_version': QUESTION_POLICY_VERSION}), job['id']))
