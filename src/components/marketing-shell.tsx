@@ -44,7 +44,7 @@ export function MarketingShell({ children }: { children: ReactNode }) {
           © {new Date().getFullYear()} Mockmate ·{" "}
           {DEMO_MODE
             ? "Portfolio frontend demo · No real AI processing"
-            : "Text interviews & resume coaching · External AI processing"}
+            : "Video interviews & resume coaching · External AI processing"}
         </p>
       </footer>
     </>

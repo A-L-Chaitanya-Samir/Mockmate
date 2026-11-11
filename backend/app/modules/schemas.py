@@ -88,6 +88,7 @@ class Report(Model):
 
 
 class InterviewCreate(Model):
+    seniority: Literal['Intern', 'Junior', 'Mid-level', 'Senior'] = 'Mid-level'
     role: str = Field(min_length=2, max_length=120)
     type: Literal['Technical', 'HR', 'Behavioral', 'Mixed']
     difficulty: Literal['Easy', 'Medium', 'Hard']

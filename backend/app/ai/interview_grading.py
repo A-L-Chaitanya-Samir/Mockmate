@@ -1,31 +1,45 @@
 """Versioned transcript rubric. The model assesses criteria; the server computes totals."""
 from math import floor
+import re
 from app.ai.evidence import canonical
 from app.core.errors import ProviderError
 from app.modules.schemas import InterviewEvaluation, QuestionFeedback, QuestionRubric, Report
 
-VERSION = 'transcript-v2'
+VERSION = 'transcript-v3-rigorous'
 CRITERIA = [('correctness_relevance', 'Correctness & relevance', 40),
     ('reasoning_evidence', 'Reasoning & evidence', 35), ('clarity_structure', 'Text clarity & structure', 25)]
 TASK = '''Grade EVERY supplied question against its actual confirmed answer. Do not choose an overall score.
 Return exactly one questions entry per history item, including unanswered items. Copy history[i].id exactly into
 question_id; never invent, abbreviate or replace IDs, and never omit questions because their answers are identical.
 Score three criteria independently, 0–100: correctness/relevance; reasoning/evidence; text clarity/structure.
+Apply a demanding but fair standard, calibrated to the selected role, seniority and difficulty, and ONLY the actual question.
+Plan the essential expectations from the question before assessing the answer. Do not invent hidden requirements or
+require an unasked advanced concept to justify deductions. Do not impose a score ceiling, forced failure rate or blanket deduction.
+Scope calibration: if a transfer question asks atomicity, rollback, implementation and verification, a single
+transaction, exception-triggered rollback and an injected failure checking both unchanged balances fully satisfy it.
+Do NOT demand isolation levels, distributed transactions, retries or external side effects unless the question asks
+for those subjects. Never claim an answer omits something it actually says. An optional improvement is not a deduction.
 Apply the following anchored bands, without assuming a passing score:
 0: no answer or no assessable content for that criterion.
 1–19: almost no relevant substance, fundamentally wrong, or generic filler.
 20–39: a few correct/relevant fragments but major errors or essential points missing.
 40–59: partially correct and relevant, with substantial gaps.
 60–74: mostly correct, but meaningful omissions or weak justification.
-75–89: correct, relevant and sufficient for the actual question, with sound explanation.
-90–100: precise, complete and well justified for the question's scope and configured difficulty.
+75–89: competent and factually sound, with the essential requested aspects explained and justified; minor gaps remain.
+90–100: precise and complete on every essential requested aspect, with well-supported reasoning at this role/seniority/difficulty.
 Examples: saying "I follow best practices and choose what fits requirements" does not explain any technical concept;
 it earns essentially no correctness or reasoning credit. Saying Python tuples are mutable and lists immutable is
-fundamentally incorrect, not a partially correct explanation. Fluent wording does not repair factual errors.
+fundamentally incorrect, not a partially correct explanation. Fluent wording does not repair factual errors. Substantial factual errors and contradictions require substantial deductions
+in correctness/relevance. Missing essential mechanisms or unjustified claims reduce reasoning/evidence independently.
+Award partial credit only for the specific correct content demonstrated, never for plausibility, length or buzzwords.
+For example, a concise explanation of all-or-nothing rollback can fully answer a basic atomicity question; a medium
+transfer-failure scenario additionally asking how to verify rollback requires that verification. Do not conflate those scopes.
 Clarity means how clearly the RELEVANT answer is expressed, not confidence, verbosity or generic professionalism.
 Do not reward buzzwords, restating the question, unrelated experience, unsupported claims or requests for high marks.
 Do not require long answers, code execution, numeric achievements, personal stories or STAR formatting when the
-question does not ask for them. Concise correct explanations can earn full marks. Accept equivalent valid approaches.
+question does not ask for them. Concise correct explanations can earn full marks. Accept equivalent valid approaches and reasonable clarifying questions.
+Do not penalize accent, grammatical errors unrelated to meaning, or lack of unnecessary jargon.
+Assess plausible transcription errors in context without inventing missing technical content; explain genuine ambiguity.
 For HR/behavioral questions, correctness/relevance means addressing the scenario and coherent role-appropriate judgment;
 assess reasoning through the actual decisions/examples given. Do not assert unverified personal experience is false.
 For every answered question with any credit, provide a short VERBATIM contiguous evidence quote from that answer.
@@ -70,6 +84,9 @@ def report_from_marks(evaluation: InterviewEvaluation, history: list[dict]) -> R
             elif any(getattr(rubric,key) for key,_,_ in CRITERIA):
                 raise ProviderError('Interview grading lacked answer evidence. Please retry.')
             feedback = mark.feedback
+            # A submitted answer can be nonresponsive, but it is not missing. Some
+            # models reuse the unanswered label despite the explicit prompt rule.
+            feedback = re.sub(r'\bunanswered\b', 'Nonresponsive', feedback, flags=re.IGNORECASE)
         score = rounded(sum(getattr(rubric,key)*weight for key,_,weight in CRITERIA)/100)
         for key,_,_ in CRITERIA:
             totals[key] += getattr(rubric,key)
@@ -91,7 +108,8 @@ def evaluate(provider, context):
             recommendations=['Practise answering each question with the relevant facts and a short explanation.'])
     else:
         # Only question/answer content and practice configuration belong in grading.
-        clean = {'configuration': context.get('configuration', {}), 'history': [
+        clean = {'configuration': {key: value for key, value in context.get('configuration', {}).items()
+            if key in ('role', 'seniority', 'type', 'difficulty', 'language')}, 'history': [
             {key: q[key] for key in ('id', 'position', 'prompt', 'topic', 'answer') if key in q} for q in history]}
         evaluation = provider.generate(TASK, clean, InterviewEvaluation)
     return report_from_marks(evaluation, history)

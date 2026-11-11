@@ -44,12 +44,18 @@ def workspace(conn, user):
         'interviews': [interview_view(conn, r) for r in conn.execute('SELECT * FROM interview_sessions WHERE user_id=%s ORDER BY created_at DESC', (user,)).fetchall()]}
 
 
+def same_interview_config(stored, requested):
+    # Older creation keys predate the optional seniority field. Normalize its
+    # default for retries without rewriting any historical session JSON.
+    return {'seniority': 'Mid-level', **stored} == requested.model_dump(mode='json')
+
+
 def create_interview(conn, user, data, key):
     resource = uuid4()
     selected = reserve(conn, user, 'interview', key, resource)
     if selected != resource:
         previous = owned(conn, 'interview_sessions', selected, user)
-        if previous['config'] != data.model_dump(mode='json'):
+        if not same_interview_config(previous['config'], data):
             raise AppError(409, 'idempotency_conflict', 'Request key was used for different interview settings.')
         return interview_view(conn, previous)
     if data.resume_id:

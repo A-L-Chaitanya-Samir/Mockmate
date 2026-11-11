@@ -1,0 +1,4452 @@
+[
+  {
+    "recorded_at": "2026-11-11T10:17:25.889Z",
+    "browser": "157.0.8103.39",
+    "mode": "deterministic-live",
+    "scope": "chromium viewport emulation; fake interview media; not physical mobile/TV acceptance",
+    "checks": [
+      {
+        "route": "/",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/about",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/about",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/about",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/about",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/about",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/about",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/about",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/about",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/about",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/about",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/about",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/about",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/about",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/about",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/login",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/login",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/login",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/login",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/login",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/login",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/login",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/login",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/login",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/login",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/login",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/login",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/login",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/login",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/register",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/register",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/register",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/register",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/register",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/register",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/register",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/register",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/register",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/register",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/register",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/register",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/register",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/register",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/forgot-password",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/forgot-password",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/forgot-password",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/forgot-password",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/forgot-password",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/forgot-password",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/forgot-password",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/forgot-password",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/forgot-password",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/forgot-password",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/forgot-password",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/forgot-password",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/forgot-password",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/forgot-password",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/dashboard",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/dashboard",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/dashboard",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/dashboard",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/dashboard",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/dashboard",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/dashboard",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/dashboard",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/dashboard",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/dashboard",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/dashboard",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/dashboard",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/dashboard",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/dashboard",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "saved-report",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "saved-report",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "saved-report",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "saved-report",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "saved-report",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "saved-report",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "saved-report",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "saved-report",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "saved-report",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "saved-report",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "saved-report",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "saved-report",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "saved-report",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "saved-report",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "device-check",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "device-check",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "device-check",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "device-check",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "device-check",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "device-check",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "device-check",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "device-check",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "device-check",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "device-check",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "device-check",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "device-check",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "device-check",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "device-check",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "interview-room",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "interview-room",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "interview-room",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "interview-room",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "interview-room",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "interview-room",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "interview-room",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "interview-room",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "interview-room",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "interview-room",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "interview-room",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "interview-room",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "interview-room",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "interview-room",
+        "width": 844,
+        "height": 390
+      }
+    ],
+    "matrix": "live-chromium",
+    "route_viewport_checks": 224
+  },
+  {
+    "recorded_at": "2026-11-11T10:23:02.406Z",
+    "browser": "159.0",
+    "mode": "deterministic-live",
+    "scope": "firefox viewport emulation; no media acquired; not physical mobile/TV acceptance",
+    "checks": [
+      {
+        "route": "/",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/about",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/about",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/about",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/about",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/about",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/about",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/about",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/about",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/about",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/about",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/about",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/about",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/about",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/about",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/login",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/login",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/login",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/login",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/login",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/login",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/login",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/login",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/login",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/login",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/login",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/login",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/login",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/login",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/register",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/register",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/register",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/register",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/register",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/register",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/register",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/register",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/register",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/register",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/register",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/register",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/register",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/register",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/forgot-password",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/forgot-password",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/forgot-password",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/forgot-password",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/forgot-password",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/forgot-password",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/forgot-password",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/forgot-password",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/forgot-password",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/forgot-password",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/forgot-password",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/forgot-password",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/forgot-password",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/forgot-password",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/dashboard",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/dashboard",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/dashboard",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/dashboard",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/dashboard",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/dashboard",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/dashboard",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/dashboard",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/dashboard",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/dashboard",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/dashboard",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/dashboard",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/dashboard",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/dashboard",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "saved-report",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "saved-report",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "saved-report",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "saved-report",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "saved-report",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "saved-report",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "saved-report",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "saved-report",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "saved-report",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "saved-report",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "saved-report",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "saved-report",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "saved-report",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "saved-report",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "device-check",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "device-check",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "device-check",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "device-check",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "device-check",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "device-check",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "device-check",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "device-check",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "device-check",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "device-check",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "device-check",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "device-check",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "device-check",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "device-check",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "interview-room",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "interview-room",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "interview-room",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "interview-room",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "interview-room",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "interview-room",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "interview-room",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "interview-room",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "interview-room",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "interview-room",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "interview-room",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "interview-room",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "interview-room",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "interview-room",
+        "width": 844,
+        "height": 390
+      }
+    ],
+    "matrix": "live-firefox",
+    "route_viewport_checks": 224
+  },
+  {
+    "recorded_at": "2026-11-11T10:27:53.963Z",
+    "browser": "27.2",
+    "mode": "deterministic-live",
+    "scope": "webkit viewport emulation; no media acquired; not physical mobile/TV acceptance",
+    "checks": [
+      {
+        "route": "/",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/about",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/about",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/about",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/about",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/about",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/about",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/about",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/about",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/about",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/about",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/about",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/about",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/about",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/about",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/login",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/login",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/login",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/login",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/login",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/login",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/login",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/login",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/login",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/login",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/login",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/login",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/login",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/login",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/register",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/register",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/register",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/register",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/register",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/register",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/register",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/register",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/register",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/register",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/register",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/register",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/register",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/register",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/forgot-password",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/forgot-password",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/forgot-password",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/forgot-password",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/forgot-password",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/forgot-password",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/forgot-password",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/forgot-password",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/forgot-password",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/forgot-password",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/forgot-password",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/forgot-password",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/forgot-password",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/forgot-password",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/dashboard",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/dashboard",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/dashboard",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/dashboard",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/dashboard",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/dashboard",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/dashboard",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/dashboard",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/dashboard",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/dashboard",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/dashboard",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/dashboard",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/dashboard",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/dashboard",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "saved-report",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "saved-report",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "saved-report",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "saved-report",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "saved-report",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "saved-report",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "saved-report",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "saved-report",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "saved-report",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "saved-report",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "saved-report",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "saved-report",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "saved-report",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "saved-report",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "device-check",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "device-check",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "device-check",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "device-check",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "device-check",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "device-check",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "device-check",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "device-check",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "device-check",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "device-check",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "device-check",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "device-check",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "device-check",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "device-check",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "interview-room",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "interview-room",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "interview-room",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "interview-room",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "interview-room",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "interview-room",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "interview-room",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "interview-room",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "interview-room",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "interview-room",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "interview-room",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "interview-room",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "interview-room",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "interview-room",
+        "width": 844,
+        "height": 390
+      }
+    ],
+    "matrix": "live-webkit",
+    "route_viewport_checks": 224
+  },
+  {
+    "recorded_at": "2026-11-11T10:05:07.855Z",
+    "browser": "157.0.8103.39",
+    "mode": "demo",
+    "scope": "chromium viewport emulation; fake interview media; not physical mobile/TV acceptance",
+    "checks": [
+      {
+        "route": "/",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/about",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/about",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/about",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/about",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/about",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/about",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/about",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/about",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/about",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/about",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/about",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/about",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/about",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/about",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/login",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/login",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/login",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/login",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/login",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/login",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/login",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/login",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/login",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/login",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/login",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/login",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/login",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/login",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/register",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/register",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/register",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/register",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/register",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/register",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/register",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/register",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/register",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/register",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/register",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/register",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/register",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/register",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/forgot-password",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/forgot-password",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/forgot-password",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/forgot-password",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/forgot-password",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/forgot-password",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/forgot-password",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/forgot-password",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/forgot-password",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/forgot-password",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/forgot-password",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/forgot-password",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/forgot-password",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/forgot-password",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/dashboard",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/dashboard",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/dashboard",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/dashboard",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/dashboard",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/dashboard",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/dashboard",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/dashboard",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/dashboard",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/dashboard",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/dashboard",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/dashboard",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/dashboard",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/dashboard",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/dashboard/analytics",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/dashboard/resume",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/dashboard/resume/improve",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/dashboard/interview",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/dashboard/interview/setup",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/dashboard/settings",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "/dashboard/suggestions",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "saved-report",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "saved-report",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "saved-report",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "saved-report",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "saved-report",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "saved-report",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "saved-report",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "saved-report",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "saved-report",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "saved-report",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "saved-report",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "saved-report",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "saved-report",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "saved-report",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "route": "interview-room",
+        "width": 320,
+        "height": 720
+      },
+      {
+        "route": "interview-room",
+        "width": 360,
+        "height": 800
+      },
+      {
+        "route": "interview-room",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "route": "interview-room",
+        "width": 430,
+        "height": 932
+      },
+      {
+        "route": "interview-room",
+        "width": 600,
+        "height": 960
+      },
+      {
+        "route": "interview-room",
+        "width": 768,
+        "height": 1024
+      },
+      {
+        "route": "interview-room",
+        "width": 820,
+        "height": 1180
+      },
+      {
+        "route": "interview-room",
+        "width": 1024,
+        "height": 768
+      },
+      {
+        "route": "interview-room",
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "route": "interview-room",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "route": "interview-room",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "route": "interview-room",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "route": "interview-room",
+        "width": 3840,
+        "height": 2160
+      },
+      {
+        "route": "interview-room",
+        "width": 844,
+        "height": 390
+      }
+    ],
+    "matrix": "demo-chromium",
+    "route_viewport_checks": 210
+  }
+]

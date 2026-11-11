@@ -25,7 +25,7 @@ def test_totals_are_computed_from_criteria_and_all_questions():
     assert report.questions[0].score==78 # 80*.4 + 60*.35 + 100*.25
     assert report.questions[1].score==0 and 'Unanswered' in report.questions[1].feedback
     assert report.overall==39 and report.answered==1 and report.total_questions==2
-    assert report.rubric_version=='transcript-v2'
+    assert report.rubric_version=='transcript-v3-rigorous'
     assert [d.score for d in report.scores]==[40,30,50]
 
 

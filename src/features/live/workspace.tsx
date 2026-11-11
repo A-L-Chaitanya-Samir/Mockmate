@@ -165,26 +165,6 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
           </Button>
         </div>
       )}
-      {data && (
-        <div
-          className="panel mx-4 mt-4 text-xs"
-          role="region"
-          aria-label="Daily allowances"
-        >
-          <p>
-            {data.capabilities.resume.remaining} of{" "}
-            {data.capabilities.resume.limit} resume analyses remaining ·{" "}
-            {data.capabilities.interview.remaining} of{" "}
-            {data.capabilities.interview.limit} video interviews remaining per{" "}
-            {data.capabilities.window_hours} hours.
-          </p>
-          <p>
-            {data.capabilities.reset_at
-              ? `Both allowances renew ${new Date(data.capabilities.reset_at).toLocaleString()} (your local time).`
-              : "Your 24-hour allowance window starts with your first use."}
-          </p>
-        </div>
-      )}
       {data
         ? children
         : !error && (
@@ -193,6 +173,30 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
             </div>
           )}
     </Context.Provider>
+  );
+}
+
+export function UsageAllowance() {
+  const { data } = useWorkspace();
+  if (!data) return null;
+  return (
+    <div
+      className="panel mb-6 text-xs"
+      role="region"
+      aria-label="Daily allowances"
+    >
+      <p>
+        {data.capabilities.resume.remaining} of {data.capabilities.resume.limit}{" "}
+        resume analyses remaining · {data.capabilities.interview.remaining} of{" "}
+        {data.capabilities.interview.limit} video interviews remaining per{" "}
+        {data.capabilities.window_hours} hours.
+      </p>
+      <p>
+        {data.capabilities.reset_at
+          ? `Both allowances renew ${new Date(data.capabilities.reset_at).toLocaleString()} (your local time).`
+          : "Your 24-hour allowance window starts with your first use."}
+      </p>
+    </div>
   );
 }
 

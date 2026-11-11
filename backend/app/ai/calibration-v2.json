@@ -1,0 +1,28 @@
+{
+  "version": "rigorous-calibration-v2",
+  "question": "A bank transfer debits one account, then the credit operation fails before commit. Explain atomicity, what should happen to the debit, and how you would implement and verify that no partial transfer persists.",
+  "configuration": {"role": "Backend Engineer", "seniority": "Mid-level", "type": "Technical", "difficulty": "Medium", "language": "Python"},
+  "essential_expectations": [
+    "All-or-nothing changes within one transaction",
+    "Rollback or no commit when credit fails, so the debit is not persisted",
+    "A concrete transaction boundary/error-handling mechanism",
+    "A concrete failure-injection check of both balances after rollback"
+  ],
+  "cases": {
+    "excellent": "Put both updates in one database transaction. Atomicity means either both commit or neither persists. If the credit fails, roll back the transaction, including the debit; do not catch the error and commit partial work. I would use the driver's transaction context so exceptions trigger rollback, then inject a failure after the debit and verify both balances remain unchanged from a separate connection. I would also test the success path and ensure external side effects are handled separately.",
+    "competent": "I would wrap the debit and credit in one transaction. An exception on the credit must cause rollback of the debit too, so neither update persists. I would simulate a credit failure in a test and read both balances after rollback to check they are unchanged.",
+    "borderline": "Atomicity means all or nothing. If the credit fails the debit should be rolled back. I would use a transaction and check that the transfer failed.",
+    "weak": "I would try to undo the debit if there is an error. Logging should let us see that something went wrong.",
+    "incorrect": "Atomicity means every write commits independently. I would commit the debit first, then retry the credit later. Rollback only makes queries faster and cannot reverse a debit.",
+    "off_topic": "I enjoy hiking and making tea on weekends. My favorite route goes through a forest.",
+    "filler": "I follow best practices and use the right tools. Best practices ensure everything works well. Best practices.",
+    "transcription_errors": "Both writes go in one transaction, all or nothing. If the credit fails, role back the debit too. I would inject a credit failure and check both account balances are unchanged from another connection.",
+    "unanswered": null
+  },
+  "benchmark_marks": {
+    "excellent": [100, 100, 100], "competent": [85, 85, 85], "borderline": [60, 45, 60],
+    "weak": [25, 15, 30], "incorrect": [0, 0, 0], "off_topic": [0, 0, 0],
+    "filler": [0, 0, 0], "transcription_errors": [85, 85, 80], "unanswered": [0, 0, 0]
+  },
+  "benchmark_note": "Authored calibration anchors, not model outputs. Equivalent correct answers remain valid; exact real-model scores are not a regression contract."
+}

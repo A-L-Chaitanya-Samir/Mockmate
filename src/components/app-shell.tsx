@@ -17,9 +17,19 @@ import { ThemeToggle } from "./theme-toggle";
 import { DemoNotice } from "./ui/primitives";
 import { cn } from "@/lib/utils";
 import { DEMO_MODE } from "@/lib/mode";
-import { WorkspaceProvider, useOptionalWorkspace } from "@/features/live/workspace";
+import {
+  WorkspaceProvider,
+  useOptionalWorkspace,
+  UsageAllowance,
+} from "@/features/live/workspace";
 export function AppShell(props: { children: ReactNode; room?: boolean }) {
-  return DEMO_MODE ? <Shell {...props} /> : <WorkspaceProvider><Shell {...props} /></WorkspaceProvider>;
+  return DEMO_MODE ? (
+    <Shell {...props} />
+  ) : (
+    <WorkspaceProvider>
+      <Shell {...props} />
+    </WorkspaceProvider>
+  );
 }
 function Shell({
   children,
@@ -122,6 +132,7 @@ function Shell({
             id="main-content"
             className={cn("app-content", room && "room-content")}
           >
+            {!DEMO_MODE && <UsageAllowance />}
             {children}
           </main>
           <footer className="app-footer">

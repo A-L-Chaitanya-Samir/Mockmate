@@ -70,3 +70,6 @@ Optional [AI phone-visibility checks](docs/phone-vision.md) reuse the existing G
 
 
 Phase 4 software checks passed; overall acceptance remains open for hosted email capacity/delivery, consenting physical-device checks and the remaining real-model scoring cases. See [Phase 4 acceptance and requirement status](docs/phase-4-acceptance.md) and the [manual acceptance record](docs/phase-4-manual-acceptance.md).
+
+
+Latest local follow-up: [rigorous questions/scoring, responsive coverage and physical acceptance](docs/phase-4-followup-acceptance.md). New reports use `transcript-v3-rigorous`; the documented arithmetic and historical reports are preserved. Email delivery and full physical/device acceptance still require recorded evidence.

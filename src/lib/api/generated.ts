@@ -555,6 +555,12 @@ export interface components {
         };
         /** InterviewCreate */
         InterviewCreate: {
+            /**
+             * Seniority
+             * @default Mid-level
+             * @enum {string}
+             */
+            seniority: "Intern" | "Junior" | "Mid-level" | "Senior";
             /** Role */
             role: string;
             /**

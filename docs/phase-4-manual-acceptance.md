@@ -1,6 +1,6 @@
 # Phase 4 manual acceptance record
 
-Last reviewed: 11 November 2026 (Asia/Kolkata). **All boxes below are pending.** This is an execution record for the original Phase 4 prompt, not a claim that the tests were performed. Automated results and setup instructions are in [Phase 4 acceptance](phase-4-acceptance.md).
+Last reviewed: 11 November 2026 (Asia/Kolkata). **This checklist is the original pending baseline; subsequent partial evidence is recorded in [follow-up acceptance](phase-4-followup-acceptance.md) and [physical results](physical-acceptance-results.jsonl).** This is an execution record for the original Phase 4 prompt, not a claim that the tests were performed. Automated results and setup instructions are in [Phase 4 acceptance](phase-4-acceptance.md).
 
 Record each result as passed, failed, unavailable or intentionally unsupported. Preserve failures and limitations. Use synthetic/non-sensitive resume and answer content. Never attach credentials, verification/recovery tokens, private inbox contents, raw audio or camera images as evidence without separate authorization. Prefer sanitized request IDs, event metadata, status codes and descriptions.
 
@@ -11,9 +11,9 @@ Record each result as passed, failed, unavailable or intentionally unsupported. 
 - Physical device, camera and microphone model/selection: pending.
 - Application origin and deployed revision/reference: pending.
 - Provider/model configuration and test scope: pending; record names only, not keys.
-- Explicit consent for physical audio capture and transmission to Groq: pending.
-- Explicit consent for camera checks and any other visible person: pending.
-- Separate optional consent for selected images being sent to Groq: pending; default off.
+- Explicit consent for physical audio capture and transmission to Groq: provided in this chat on 11 November 2026.
+- Explicit consent for local camera checks: provided by the tester on 11 November 2026; any additional visible person still needs their own consent.
+- Separate optional consent for selected images being sent to Groq: provided by the tester on 11 November 2026; the app checkbox remains separate and off by default.
 - Known environment conditions (lighting, distance, noise, bandwidth): pending.
 
 Do not perform a recording or image-transmission test before its consent is recorded. Consent withdrawal must stop new image uploads; a sample already sent cannot be recalled. If hardware or a consenting tester is unavailable, leave the relevant checks unavailable/pending and use the automated evidence only for its stated scope.
@@ -31,19 +31,19 @@ Evidence/result notes: pending. Actual inbox delivery verified so far in Phase 4
 
 ## H — original 11-step physical interview journey
 
-- [ ] **H01:** Sign in with an email-verified test account.
-- [ ] **H02:** Upload and analyze a non-sensitive real test PDF using the live backend/provider; record its saved resource reference without resume contents.
-- [ ] **H03:** Configure and create a video interview; confirm it reserves one interview slot.
-- [ ] **H04:** Select actual physical camera/microphone devices and pass the real checks. Record supported recording codec and local detector availability.
-- [ ] **H05:** Hear or read a generated question; verify speech synthesis stops before answer recording.
-- [ ] **H06:** After explicit audio consent, record a spoken answer through the physical microphone. Fake devices and generated speech do not satisfy this step.
-- [ ] **H07:** Send that answer through real Groq transcription. Record model and sanitized success/error metadata, not the audio.
-- [ ] **H08:** Review/correct the transcript and submit it; confirm the answer and correction state are saved.
-- [ ] **H09:** Continue through generated follow-ups and subsequent questions without additional interview-slot charges.
-- [ ] **H10:** Complete the interview and open the saved report; confirm observation events do not change answer-quality scores.
-- [ ] **H11:** Refresh and reopen the report in another signed-in browser session. Confirm another account cannot access the report.
+- [x] **H01:** Sign in with an email-verified test account. Accepted using an admin-confirmed synthetic account; inbox confirmation is still pending under E04.
+- [x] **H02:** Upload and analyze a non-sensitive real test PDF using the live backend/provider; record its saved resource reference without resume contents.
+- [x] **H03:** Configure and create a video interview; confirm it reserves one interview slot.
+- [x] **H04:** Select actual physical camera/microphone devices and pass the real checks. Record supported recording codec and local detector availability.
+- [x] **H05:** Hear or read a generated question; verify speech synthesis stops before answer recording.
+- [x] **H06:** After explicit audio consent, record a spoken answer through the physical microphone. Fake devices and generated speech do not satisfy this step.
+- [x] **H07:** Send that answer through real Groq transcription. Record model and sanitized success/error metadata, not the audio.
+- [x] **H08:** Review/correct the transcript and submit it; confirm the answer and correction state are saved.
+- [x] **H09:** Continue through generated follow-ups and subsequent questions without additional interview-slot charges.
+- [x] **H10:** Complete the interview and open the saved report; confirm observation events do not change answer-quality scores.
+- [x] **H11:** Refresh and reopen the report in another signed-in browser session. Confirm another account cannot access the report.
 
-Evidence/result notes: pending. Physical microphone → real Groq → saved-report acceptance in Phase 4: **not performed**.
+Evidence/result notes: pending. The final guided run completed six audio uploads and six submitted answers, then verified a saved report after refresh and another browser context. Camera/microphone tracks ended and temporary data was cleaned up. See [raw physical evidence](physical-acceptance-results.jsonl). The earlier interrupted runs remain recorded, and E/A/O/B checks retain their separate pending scopes.
 
 ## A — adverse audio/device/network conditions
 

@@ -2529,6 +2529,17 @@
       },
       "InterviewCreate": {
         "properties": {
+          "seniority": {
+            "type": "string",
+            "enum": [
+              "Intern",
+              "Junior",
+              "Mid-level",
+              "Senior"
+            ],
+            "title": "Seniority",
+            "default": "Mid-level"
+          },
           "role": {
             "type": "string",
             "maxLength": 120,

@@ -91,6 +91,13 @@ export function LiveInterviewSetup({ initialType }: { initialType?: string }) {
                   ))}
                 </select>
               </Field>
+              <Field label="Seniority">
+                <select name="seniority" defaultValue="Mid-level">
+                  {["Intern", "Junior", "Mid-level", "Senior"].map((level) => (
+                    <option key={level}>{level}</option>
+                  ))}
+                </select>
+              </Field>
               <Field label="Difficulty">
                 <select name="difficulty" defaultValue="Medium">
                   {["Easy", "Medium", "Hard"].map((t) => (
@@ -166,8 +173,8 @@ export function LiveInterviewSetup({ initialType }: { initialType?: string }) {
             starting. No full video recording is saved.
           </p>
           <p className="text-xs mt-6">
-            {data!.capabilities.interviews_remaining} video interviews
-            remaining in this 24-hour window. Saved sessions stay accessible.
+            {data!.capabilities.interviews_remaining} video interviews remaining
+            in this 24-hour window. Saved sessions stay accessible.
           </p>
         </Panel>
       </div>
@@ -472,12 +479,15 @@ export function LiveReport({ interviewId }: { interviewId: string }) {
           <div className="grid lg:grid-cols-2 gap-6 mb-6">
             <Panel>
               <ScoreRing score={report.overall} />
+              <p className="text-xs text-muted mt-4">
+                Rubric: {report.rubric_version}
+              </p>
               <p className="text-muted mt-4">
                 Coaching rubric: correctness and relevance 40%, reasoning and
                 evidence 35%, text clarity and structure 25%. No voice, video or
                 hiring prediction.
               </p>
-              {report.rubric_version === "transcript-v2" && (
+              {report.answered != null && report.total_questions != null && (
                 <p className="text-sm text-muted mt-3">
                   Calculated average of all question marks; unanswered questions
                   receive zero. {report.answered} of {report.total_questions}{" "}

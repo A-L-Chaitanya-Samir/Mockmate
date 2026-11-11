@@ -11,6 +11,7 @@ from app.core.errors import AppError
 from app.ai.provider import GroqProvider, Provider
 from app.ai.evidence import ground_analysis
 from app.ai.interview_grading import evaluate, VERSION as INTERVIEW_RUBRIC_VERSION
+from app.ai.interview_prompts import QUESTION_TASK, RESPONSE_TASK, validate_questions, VERSION as QUESTION_POLICY_VERSION
 from app.integrations.pdf import extract_pdf, minimize
 from app.integrations.storage import Storage
 from app.modules.schemas import Analysis, Questions, Response
@@ -105,10 +106,10 @@ class Worker:
                 {'resume_text': text, 'target_role': source['target_role']}, Analysis)
             result = ground_analysis(result, text)
         elif kind == 'questions':
-            result = self.provider.generate('Generate exactly four distinct text interview questions grounded in the role, type, difficulty and optional resume. Respect the configured language for technical questions. No executable coding task.', context, Questions)
+            result = validate_questions(self.provider.generate(QUESTION_TASK, context, Questions))
         elif kind == 'response':
             context['current_question_id'] = job['payload']['question_id']
-            result = self.provider.generate('Acknowledge the current answer briefly and neutrally using session context. Do not praise correctness or evidence that the answer does not demonstrate. Optionally ask one specific clarifying follow-up; use null if unnecessary. Do not evaluate voice/video.', context, Response)
+            result = self.provider.generate(RESPONSE_TASK, context, Response)
         elif kind == 'evaluate':
             result = evaluate(self.provider, context)
         elif kind == 'delete_resume':
@@ -145,8 +146,10 @@ class Worker:
                     conn.execute('INSERT INTO questions(user_id,session_id,position,prompt,topic) VALUES(%s,%s,%s,%s,%s) ON CONFLICT(session_id,position) DO NOTHING', (user, resource, count, result.follow_up, 'Follow-up'))
                 conn.execute('UPDATE answers SET response=%s WHERE question_id=%s AND user_id=%s', (Jsonb(result.model_dump()), job['payload']['question_id'], user))
             elif kind == 'evaluate':
-                conn.execute('INSERT INTO interview_reports(user_id,session_id,result,model,rubric_version,prompt_version) VALUES(%s,%s,%s,%s,%s,%s) ON CONFLICT(session_id) DO NOTHING', (user, resource, Jsonb(result.model_dump(mode='json')), settings().groq_model, INTERVIEW_RUBRIC_VERSION, 'interview-grading-v2'))
+                conn.execute('INSERT INTO interview_reports(user_id,session_id,result,model,rubric_version,prompt_version) VALUES(%s,%s,%s,%s,%s,%s) ON CONFLICT(session_id) DO NOTHING', (user, resource, Jsonb(result.model_dump(mode='json')), settings().groq_model, INTERVIEW_RUBRIC_VERSION, 'interview-grading-v3'))
                 conn.execute("UPDATE interview_sessions SET status='completed' WHERE id=%s AND user_id=%s", (resource, user))
+            if kind in ('questions', 'response'):
+                conn.execute('UPDATE jobs SET payload=payload || %s WHERE id=%s', (Jsonb({'question_policy_version': QUESTION_POLICY_VERSION}), job['id']))
             if kind in ('resume', 'questions'):
                 settle(conn, user, resource, 'consumed')
             conn.execute("UPDATE jobs SET status='succeeded',lease_token=NULL,error=NULL WHERE id=%s AND lease_token=%s", (job['id'], job['lease_token']))
@@ -199,11 +202,12 @@ def main():
     worker = Worker()
     worker_id = uuid4()
     while running:
-        with transaction() as conn:
-            conn.execute('INSERT INTO worker_heartbeats(id) VALUES(%s) ON CONFLICT(id) DO UPDATE SET seen_at=now()', (worker_id,))
-            conn.execute("DELETE FROM api_rate_limits WHERE minute<now()-interval '1 day'")
-            conn.execute("DELETE FROM worker_heartbeats WHERE seen_at<now()-interval '1 day'")
         try:
+            # A transient database/heartbeat failure must not terminate the worker.
+            with transaction() as conn:
+                conn.execute('INSERT INTO worker_heartbeats(id) VALUES(%s) ON CONFLICT(id) DO UPDATE SET seen_at=now()', (worker_id,))
+                conn.execute("DELETE FROM api_rate_limits WHERE minute<now()-interval '1 day'")
+                conn.execute("DELETE FROM worker_heartbeats WHERE seen_at<now()-interval '1 day'")
             if not worker.run_once():
                 time.sleep(2)
         except Exception as exc:

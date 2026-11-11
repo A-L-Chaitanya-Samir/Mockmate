@@ -22,10 +22,17 @@ const tooltipStyle = {
   background: "var(--surface)",
   border: "1px solid var(--border)",
   borderRadius: 8,
-  fontSize: 11,
+  fontSize: "0.75rem",
   color: "var(--foreground)",
 };
-const axis = { fill: "var(--subtle)", fontSize: 10 };
+const axis = { fill: "var(--subtle)", fontSize: "0.6875rem" };
+const chartLabels: Record<string, string> = {
+  Communication: "Comms",
+  "Problem solving": "Reasoning",
+  "Correctness & relevance": "Correctness",
+  "Reasoning & evidence": "Reasoning",
+  "Text clarity & structure": "Clarity",
+};
 export function PerformanceChart({
   data,
   height = 240,
@@ -36,8 +43,8 @@ export function PerformanceChart({
   const ready = useHydrated();
   return (
     <div
-      style={{ height, minWidth: 0 }}
-      aria-label="Interview scores over time"
+      style={{ height: `${height / 16}rem`, minWidth: 0 }}
+      aria-label={`Interview scores over time: ${data.map((item) => `${item.label}: ${item.score}`).join(", ") || "No completed interviews"}`}
       role="img"
     >
       {ready && (
@@ -99,32 +106,33 @@ export function PerformanceChart({
     </div>
   );
 }
-export function CompetencyChart({ height = 230, scores = defaultScores }: { height?: number; scores?: { skill: string; score: number }[] }) {
+export function CompetencyChart({
+  height = 230,
+  scores = defaultScores,
+}: {
+  height?: number;
+  scores?: { skill: string; score: number }[];
+}) {
   const ready = useHydrated();
   return (
     <div
-      style={{ height, minWidth: 0 }}
+      style={{ height: `${height / 16}rem`, minWidth: 0 }}
       role="img"
-      aria-label={`${DEMO_MODE ? "Sample competencies: " : "Text competencies: "}${scores.map(s => `${s.skill}: ${s.score}`).join(", ")}`}
+      aria-label={`${DEMO_MODE ? "Sample competencies: " : "Text competencies: "}${scores.map((s) => `${s.skill}: ${s.score}`).join(", ")}`}
     >
       {ready && (
         <ResponsiveContainer width="100%" height="100%">
           <RadarChart
             data={scores.map((item) => ({
               ...item,
-              axis:
-                item.skill === "Communication"
-                  ? "Comms"
-                  : item.skill === "Problem solving"
-                    ? "Reasoning"
-                    : item.skill,
+              axis: chartLabels[item.skill] || item.skill,
             }))}
             outerRadius="58%"
           >
             <PolarGrid stroke="var(--border)" />
             <PolarAngleAxis
               dataKey="axis"
-              tick={{ fill: "var(--muted)", fontSize: 9 }}
+              tick={{ fill: "var(--muted)", fontSize: "0.6875rem" }}
             />
             <Radar
               dataKey="score"
@@ -141,13 +149,17 @@ export function CompetencyChart({ height = 230, scores = defaultScores }: { heig
     </div>
   );
 }
-export function SkillChart({ scores = defaultScores }: { scores?: { skill: string; score: number }[] }) {
+export function SkillChart({
+  scores = defaultScores,
+}: {
+  scores?: { skill: string; score: number }[];
+}) {
   const ready = useHydrated();
   return (
     <div
-      style={{ height: 250, minWidth: 0 }}
+      style={{ height: "15.625rem", minWidth: 0 }}
       role="img"
-      aria-label="Sample skill scores"
+      aria-label={`Skill scores: ${scores.map((item) => `${item.skill}: ${item.score}`).join(", ") || "No scores available"}`}
     >
       {ready && (
         <ResponsiveContainer width="100%" height="100%">
@@ -171,7 +183,8 @@ export function SkillChart({ scores = defaultScores }: { scores?: { skill: strin
             <YAxis
               type="category"
               dataKey="skill"
-              width={100}
+              tickFormatter={(value: string) => chartLabels[value] || value}
+              width={120}
               tick={axis}
               axisLine={false}
               tickLine={false}

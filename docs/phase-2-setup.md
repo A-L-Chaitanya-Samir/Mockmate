@@ -246,3 +246,12 @@ See [Phase 4 acceptance and email setup](phase-4-acceptance.md) for the new migr
 
 
 The API, worker and frontend were restarted locally on 11 November 2026, with health/readiness/frontend HTTP 200 checks. This does not establish SMTP delivery or physical-device acceptance. Use the [manual acceptance record](phase-4-manual-acceptance.md) to record those results before closing Phase 4.
+
+
+## Rigorous and responsive acceptance follow-up
+
+See [the current follow-up](phase-4-followup-acceptance.md). New interview setup includes seniority; new reports use a versioned rigorous rubric without changing score weights or historical results. No additional database migration is required for this follow-up.
+
+For isolated browser builds set `MOCKMATE_BROWSER_BUILD=1`; their generated output is `.test-deps/next-browser`, leaving the normal `.next` build available to a human tester. Use the same setting when starting that test server. `PLAYWRIGHT_ENGINE=firefox` or `webkit` with `RESPONSIVE_LAYOUT_ONLY=1` enables additional engine layout checks without physical media. These do not establish Safari/iOS or TV hardware support. Run backend database tests before starting the deterministic browser harness so its worker cannot consume backend-suite jobs.
+
+`scripts/audit-auth-email.py` is read-only and sends no mail. A `SUPABASE_ACCESS_TOKEN` in the process environment allows inspection of the matching hosted Auth configuration; it is a management token, not a publishable/service key. Provider account capacity and authorized inbox delivery remain separate checks. Do not paste keys into chat.

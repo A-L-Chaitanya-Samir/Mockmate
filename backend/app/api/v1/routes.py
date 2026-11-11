@@ -95,7 +95,7 @@ def create_interview(data: InterviewCreate, user: User, key: Key):
         existing = conn.execute('SELECT resource_id FROM usage_reservations WHERE user_id=%s AND idempotency_key=%s', (user, str(key))).fetchone()
         if existing:
             prior = owned(conn, 'interview_sessions', existing['resource_id'], user)
-            if prior['config'] != data.model_dump(mode='json'):
+            if not service.same_interview_config(prior['config'], data):
                 raise AppError(409, 'idempotency_conflict', 'Request key was used for different interview settings.')
         return service.create_interview(conn, user, data, str(key))
 
