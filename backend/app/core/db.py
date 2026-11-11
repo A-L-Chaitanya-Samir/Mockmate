@@ -10,8 +10,10 @@ from app.core.errors import AppError
 def transaction():
     if not configured(settings().database_url):
         raise AppError(503, 'setup_required', 'Database configuration is required.')
-    with psycopg.connect(settings().database_url, row_factory=dict_row, connect_timeout=10) as conn:
+    # Transaction poolers do not preserve a backend session's prepared statements.
+    with psycopg.connect(settings().database_url, row_factory=dict_row, connect_timeout=10, prepare_threshold=None) as conn:
         conn.execute('SET LOCAL search_path = public')
+        conn.execute("SET LOCAL timezone = 'UTC'")
         conn.execute("SET LOCAL statement_timeout = '15s'")
         yield conn
 

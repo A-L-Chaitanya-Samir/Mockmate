@@ -17,16 +17,17 @@ import {
 } from "@/components/ui/primitives";
 import { Button } from "@/components/ui/button";
 import { CompetencyChart } from "@/components/charts";
-import { useFeatureAccess } from "@/hooks/use-feature-access";
-import { UpgradePrompt } from "@/components/plan-access";
 import { DEMO_MODE } from "@/lib/mode";
 import { LiveReport } from "@/features/live/interviews";
 export function InterviewReport({ interviewId }: { interviewId: string }) {
-  return DEMO_MODE ? <DemoInterviewReport interviewId={interviewId} /> : <LiveReport interviewId={interviewId} />;
+  return DEMO_MODE ? (
+    <DemoInterviewReport interviewId={interviewId} />
+  ) : (
+    <LiveReport interviewId={interviewId} />
+  );
 }
 function DemoInterviewReport({ interviewId }: { interviewId: string }) {
   const ready = useDemoReady();
-  const { can } = useFeatureAccess();
   const session = useDemoStore((s) =>
     s.sessions.find((x) => x.id === interviewId),
   );
@@ -52,13 +53,7 @@ function DemoInterviewReport({ interviewId }: { interviewId: string }) {
     const data = {
       notice: "SIMULATED REPORT — fixed fixture scores, not real evaluation",
       role: summary!.role,
-      report: can("detailedFeedback")
-        ? report
-        : {
-            overall: report.overall,
-            strengths: report.strengths.slice(0, 1),
-            improvements: report.improvements.slice(0, 1),
-          },
+      report,
       answers: session?.answers ?? [],
     };
     const url = URL.createObjectURL(
@@ -122,47 +117,26 @@ function DemoInterviewReport({ interviewId }: { interviewId: string }) {
             </Button>
           </div>
         </Panel>
-        {can("detailedFeedback") ? (
-          <Panel>
-            <div className="grid sm:grid-cols-2 gap-8 items-center">
-              <div className="space-y-5">
-                {report.scores.map((s) => (
-                  <Progress key={s.skill} label={s.skill} value={s.score} />
-                ))}
-              </div>
-              <CompetencyChart />
+
+        <Panel>
+          <div className="grid sm:grid-cols-2 gap-8 items-center">
+            <div className="space-y-5">
+              {report.scores.map((s) => (
+                <Progress key={s.skill} label={s.skill} value={s.score} />
+              ))}
             </div>
-          </Panel>
-        ) : (
-          <UpgradePrompt
-            compact
-            title="Go deeper into your feedback."
-            description="Pro adds the full skill breakdown, competency chart, and question-by-question sample guidance."
-            destination={`/dashboard/interview/${interviewId}/report`}
-          />
-        )}
+            <CompetencyChart />
+          </div>
+        </Panel>
       </div>
       <div className="grid md:grid-cols-2 gap-6 mb-6">
         <Panel>
           <h2 className="mb-5">Strengths to build on</h2>
-          <CheckList
-            items={
-              can("detailedFeedback")
-                ? report.strengths
-                : report.strengths.slice(0, 1)
-            }
-          />
+          <CheckList items={report.strengths} />
         </Panel>
         <Panel>
           <h2 className="mb-5">Try this next time</h2>
-          <CheckList
-            items={
-              can("detailedFeedback")
-                ? report.improvements
-                : report.improvements.slice(0, 1)
-            }
-            warning
-          />
+          <CheckList items={report.improvements} warning />
         </Panel>
       </div>
       <Panel className="mb-6">
@@ -186,14 +160,12 @@ function DemoInterviewReport({ interviewId }: { interviewId: string }) {
                     ? answer || "No answer submitted."
                     : "Sample session — no typed answer is stored."}
                 </p>
-                {can("detailedFeedback") && (
-                  <div className="border-t border-border mt-4 pt-4">
-                    <p className="text-primary text-[10px] mb-1">
-                      PRACTICE GUIDANCE · NOT AI EVALUATION
-                    </p>
-                    <p className="text-muted text-xs">{q.guidance}</p>
-                  </div>
-                )}
+                <div className="border-t border-border mt-4 pt-4">
+                  <p className="text-primary text-[10px] mb-1">
+                    PRACTICE GUIDANCE · NOT AI EVALUATION
+                  </p>
+                  <p className="text-muted text-xs">{q.guidance}</p>
+                </div>
               </div>
             );
           })}

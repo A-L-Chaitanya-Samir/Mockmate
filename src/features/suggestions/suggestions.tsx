@@ -3,7 +3,6 @@ import Link from "next/link";
 import { useState } from "react";
 import { ArrowUpRight, Lightbulb, ArrowRight } from "lucide-react";
 import { useDemoStore } from "@/stores/demo-store";
-import { useFeatureAccess } from "@/hooks/use-feature-access";
 import {
   Panel,
   PageHeading,
@@ -11,7 +10,6 @@ import {
   DemoNotice,
 } from "@/components/ui/primitives";
 import { Button } from "@/components/ui/button";
-import { UpgradePrompt } from "@/components/plan-access";
 import { buildSuggestions } from "./suggestions-data";
 import { DEMO_MODE } from "@/lib/mode";
 import { LiveDashboard } from "@/features/live/dashboard";
@@ -19,22 +17,15 @@ export function Suggestions() {
   return DEMO_MODE ? <DemoSuggestions /> : <LiveDashboard suggestions />;
 }
 function DemoSuggestions() {
-  const { resumes, history, codingRounds, profile } = useDemoStore();
-  const { can } = useFeatureAccess();
+  const { resumes, history, profile } = useDemoStore();
   const [category, setCategory] = useState("All advice");
-  const items = buildSuggestions(
-    resumes,
-    history,
-    codingRounds,
-    can("codingRounds"),
-  );
+  const items = buildSuggestions(resumes, history);
   const categories = [
     "All advice",
     "Resume",
     "Interviews",
     "Communication",
     "Technical",
-    ...(can("codingRounds") ? ["Coding"] : []),
   ];
   return (
     <>
@@ -106,14 +97,6 @@ function DemoSuggestions() {
             </Panel>
           ))}
       </div>
-      {!can("codingRounds") && (
-        <div className="mt-6">
-          <UpgradePrompt
-            compact
-            title="Add coding feedback to your next steps."
-          />
-        </div>
-      )}
     </>
   );
 }

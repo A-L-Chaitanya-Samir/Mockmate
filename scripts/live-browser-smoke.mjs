@@ -20,7 +20,7 @@ try {
   await page.goto(`http://localhost:3000/dashboard/interview/${session_id}/report`);
   await page.getByRole('button',{name:'Export report & history'}).waitFor({timeout:30000});
   await page.reload();
-  await page.getByRole('heading',{name:'Recorded questions & answers'}).waitFor({timeout:30000});
+  await page.getByRole('heading',{name:'Interview performance · Questions & confirmed answers'}).waitFor({timeout:30000});
   await check('Real browser report survives refresh',true);
   const other=await browser.newContext();
   const secondPage=await other.newPage();

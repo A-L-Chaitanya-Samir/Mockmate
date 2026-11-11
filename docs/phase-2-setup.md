@@ -1,6 +1,8 @@
 # Phase 2 setup and operations
 
-Run commands from `A:\Mockmate`. Use credentials issued to your own accounts, stored only in ignored environment files. Never paste secrets into chat. No billing, production deployment or hosted schema mutation was performed during implementation.
+> Current interview behavior is documented in [camera-on spoken practice](spoken-interviews.md). That phase supersedes earlier text-first limitations; historical verification below remains a record of its original scope.
+
+Run commands from `A:\Mockmate`. Use credentials issued to your own accounts, stored only in ignored environment files. Never paste secrets into chat. No billing or production deployment was performed. Hosted development migrations applied in later phases are recorded in the acceptance guides.
 
 ## Install and configure
 
@@ -26,7 +28,7 @@ Backend variables:
 - `SUPABASE_SECRET_KEY`: server secret or local legacy service-role key for private Storage.
 - `GROQ_API_KEY`: your own Groq key; `GROQ_MODEL=openai/gpt-oss-20b` initially.
 - `CORS_ORIGINS=["http://localhost:3000"]`: explicit frontend origins only.
-- `FREE_RESUME_LIMIT=20`, `FREE_INTERVIEW_LIMIT=3`, `PRO_RESUME_LIMIT=20`, `PRO_INTERVIEW_LIMIT=20`.
+- `RESUME_LIMIT=10`, `INTERVIEW_LIMIT=3`, `USAGE_WINDOW_HOURS=24`.
 - `AI_MAX_TOKENS=4096`: bounded output limit per call; `GROQ_REASONING_EFFORT=low` for GPT-OSS models; `AI_INPUT_CHARS=11000`: redacted resume excerpt limit.
 - Optional `LEASE_SECONDS=180`, `MAX_JOB_ATTEMPTS=3`, `MAX_PDF_BYTES=5242880`.
 
@@ -130,23 +132,15 @@ Resource creation and job insertion share a transaction. Validated resume bytes 
 
 Claims use `FOR UPDATE SKIP LOCKED`, 180-second leases and unique lease tokens. Provider/Storage timeouts are 45/30 seconds. Crashed leases are reclaimed; late commits are fenced, and unique result constraints prevent duplicates. Three automatic attempts use backoff, honoring provider 429 `Retry-After` up to 300 seconds. Manual retries allow three cycles. Lost network responses can repeat upstream inference, but still yield one saved result and one application usage charge.
 
-Initial terminal failure releases usage. Retry reacquires a reservation atomically. Successful creation consumes usage even if abandoned/deleted. Response/evaluation retries use the existing session reservation. Concurrent reservations serialize on the entitlement row. Idempotency keys are account-scoped; changed inputs under a reused key yield 409. Completion freezes answers, cancels pending follow-up jobs and creates one evaluation job.
+Initial terminal failure releases usage. Retry reacquires a reservation atomically. Successful creation consumes usage even if abandoned/deleted. Response/evaluation retries use the existing session reservation. Concurrent reservations serialize on the profile row. Idempotency keys are account-scoped; changed inputs under a reused key yield 409. Completion freezes answers, cancels pending follow-up jobs and creates one evaluation job.
 
 Four generated questions start the server deadline; at most two follow-ups can be appended. Submitted answers are immutable and capped at 2000 characters. The stopping rule is six answers at most, explicit completion, or the deadline blocking further answers. Expired sessions still require completion to request a report. A session has eight logical AI calls at most before failure retries: generation + six responses + evaluation.
 
 Shared database counters limit authenticated requests to 120 per user per minute. Counters older than a day are removed by the worker. Configure ingress limits of 6 MB and appropriate timeouts when hosting; Content-Length and PDF validation enforce application limits, while chunked ingress must also be bounded by the proxy.
 
-Introductory allowances are account lifetime, **not monthly subscriptions**: Free defaults to 20 analyses for testing and 3 interviews; Pro testing to 20/20. Server environment limits apply against saved reservations. Existing installations must set `FREE_RESUME_LIMIT=20` in their private backend environment and restart the API and worker to override an older value of 3. Both plans include core reports, evidence, analytics and suggestions. Coding/voice/video/checkout are disabled in live mode. ₹299 remains a pricing preview without billing frequency.
+Mockmate is free for every account. Account allowances default to 10 resume analyses and 3 video interviews per fixed 24-hour window (RESUME_LIMIT=10, INTERVIEW_LIMIT=3, USAGE_WINDOW_HOURS=24). The first accepted reservation starts both allowances; activity never extends the deadline. At expiry both renew; the next accepted use starts the next window. Historical lifetime reservations are excluded; failures release capacity and retries reacquire it. All retained reports, evidence, analytics, improvements and suggestions are available to every account.
 
-Operator-only Pro testing requires a real existing account and database credentials:
-
-```powershell
-$env:APP_ENV='development' # or staging; command refuses production
-.\backend\.venv\Scripts\python.exe scripts/staging-pro.py USER_UUID --plan pro
-# Restore using --plan free
-```
-
-There is no browser/API self-upgrade endpoint.
+For existing installations, stop the API and worker, review and apply the new single_free_experience migration, replace old FREE_/PRO_ allowance settings with RESUME_LIMIT and INTERVIEW_LIMIT, and restart both processes. Historical migrations remain unchanged; only the obsolete entitlement table is dropped. Do not reset the database or delete user data.
 
 ## Privacy, retention and security
 
@@ -246,3 +240,9 @@ Real development integration was verified on 10 November 2026; see `phase-2-veri
 ```
 
 Use only your development project. Browser checks require installed Chrome. The first script exercises real PDF processing, private downloads, text interviews, report persistence, account isolation and deletion. The second verifies actual confirmation/recovery tokens, the callback, browser reset form and password changes. Neither proves SMTP delivery to a real inbox. The owner must register their own account and check verification/recovery email; use custom SMTP for general recipients rather than relying on the restricted development sender.
+
+
+See [Phase 4 acceptance and email setup](phase-4-acceptance.md) for the new migration, provider capacity, reset semantics and manual acceptance checklist.
+
+
+The API, worker and frontend were restarted locally on 11 November 2026, with health/readiness/frontend HTTP 200 checks. This does not establish SMTP delivery or physical-device acceptance. Use the [manual acceptance record](phase-4-manual-acceptance.md) to record those results before closing Phase 4.

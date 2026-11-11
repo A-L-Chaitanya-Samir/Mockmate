@@ -8,15 +8,13 @@ import {
   TrendingUp,
   Sparkles,
   Lightbulb,
-  Code2,
 } from "lucide-react";
 import { useDemoStore } from "@/stores/demo-store";
 import { Panel, Badge, PageHeading, Metric } from "@/components/ui/primitives";
 import { Button } from "@/components/ui/button";
 import { PerformanceChart } from "@/components/charts";
 import { InterviewHistory } from "./interview-history";
-import { useFeatureAccess } from "@/hooks/use-feature-access";
-import { UpgradePrompt } from "@/components/plan-access";
+import { useUsage } from "@/hooks/use-usage";
 import { buildSuggestions } from "@/features/suggestions/suggestions-data";
 import { DEMO_MODE } from "@/lib/mode";
 import { LiveDashboard } from "@/features/live/dashboard";
@@ -24,14 +22,9 @@ export function Overview() {
   return DEMO_MODE ? <DemoOverview /> : <LiveDashboard />;
 }
 function DemoOverview() {
-  const { profile, history, resumes, codingRounds } = useDemoStore();
-  const { can, definition, interviews } = useFeatureAccess();
-  const advice = buildSuggestions(
-    resumes,
-    history,
-    codingRounds,
-    can("codingRounds"),
-  );
+  const { profile, history, resumes } = useDemoStore();
+  const { interviews } = useUsage();
+  const advice = buildSuggestions(resumes, history);
   const average = Math.round(
     history.reduce((total, h) => total + h.score, 0) /
       Math.max(1, history.length),
@@ -78,7 +71,7 @@ function DemoOverview() {
           <Badge tone="green">Practice. Reflect. Grow.</Badge>
         </div>
       </div>
-      <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
+      <div className="grid sm:grid-cols-3 gap-4 mb-6">
         <Metric
           label="Total interviews"
           value={String(history.length).padStart(2, "0")}
@@ -109,18 +102,8 @@ function DemoOverview() {
           }
           icon={<FileText />}
         />
-        <Metric
-          label="Coding rounds"
-          value={can("codingRounds") ? "Unlocked" : "Pro exclusive"}
-          note={
-            can("codingRounds")
-              ? `${codingRounds.length} demo rounds created`
-              : "Upgrade for technical coding interviews"
-          }
-          icon={<Code2 />}
-        />
       </div>
-      <div className="grid xl:grid-cols-[1.7fr_1fr] gap-6 mb-6">
+      <div className="mb-6">
         <Panel>
           <div className="panel-heading">
             <div>
@@ -138,27 +121,6 @@ function DemoOverview() {
               .map((h, i) => ({ label: `Session ${i + 1}`, score: h.score }))}
           />
         </Panel>
-        {can("codingRounds") ? (
-          <Panel>
-            <Badge tone="green">PRO CODING ROUNDS</Badge>
-            <Code2 size={29} className="text-primary my-6" />
-            <h2>Your next technical round awaits.</h2>
-            <p className="text-muted text-xs my-4">
-              A timed problem, your choice of language, and scripted interviewer
-              follow-ups.
-            </p>
-            <Button asChild>
-              <Link href="/dashboard/coding">
-                {codingRounds[0]?.status === "active"
-                  ? "Resume coding round"
-                  : "Start a coding round"}
-                <ArrowRight size={14} />
-              </Link>
-            </Button>
-          </Panel>
-        ) : (
-          <UpgradePrompt compact title="Go beyond the conversation." />
-        )}
       </div>
       <div className="grid xl:grid-cols-[1.7fr_1fr] gap-6">
         <Panel>
@@ -175,7 +137,7 @@ function DemoOverview() {
         </Panel>
         <Panel>
           <div className="panel-heading">
-            <h2>Four ways to prepare</h2>
+            <h2>Ways to prepare</h2>
             <Sparkles size={16} className="text-primary" />
           </div>
           {[
@@ -190,14 +152,6 @@ function DemoOverview() {
               text: `${interviews.remaining} demo sessions remaining`,
               href: "/dashboard/interview/setup",
               icon: MessagesSquare,
-            },
-            {
-              title: "Practice your problem solving",
-              text: can("codingRounds")
-                ? "Start a technical coding round"
-                : "Coding rounds · Pro exclusive",
-              href: "/dashboard/coding",
-              icon: Code2,
             },
             {
               title: "Choose your next improvement",
@@ -225,7 +179,7 @@ function DemoOverview() {
       <Panel className="mt-6">
         <div className="panel-heading">
           <h2>Improvement suggestions</h2>
-          <Badge tone="muted">{definition.name} · MOCK INSIGHTS</Badge>
+          <Badge tone="muted">MOCK INSIGHTS</Badge>
         </div>
         <div className="grid sm:grid-cols-2 gap-6">
           {advice.slice(0, 2).map((item) => (

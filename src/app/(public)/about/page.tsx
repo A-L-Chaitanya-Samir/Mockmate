@@ -45,7 +45,9 @@ export default function Page() {
             {
               icon: ShieldCheck,
               title: "Honest by design",
-              text: DEMO_MODE ? "This portfolio demo clearly labels simulated feedback. Your camera and microphone are never recorded or uploaded." : "Resume excerpts and interview text use external AI. Voice, video, coding execution and payments are future features.",
+              text: DEMO_MODE
+                ? "This portfolio demo clearly labels simulated feedback. Your camera and microphone are never recorded or uploaded."
+                : "Resume excerpts, answer audio and confirmed transcripts use external AI. Face checks stay local; optional phone checks send separately consented image samples to Groq. Practice observations do not prove cheating.",
             },
           ].map((x) => (
             <article className="feature-block" key={x.title}>
@@ -60,10 +62,13 @@ export default function Page() {
         <p className="eyebrow mb-5">THE PROJECT</p>
         <h2 className="text-3xl mb-6">
           Preparation today.
-          <br />Progress for tomorrow.
+          <br />
+          Progress for tomorrow.
         </h2>
         <p className="text-muted max-w-2xl mb-7">
-          {DEMO_MODE ? "Mockmate’s separate demo build uses simulated services and browser-local data." : "Mockmate connects its Next.js and TypeScript interface to Supabase authentication, private storage, PostgreSQL and a FastAPI backend with a durable AI worker. Resume analysis and text interview feedback use your own submitted content."}
+          {DEMO_MODE
+            ? "Mockmate’s separate demo build uses simulated services and browser-local data."
+            : "Mockmate connects its Next.js and TypeScript interface to Supabase authentication, private storage, PostgreSQL and a FastAPI backend with a durable AI worker. Resume analysis and text interview feedback use your own submitted content."}
         </p>
         <Button asChild>
           <Link href="/dashboard">

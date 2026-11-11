@@ -1,9 +1,8 @@
 import { mockReport, mockResume } from "@/data/mock-data";
 import type { ResumeRecord, InterviewSummary } from "@/types";
-import type { CodingRound } from "@/types/coding";
 export interface Suggestion {
   id: string;
-  category: "Resume" | "Interviews" | "Communication" | "Technical" | "Coding";
+  category: "Resume" | "Interviews" | "Communication" | "Technical";
   title: string;
   detail: string;
   source: string;
@@ -14,8 +13,6 @@ export interface Suggestion {
 export function buildSuggestions(
   resumes: ResumeRecord[],
   history: InterviewSummary[],
-  rounds: CodingRound[],
-  includeCoding: boolean,
 ): Suggestion[] {
   const resume = resumes[0]?.analysis ?? mockResume;
   const latest = history[0];
@@ -78,21 +75,5 @@ export function buildSuggestions(
       action: "Review your resume",
     },
   ];
-  if (includeCoding) {
-    const evaluated = rounds.find((round) => round.evaluation);
-    items.push({
-      id: "coding-reasoning",
-      category: "Coding",
-      title: "State your invariant before you code",
-      detail:
-        evaluated?.evaluation?.suggestions[0] ??
-        "Explain why your chosen data structure works, then trace a minimal case and discuss complexity.",
-      source: evaluated
-        ? `Sample evaluation · round ${evaluated.id.slice(-8)}`
-        : "Sample Pro coding-round advice",
-      href: "/dashboard/coding",
-      action: "Open coding rounds",
-    });
-  }
   return items;
 }

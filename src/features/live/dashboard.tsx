@@ -128,7 +128,7 @@ export function LiveDashboard({
             <Metric
               label="Interviews remaining"
               value={data!.capabilities.interviews_remaining}
-              note={`${data!.capabilities.plan} introductory allowance`}
+              note={"24-hour allowance"}
               icon={<Sparkles />}
             />
           </div>
@@ -231,8 +231,10 @@ export function LiveSettings() {
       bio: String(fields.get("bio")),
       notifications: fields.has("notifications"),
       reminders: fields.has("reminders"),
-      default_type: String(fields.get("default_type")) as DTO<"ProfileInput">["default_type"],
-      default_mode: "Text",
+      default_type: String(
+        fields.get("default_type"),
+      ) as DTO<"ProfileInput">["default_type"],
+      default_mode: "Spoken",
     };
     try {
       await api("/profile", { method: "PUT", body: JSON.stringify(profile) });
@@ -294,8 +296,21 @@ export function LiveSettings() {
               />
               Practice reminders preference
             </label>
-              <Field label="Default interview type"><select name="default_type" defaultValue={data!.profile.default_type}>{["Technical", "HR", "Behavioral", "Mixed"].map(type => <option key={type}>{type}</option>)}</select></Field>
-              <Field label="Default interview mode"><select disabled defaultValue="Text"><option>Text</option></select></Field>
+            <Field label="Default interview type">
+              <select
+                name="default_type"
+                defaultValue={data!.profile.default_type}
+              >
+                {["Technical", "HR", "Behavioral", "Mixed"].map((type) => (
+                  <option key={type}>{type}</option>
+                ))}
+              </select>
+            </Field>
+            <Field label="Default interview mode">
+              <select disabled defaultValue="Spoken">
+                <option>Spoken</option>
+              </select>
+            </Field>
             <p className="text-xs text-muted">
               Preferences are saved; automatic notification delivery is a future
               feature.
@@ -315,15 +330,12 @@ export function LiveSettings() {
             <ThemeToggle />
           </Panel>
           <Panel>
-            <h2 className="mb-4">
-              {data!.capabilities.plan === "pro" ? "Mockmate Pro" : "Free"}
-            </h2>
+            <h2 className="mb-4">Usage limits</h2>
             <CheckList
               items={[
                 `${data!.capabilities.resumes_remaining} resume analyses remaining`,
                 `${data!.capabilities.interviews_remaining} interviews remaining`,
-                "Introductory account-lifetime allowance; no monthly renewal.",
-                "Paid subscriptions are not available in Phase 2.",
+                "Both allowances renew together 24 hours after the first accepted use.",
               ]}
             />
           </Panel>
@@ -342,30 +354,6 @@ export function LiveSettings() {
           </Panel>
         </div>
       </div>
-    </>
-  );
-}
-
-export function FutureCoding() {
-  return (
-    <>
-      <PageHeading
-        title="AI Coding Rounds"
-        description="Code execution, coding evaluation and automated proctoring are planned for a later phase."
-      />
-      <Panel>
-        <EmptyState
-          title="Coding practice is coming."
-          description="Phase 2 supports real text interviews and resume analysis. Coding is available only in the separate, explicitly simulated demo build."
-          action={
-            <Button asChild>
-              <Link href="/dashboard/interview/setup">
-                Practice a text interview
-              </Link>
-            </Button>
-          }
-        />
-      </Panel>
     </>
   );
 }

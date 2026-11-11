@@ -1,5 +1,7 @@
 # Phase 2 verification - 10 November 2026
 
+> Current interview behavior is documented in [camera-on spoken practice](spoken-interviews.md). That phase supersedes earlier text-first limitations; historical verification below remains a record of its original scope.
+
 ## Real development integration: passed
 
 The owner's new Supabase development project is configured through ignored local environment files. Its migration was applied with the locked Supabase CLI after a dry run and project-match check. No production deployment, paid upgrade or billing change occurred. The unrelated inactive project exposed by the connector was not changed.
@@ -42,4 +44,9 @@ Email delivery itself has not been tested. Register your own account at the loca
 
 GitHub Actions configuration is present, but remote CI execution has not been observed in this task. Docker-local Supabase was not exercised; the real hosted development project was tested instead.
 
-Coding execution/evaluation, voice/video, face detection, proctoring and subscriptions remain future features in live mode. The separate demo retains explicitly simulated versions. Core Phase 2 screens never silently fall back to fixture results.
+The current product scope supersedes the earlier expansion roadmap. Live mode supports resume coaching and text interviews; the demo uses explicit fixtures. Core Phase 2 screens never silently fall back to fixture results. See product-simplification.md for the latest checks.
+
+
+## Phase 4 successor
+
+Daily allowance, email delivery, browser/device acceptance and scoring evaluation evidence are recorded in [Phase 4 acceptance](phase-4-acceptance.md). Earlier lifetime-limit and physical acceptance statements above are historical, not the current reset policy.

@@ -13,7 +13,6 @@ export function MarketingShell({ children }: { children: ReactNode }) {
           <Link href="/about" className="nav-about">
             The platform
           </Link>
-          <Link href="/pricing">Pricing</Link>
           <Link href="/login" className="hidden sm:block">
             Log in
           </Link>
@@ -37,11 +36,15 @@ export function MarketingShell({ children }: { children: ReactNode }) {
         </div>
         <div className="footer-links">
           <Link href="/about">About Mockmate</Link>
-          <Link href="/pricing">{DEMO_MODE ? "Demo plans" : "Plans"}</Link>
-          <Link href="/dashboard">{DEMO_MODE ? "Explore demo" : "Your workspace"}</Link>
+          <Link href="/dashboard">
+            {DEMO_MODE ? "Explore demo" : "Your workspace"}
+          </Link>
         </div>
         <p className="text-subtle text-[10px] w-full">
-          © {new Date().getFullYear()} Mockmate · {DEMO_MODE ? "Portfolio frontend demo · No real AI processing" : "Text interviews & resume coaching · External AI processing"}
+          © {new Date().getFullYear()} Mockmate ·{" "}
+          {DEMO_MODE
+            ? "Portfolio frontend demo · No real AI processing"
+            : "Text interviews & resume coaching · External AI processing"}
         </p>
       </footer>
     </>

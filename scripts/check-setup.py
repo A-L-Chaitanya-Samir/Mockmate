@@ -53,9 +53,9 @@ if configured(cfg.database_url):
                 conn.execute("SET LOCAL statement_timeout='10s'")
                 rows=conn.execute("SELECT relname,relrowsecurity FROM pg_class JOIN pg_namespace ON pg_namespace.oid=relnamespace WHERE nspname='public' AND relkind='r'").fetchall()
                 tables=dict(rows)
-                expected={'profiles','entitlements','usage_reservations','resumes','resume_analyses','interview_sessions','questions','answers','interview_reports','jobs','worker_heartbeats','api_rate_limits'}
-                result('All Phase 2 tables exist', expected.issubset(tables), 'apply the committed migration if missing')
-                result('RLS enabled on all Phase 2 tables',all(tables.get(name,False) for name in expected))
+                expected={'profiles','usage_reservations','resumes','resume_analyses','interview_sessions','questions','answers','interview_reports','jobs','worker_heartbeats','api_rate_limits','usage_windows','usage_attempts'}
+                result('All current backend tables exist', expected.issubset(tables), 'apply the committed migration if missing')
+                result('RLS enabled on all current backend tables',all(tables.get(name,False) for name in expected))
                 bucket=conn.execute("SELECT public FROM storage.buckets WHERE id='resumes'").fetchone()
                 result('Resume bucket exists and is private',bucket is not None and bucket[0] is False)
     except Exception as exc:

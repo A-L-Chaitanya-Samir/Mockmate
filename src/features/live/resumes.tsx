@@ -121,8 +121,8 @@ export function LiveResumes({ improve = false }: { improve?: boolean }) {
               )}
             </Button>
             <p className="text-xs text-subtle">
-              {data!.capabilities.resumes_remaining} introductory analyses
-              remaining. Failed processing releases the reservation; retrying
+              {data!.capabilities.resumes_remaining} resume analyses
+              remaining in this 24-hour window. Failed processing releases the reservation; retrying
               reserves it again.
             </p>
           </form>

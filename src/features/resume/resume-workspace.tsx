@@ -27,17 +27,20 @@ import { Button } from "@/components/ui/button";
 import { Tabs } from "@/components/ui/tabs";
 import { resumeService } from "@/services/mock-services";
 import { errorMessage } from "@/services/api-client";
+import { useUsage } from "@/hooks/use-usage";
 import { useDemoStore } from "@/stores/demo-store";
 import { mockResume } from "@/data/mock-data";
 import { dateLabel } from "@/lib/utils";
 import type { ResumeAnalysis } from "@/types";
-import { useFeatureAccess } from "@/hooks/use-feature-access";
-import { FeatureGate, UpgradePrompt } from "@/components/plan-access";
 const MAX_PDF_BYTES = 5 * 1024 * 1024;
 import { DEMO_MODE } from "@/lib/mode";
 import { LiveResumes } from "@/features/live/resumes";
 export function ResumeWorkspace({ analyze = false }: { analyze?: boolean }) {
-  return DEMO_MODE ? <DemoResumeWorkspace analyze={analyze} /> : <LiveResumes />;
+  return DEMO_MODE ? (
+    <DemoResumeWorkspace analyze={analyze} />
+  ) : (
+    <LiveResumes />
+  );
 }
 function DemoResumeWorkspace({ analyze = false }: { analyze?: boolean }) {
   const [file, setFile] = useState<File | null>(null);
@@ -47,6 +50,7 @@ function DemoResumeWorkspace({ analyze = false }: { analyze?: boolean }) {
   const [drag, setDrag] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
   const fileInput = useRef<HTMLInputElement>(null);
+  const allowance = useUsage();
   const { resumes, addResume } = useDemoStore();
   useEffect(
     () => () => {
@@ -73,6 +77,12 @@ function DemoResumeWorkspace({ analyze = false }: { analyze?: boolean }) {
     setPreview(URL.createObjectURL(candidate));
   }
   async function runAnalysis() {
+    if (allowance.resumes.remaining === 0) {
+      setError(
+        `Demo allowance used. Renews ${new Date(allowance.resetAt!).toLocaleString()}.`,
+      );
+      return;
+    }
     if (!file) {
       setError("Select a PDF before starting the demo analysis.");
       return;
@@ -85,13 +95,17 @@ function DemoResumeWorkspace({ analyze = false }: { analyze?: boolean }) {
     );
     try {
       const result = await resumeService.analyze();
-      addResume({
+      const accepted = addResume({
         id: crypto.randomUUID(),
         name: file.name,
         size: file.size,
         date: new Date().toISOString(),
         analysis: result,
       });
+      if (!accepted)
+        throw new Error(
+          "Demo allowance used in another tab. Try again after renewal.",
+        );
       setProgress(100);
       toast.success(
         "Sample analysis ready. Your PDF was not uploaded or read.",
@@ -120,6 +134,12 @@ function DemoResumeWorkspace({ analyze = false }: { analyze?: boolean }) {
           )
         }
       />
+      <p className="text-xs">
+        {allowance.resumes.remaining} of 10 demo resume analyses remaining.{" "}
+        {allowance.resetAt
+          ? `Both allowances renew ${new Date(allowance.resetAt).toLocaleString()}.`
+          : "The 24-hour window starts with your first use."}
+      </p>
       <DemoNotice />
       <div className="grid lg:grid-cols-[1.2fr_1fr] gap-6 my-6">
         <Panel>
@@ -321,7 +341,6 @@ function DemoResumeWorkspace({ analyze = false }: { analyze?: boolean }) {
   );
 }
 function ResumeResults({ analysis }: { analysis: ResumeAnalysis }) {
-  const { can } = useFeatureAccess();
   return (
     <div className="grid md:grid-cols-2 gap-6">
       <Panel>
@@ -330,41 +349,14 @@ function ResumeResults({ analysis }: { analysis: ResumeAnalysis }) {
       </Panel>
       <Panel>
         <h2 className="mb-5">Where to focus next</h2>
-        <CheckList
-          items={
-            can("advancedResume")
-              ? analysis.improvements
-              : analysis.improvements.slice(0, 2)
-          }
-          warning
-        />
+        <CheckList items={analysis.improvements} warning />
       </Panel>
     </div>
   );
 }
 export function ResumeImprove() {
   if (!DEMO_MODE) return <LiveResumes improve />;
-  return (
-    <FeatureGate
-      feature="advancedResume"
-      fallback={
-        <>
-          <PageHeading
-            title="Resume improvements"
-            description="Basic suggestions are included in Free. Explore advanced recommendations with Pro."
-          />
-          <UpgradePrompt
-            compact
-            title="Make every project bullet stronger."
-            description="Free includes basic resume suggestions. Pro adds advanced recommendations and the guided improvement interface."
-            destination="/dashboard/resume/improve"
-          />
-        </>
-      }
-    >
-      <ResumeImproveForm />
-    </FeatureGate>
-  );
+  return <ResumeImproveForm />;
 }
 function ResumeImproveForm() {
   const [original, setOriginal] = useState(

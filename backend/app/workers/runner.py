@@ -3,27 +3,47 @@ import logging
 import signal
 import time
 from uuid import uuid4
+from psycopg import sql
 from psycopg.types.json import Jsonb
 from app.core.config import settings
 from app.core.db import transaction, owned
-from app.core.errors import AppError, ProviderError
+from app.core.errors import AppError
 from app.ai.provider import GroqProvider, Provider
 from app.ai.evidence import ground_analysis
+from app.ai.interview_grading import evaluate, VERSION as INTERVIEW_RUBRIC_VERSION
 from app.integrations.pdf import extract_pdf, minimize
 from app.integrations.storage import Storage
-from app.modules.schemas import Analysis, Questions, Response, Report
-from app.modules.service import interview_view
+from app.modules.schemas import Analysis, Questions, Response
+from app.modules.service import interview_view, settle
+from app.integrations.speech import GroqSpeech
 
 log = logging.getLogger('mockmate.worker')
 
 
 def claim():
     with transaction() as conn:
+        cleanup_audio(conn)
+        # Deadlines are server enforced even when a browser closes or loses connectivity.
+        from app.modules.service import complete
+        expired = conn.execute("SELECT id,user_id FROM interview_sessions WHERE status='active' AND deadline<=now() FOR UPDATE SKIP LOCKED").fetchall()
+        for session in expired:
+            complete(conn, session['user_id'], session['id'], 1)
         # Exhausted leases are finalized as failed and initial quota is released.
-        exhausted = conn.execute("""UPDATE jobs SET status='failed',error='Processing interrupted too many times. Retry this job.',lease_token=NULL
-            WHERE status='running' AND lease_until<now() AND attempts>=%s RETURNING *""", (settings().max_job_attempts,)).fetchall()
-        for job in exhausted:
-            mark_failure(conn, job)
+        exhausted = conn.execute("""SELECT * FROM jobs
+            WHERE status='running' AND lease_until<now() AND attempts>=%s""", (settings().max_job_attempts,)).fetchall()
+        for candidate in exhausted:
+            # Resource -> job matches successful completion and API retry/deletion.
+            # Skip busy resources instead of retaining a job lock while waiting for them.
+            table = 'resumes' if candidate['kind'] in ('resume', 'delete_resume') else 'interview_sessions'
+            source = conn.execute(sql.SQL('SELECT id FROM {} WHERE id=%s AND user_id=%s FOR UPDATE SKIP LOCKED').format(sql.Identifier(table)),
+                (candidate['resource_id'], candidate['user_id'])).fetchone()
+            if not source:
+                continue
+            job = conn.execute("""UPDATE jobs SET status='failed',error='Processing interrupted too many times. Retry this job.',lease_token=NULL
+                WHERE id=%s AND status='running' AND lease_until<now() AND attempts>=%s RETURNING *""",
+                (candidate['id'], settings().max_job_attempts)).fetchone()
+            if job:
+                mark_failure(conn, job)
         row = conn.execute("""WITH candidate AS (
             SELECT id FROM jobs WHERE ((status='queued' AND available_at<=now()) OR
             (status='running' AND lease_until<now())) AND attempts<%s
@@ -35,17 +55,20 @@ def claim():
 
 
 def mark_failure(conn, job):
+    if job['kind'] == 'transcribe':
+        conn.execute("UPDATE transcriptions SET status='failed',audio_bytes=NULL,error=coalesce(error,'Transcription failed. Re-record your answer.') WHERE id=%s AND user_id=%s AND status='processing'", (job['payload']['transcription_id'], job['user_id']))
     if job['kind'] in ('resume', 'questions'):
-        conn.execute("UPDATE usage_reservations SET state='released' WHERE user_id=%s AND resource_id=%s AND state='reserved'", (job['user_id'], job['resource_id']))
+        settle(conn, job['user_id'], job['resource_id'], 'released')
         table = 'resumes' if job['kind'] == 'resume' else 'interview_sessions'
         from psycopg import sql
         conn.execute(sql.SQL("UPDATE {} SET status='failed' WHERE id=%s AND user_id=%s AND status!='deleting'").format(sql.Identifier(table)), (job['resource_id'], job['user_id']))
 
 
 class Worker:
-    def __init__(self, provider: Provider | None = None, storage=None):
+    def __init__(self, provider: Provider | None = None, storage=None, speech=None):
         self.provider = provider or GroqProvider()
         self.storage = storage or Storage()
+        self.speech = speech or GroqSpeech()
 
     def process(self, job):
         user, resource, kind = job['user_id'], job['resource_id'], job['kind']
@@ -62,7 +85,13 @@ class Worker:
                     row = conn.execute('SELECT result FROM resume_analyses WHERE resume_id=%s AND user_id=%s ORDER BY version DESC LIMIT 1', (source['config']['resume_id'], user)).fetchone()
                     if row:
                         context['resume'] = row['result']
-        if kind == 'resume':
+        if kind == 'transcribe':
+            with transaction() as conn:
+                recording = owned(conn, 'transcriptions', job['payload']['transcription_id'], user)
+            if not recording['audio_bytes'] or recording['status'] != 'processing':
+                raise AppError(409, 'audio_expired', 'Temporary audio expired. Re-record your answer.')
+            result = self.speech.transcribe(bytes(recording['audio_bytes']), recording['model'])
+        elif kind == 'resume':
             if source['status'] == 'deleting':
                 return
             data = source['pdf_bytes'] or self.storage.download(source['storage_path'])
@@ -79,11 +108,9 @@ class Worker:
             result = self.provider.generate('Generate exactly four distinct text interview questions grounded in the role, type, difficulty and optional resume. Respect the configured language for technical questions. No executable coding task.', context, Questions)
         elif kind == 'response':
             context['current_question_id'] = job['payload']['question_id']
-            result = self.provider.generate('Respond briefly to the current answer using session context. Optionally ask one clarifying follow-up; use null if unnecessary. Do not evaluate voice/video.', context, Response)
+            result = self.provider.generate('Acknowledge the current answer briefly and neutrally using session context. Do not praise correctness or evidence that the answer does not demonstrate. Optionally ask one specific clarifying follow-up; use null if unnecessary. Do not evaluate voice/video.', context, Response)
         elif kind == 'evaluate':
-            result = self.provider.generate('Evaluate this exact interview history, including unanswered questions as unanswered. Include feedback for EVERY question_id using its id. Score only text, relevance, reasoning and evidence. Provide concrete practice recommendations.', context, Report)
-            if {str(q.question_id) for q in result.questions} != {str(q['id']) for q in view['questions']} or len(result.questions) != len(view['questions']):
-                raise ProviderError('AI returned mismatched question feedback. Please retry.')
+            result = evaluate(self.provider, context)
         elif kind == 'delete_resume':
             # Serialize external deletion against any analysis upload/result transaction.
             with transaction() as conn:
@@ -103,23 +130,25 @@ class Worker:
                 if kind == 'resume' and source['status'] == 'deleting':
                     self.storage.delete(source['storage_path'])
                 return
-            if kind == 'resume':
+            if kind == 'transcribe':
+                conn.execute("UPDATE transcriptions SET status='ready',original_text=%s,audio_bytes=NULL,error=NULL WHERE id=%s AND user_id=%s AND status='processing'", (result, job['payload']['transcription_id'], user))
+            elif kind == 'resume':
                 conn.execute("INSERT INTO resume_analyses(user_id,resume_id,version,result,model,prompt_version) VALUES(%s,%s,1,%s,%s,'phase2-resume-v2') ON CONFLICT(resume_id,version) DO NOTHING", (user, resource, Jsonb(result.model_dump(mode='json')), settings().groq_model))
                 conn.execute("UPDATE resumes SET status='ready',pdf_bytes=NULL WHERE id=%s AND user_id=%s", (resource, user))
             elif kind == 'questions':
                 for position, question in enumerate(result.questions):
                     conn.execute('INSERT INTO questions(user_id,session_id,position,prompt,topic) VALUES(%s,%s,%s,%s,%s) ON CONFLICT(session_id,position) DO NOTHING', (user, resource, position, question.prompt, question.topic))
-                conn.execute("UPDATE interview_sessions SET status='active',deadline=now()+make_interval(mins=>%s) WHERE id=%s AND user_id=%s", (source['config']['duration'], resource, user))
+                conn.execute("UPDATE interview_sessions SET status='active',deadline=CASE WHEN %s THEN now()+make_interval(mins=>%s) ELSE NULL END WHERE id=%s AND user_id=%s", (source['config'].get('mode') != 'Spoken' or bool(source['device_check']), source['config']['duration'], resource, user))
             elif kind == 'response':
                 count = conn.execute('SELECT count(*) n FROM questions WHERE session_id=%s AND user_id=%s', (resource, user)).fetchone()['n']
                 if result.follow_up and count < 6 and source['status'] == 'active':
                     conn.execute('INSERT INTO questions(user_id,session_id,position,prompt,topic) VALUES(%s,%s,%s,%s,%s) ON CONFLICT(session_id,position) DO NOTHING', (user, resource, count, result.follow_up, 'Follow-up'))
                 conn.execute('UPDATE answers SET response=%s WHERE question_id=%s AND user_id=%s', (Jsonb(result.model_dump()), job['payload']['question_id'], user))
             elif kind == 'evaluate':
-                conn.execute('INSERT INTO interview_reports(user_id,session_id,result,model) VALUES(%s,%s,%s,%s) ON CONFLICT(session_id) DO NOTHING', (user, resource, Jsonb(result.model_dump(mode='json')), settings().groq_model))
+                conn.execute('INSERT INTO interview_reports(user_id,session_id,result,model,rubric_version,prompt_version) VALUES(%s,%s,%s,%s,%s,%s) ON CONFLICT(session_id) DO NOTHING', (user, resource, Jsonb(result.model_dump(mode='json')), settings().groq_model, INTERVIEW_RUBRIC_VERSION, 'interview-grading-v2'))
                 conn.execute("UPDATE interview_sessions SET status='completed' WHERE id=%s AND user_id=%s", (resource, user))
             if kind in ('resume', 'questions'):
-                conn.execute("UPDATE usage_reservations SET state='consumed' WHERE user_id=%s AND resource_id=%s", (user, resource))
+                settle(conn, user, resource, 'consumed')
             conn.execute("UPDATE jobs SET status='succeeded',lease_token=NULL,error=NULL WHERE id=%s AND lease_token=%s", (job['id'], job['lease_token']))
 
     def run_once(self):
@@ -132,14 +161,32 @@ class Worker:
             message = exc.message if isinstance(exc, AppError) else 'Processing failed. Please retry.'
             delay = getattr(exc, 'retry_after', 10 * 2 ** job['attempts'])
             with transaction() as conn:
+                table = 'resumes' if job['kind'] in ('resume', 'delete_resume') else 'interview_sessions'
+                conn.execute(sql.SQL('SELECT id FROM {} WHERE id=%s AND user_id=%s FOR UPDATE').format(sql.Identifier(table)),
+                    (job['resource_id'], job['user_id'])).fetchone()
                 current = owned(conn, 'jobs', job['id'], job['user_id'], True)
                 if current['lease_token'] == job['lease_token']:
                     final = job['attempts'] >= settings().max_job_attempts
                     conn.execute("UPDATE jobs SET status=%s,error=%s,lease_token=NULL,available_at=now()+make_interval(secs=>%s) WHERE id=%s", ('failed' if final else 'queued', message, delay, job['id']))
+                    if job['kind'] == 'transcribe':
+                        conn.execute('UPDATE transcriptions SET error=%s WHERE id=%s AND user_id=%s', (message, job['payload']['transcription_id'], job['user_id']))
                     if final:
                         mark_failure(conn, job)
             log.warning('job_failed id=%s type=%s', job['id'], type(exc).__name__)
         return True
+
+
+def cleanup_audio(conn):
+    """One-hour hard TTL covers abandoned sessions and interrupted worker leases."""
+    # Same session-first lock order as the API and result writer.
+    sessions = conn.execute("""SELECT s.id,s.user_id FROM interview_sessions s WHERE EXISTS
+        (SELECT 1 FROM transcriptions t WHERE t.session_id=s.id AND t.audio_bytes IS NOT NULL AND t.expires_at<=now())
+        FOR UPDATE SKIP LOCKED""").fetchall()
+    for session in sessions:
+        expired = conn.execute("""UPDATE transcriptions SET audio_bytes=NULL,status=CASE WHEN status='processing' THEN 'cancelled' ELSE status END,
+            error='Temporary audio expired. Re-record your answer.' WHERE session_id=%s AND audio_bytes IS NOT NULL AND expires_at<=now() RETURNING id,user_id""", (session['id'],)).fetchall()
+        for recording in expired:
+            conn.execute("UPDATE jobs SET status='cancelled',lease_token=NULL WHERE user_id=%s AND kind='transcribe' AND payload->>'transcription_id'=%s AND status IN ('queued','running','failed')", (recording['user_id'], str(recording['id'])))
 
 
 def main():

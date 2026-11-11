@@ -209,6 +209,108 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/interviews/{resource}/device-check": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Device Check */
+        post: operations["device_check_api_v1_interviews__resource__device_check_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/interviews/{resource}/observations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Observation Events */
+        post: operations["observation_events_api_v1_interviews__resource__observations_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/interviews/{resource}/vision": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Vision State */
+        get: operations["vision_state_api_v1_interviews__resource__vision_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/interviews/{resource}/vision-consent": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Vision Consent */
+        put: operations["vision_consent_api_v1_interviews__resource__vision_consent_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/interviews/{resource}/vision-checks": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Vision Check */
+        post: operations["vision_check_api_v1_interviews__resource__vision_checks_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/interviews/{resource}/transcriptions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Transcribe */
+        post: operations["transcribe_api_v1_interviews__resource__transcriptions_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/jobs": {
         parameters: {
             query?: never;
@@ -264,6 +366,17 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** Allowance */
+        Allowance: {
+            /** Limit */
+            limit: number;
+            /** Used */
+            used: number;
+            /** Reserved */
+            reserved: number;
+            /** Remaining */
+            remaining: number;
+        };
         /** Analysis */
         Analysis: {
             /** Score */
@@ -294,6 +407,18 @@ export interface components {
             question_id: string;
             /** Text */
             text: string;
+            /** Transcription Id */
+            transcription_id?: string | null;
+        };
+        /** Body_transcribe_api_v1_interviews__resource__transcriptions_post */
+        Body_transcribe_api_v1_interviews__resource__transcriptions_post: {
+            /**
+             * Question Id
+             * Format: uuid
+             */
+            question_id: string;
+            /** File */
+            file: string;
         };
         /** Body_upload_api_v1_resumes_post */
         Body_upload_api_v1_resumes_post: {
@@ -305,29 +430,68 @@ export interface components {
              */
             target_role: string;
         };
+        /** Body_vision_check_api_v1_interviews__resource__vision_checks_post */
+        Body_vision_check_api_v1_interviews__resource__vision_checks_post: {
+            /**
+             * Observed At
+             * Format: date-time
+             */
+            observed_at: string;
+            /** File */
+            file: string;
+        };
         /** Capabilities */
         Capabilities: {
-            /**
-             * Plan
-             * @enum {string}
-             */
-            plan: "free" | "pro";
             /** Resumes Remaining */
             resumes_remaining: number;
             /** Interviews Remaining */
             interviews_remaining: number;
+            resume: components["schemas"]["Allowance"];
+            interview: components["schemas"]["Allowance"];
             /**
-             * Coding
-             * @default false
+             * Server Time
+             * Format: date-time
+             */
+            server_time: string;
+            /** Window Started At */
+            window_started_at: string | null;
+            /** Reset At */
+            reset_at: string | null;
+            /** Window Hours */
+            window_hours: number;
+        };
+        /** DeviceCheck */
+        DeviceCheck: {
+            /**
+             * Camera
              * @constant
              */
-            coding: false;
+            camera: true;
             /**
-             * Paid Checkout
-             * @default false
+             * Microphone
              * @constant
              */
-            paid_checkout: false;
+            microphone: true;
+            /**
+             * Detector
+             * @constant
+             */
+            detector: true;
+            /**
+             * Audio Test
+             * @constant
+             */
+            audio_test: true;
+            /**
+             * Consent
+             * @constant
+             */
+            consent: true;
+            /**
+             * Phone Vision
+             * @default false
+             */
+            phone_vision: boolean;
         };
         /** Dimension */
         Dimension: {
@@ -338,6 +502,7 @@ export interface components {
         };
         /** ErrorDetail */
         ErrorDetail: {
+            quota?: components["schemas"]["Capabilities"] | null;
             /** Code */
             code: string;
             /** Message */
@@ -361,6 +526,33 @@ export interface components {
             /** Url */
             url: string;
         };
+        /** IntegritySummary */
+        IntegritySummary: {
+            /** Configuration */
+            configuration: {
+                [key: string]: unknown;
+            };
+            /** Device Check */
+            device_check: {
+                [key: string]: unknown;
+            } | null;
+            /** Events */
+            events: components["schemas"]["ObservationView"][];
+            /** Gaps */
+            gaps: number;
+            /**
+             * Observed Ms
+             * @default 0
+             */
+            observed_ms: number;
+            /**
+             * Client Reported
+             * @default true
+             * @constant
+             */
+            client_reported: true;
+            vision?: components["schemas"]["VisionSummary"] | null;
+        };
         /** InterviewCreate */
         InterviewCreate: {
             /** Role */
@@ -382,10 +574,10 @@ export interface components {
             duration: 10 | 15 | 20 | 30 | 45 | 60;
             /**
              * Mode
-             * @default Text
-             * @constant
+             * @default Spoken
+             * @enum {string}
              */
-            mode: "Text";
+            mode: "Text" | "Spoken";
             /**
              * Language
              * @default JavaScript
@@ -415,6 +607,17 @@ export interface components {
             /** Questions */
             questions: components["schemas"]["QuestionView"][];
             report: components["schemas"]["Report"] | null;
+            /** Device Check */
+            device_check?: {
+                [key: string]: unknown;
+            } | null;
+            /** Observation Config */
+            observation_config?: {
+                [key: string]: unknown;
+            };
+            integrity?: components["schemas"]["IntegritySummary"] | null;
+            /** Transcriptions */
+            transcriptions?: components["schemas"]["TranscriptionView"][];
         };
         /** JobView */
         JobView: {
@@ -442,6 +645,76 @@ export interface components {
              */
             created_at: string;
         };
+        /** ObservationBatch */
+        ObservationBatch: {
+            /** Events */
+            events: components["schemas"]["ObservationInput"][];
+        };
+        /** ObservationInput */
+        ObservationInput: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Episode Id
+             * Format: uuid
+             */
+            episode_id: string;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "no_face" | "multiple_faces" | "camera_unavailable" | "microphone_unavailable" | "tab_hidden" | "focus_lost" | "detection_unavailable" | "coverage_gap";
+            /**
+             * Phase
+             * @enum {string}
+             */
+            phase: "start" | "recovered";
+            /**
+             * Observed At
+             * Format: date-time
+             */
+            observed_at: string;
+            /** Duration Ms */
+            duration_ms?: number | null;
+        };
+        /** ObservationView */
+        ObservationView: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Episode Id
+             * Format: uuid
+             */
+            episode_id: string;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "no_face" | "multiple_faces" | "camera_unavailable" | "microphone_unavailable" | "tab_hidden" | "focus_lost" | "detection_unavailable" | "coverage_gap";
+            /**
+             * Phase
+             * @enum {string}
+             */
+            phase: "start" | "recovered";
+            /**
+             * Observed At
+             * Format: date-time
+             */
+            observed_at: string;
+            /** Duration Ms */
+            duration_ms?: number | null;
+            /**
+             * Received At
+             * Format: date-time
+             */
+            received_at: string;
+        };
         /** ProfileInput */
         ProfileInput: {
             /** Name */
@@ -468,10 +741,10 @@ export interface components {
             default_type: "Technical" | "HR" | "Behavioral" | "Mixed";
             /**
              * Default Mode
-             * @default Text
-             * @constant
+             * @default Spoken
+             * @enum {string}
              */
-            default_mode: "Text";
+            default_mode: "Text" | "Spoken";
         };
         /** QuestionFeedback */
         QuestionFeedback: {
@@ -484,6 +757,18 @@ export interface components {
             score: number;
             /** Feedback */
             feedback: string;
+            rubric?: components["schemas"]["QuestionRubric"] | null;
+            /** Evidence */
+            evidence?: string | null;
+        };
+        /** QuestionRubric */
+        QuestionRubric: {
+            /** Correctness Relevance */
+            correctness_relevance: number;
+            /** Reasoning Evidence */
+            reasoning_evidence: number;
+            /** Clarity Structure */
+            clarity_structure: number;
         };
         /** QuestionView */
         QuestionView: {
@@ -501,6 +786,15 @@ export interface components {
             /** Answer */
             answer: string | null;
             response: components["schemas"]["Response"] | null;
+            /** Modality */
+            modality?: string | null;
+            /** Original Transcript */
+            original_transcript?: string | null;
+            /**
+             * User Corrected
+             * @default false
+             */
+            user_corrected: boolean;
         };
         /** Report */
         Report: {
@@ -516,6 +810,15 @@ export interface components {
             recommendations: string[];
             /** Questions */
             questions: components["schemas"]["QuestionFeedback"][];
+            /**
+             * Rubric Version
+             * @default text-v1
+             */
+            rubric_version: string;
+            /** Answered */
+            answered?: number | null;
+            /** Total Questions */
+            total_questions?: number | null;
         };
         /** Response */
         Response: {
@@ -543,6 +846,116 @@ export interface components {
              */
             created_at: string;
             analysis: components["schemas"]["Analysis"] | null;
+        };
+        /** TranscriptionView */
+        TranscriptionView: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Question Id
+             * Format: uuid
+             */
+            question_id: string;
+            /** Status */
+            status: string;
+            /** Original Text */
+            original_text: string | null;
+            /** Error */
+            error: string | null;
+            /** Duration Seconds */
+            duration_seconds: number;
+            /** Model */
+            model: string;
+        };
+        /** VisionCheckView */
+        VisionCheckView: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "processing" | "completed" | "unavailable";
+            /** Result */
+            result: ("visible" | "not_visible" | "uncertain") | null;
+            /** Model */
+            model: string;
+            /**
+             * Observed At
+             * Format: date-time
+             */
+            observed_at: string;
+            /**
+             * Received At
+             * Format: date-time
+             */
+            received_at: string;
+            /** Checked At */
+            checked_at: string | null;
+            /** Error Code */
+            error_code: string | null;
+            /** Episode Id */
+            episode_id: string | null;
+            /** Phase */
+            phase: ("start" | "recovered") | null;
+        };
+        /** VisionConsent */
+        VisionConsent: {
+            /** Enabled */
+            enabled: boolean;
+        };
+        /** VisionState */
+        VisionState: {
+            /** Available */
+            available: boolean;
+            /** Enabled */
+            enabled: boolean;
+            /** Model */
+            model: string;
+            /** Interval Seconds */
+            interval_seconds: number;
+            /** Audit Seconds */
+            audit_seconds: number;
+            /** Checks */
+            checks: number;
+            /** Limit */
+            limit: number;
+            /** Retry After */
+            retry_after: number;
+            /** Warning Active */
+            warning_active: boolean;
+            latest: components["schemas"]["VisionCheckView"] | null;
+        };
+        /** VisionSummary */
+        VisionSummary: {
+            /**
+             * Provider
+             * @default Groq
+             * @constant
+             */
+            provider: "Groq";
+            /** Model */
+            model: string;
+            /** Consented */
+            consented: boolean;
+            /** Checks */
+            checks: number;
+            /** Unavailable */
+            unavailable: number;
+            /** Uncertain */
+            uncertain: number;
+            /** Visible */
+            visible: number;
+            /** Episodes */
+            episodes: number;
+            /** Samples */
+            samples: components["schemas"]["VisionCheckView"][];
         };
         /** Workspace */
         Workspace: {
@@ -1376,7 +1789,10 @@ export interface operations {
     };
     complete_api_v1_interviews__resource__complete_post: {
         parameters: {
-            query?: never;
+            query?: {
+                observation_gaps?: number;
+                observed_ms?: number;
+            };
             header?: never;
             path: {
                 resource: string;
@@ -1392,6 +1808,486 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["InterviewView"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    device_check_api_v1_interviews__resource__device_check_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                resource: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeviceCheck"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["InterviewView"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    observation_events_api_v1_interviews__resource__observations_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                resource: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ObservationBatch"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    vision_state_api_v1_interviews__resource__vision_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                resource: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VisionState"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    vision_consent_api_v1_interviews__resource__vision_consent_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                resource: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VisionConsent"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VisionState"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    vision_check_api_v1_interviews__resource__vision_checks_post: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                resource: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["Body_vision_check_api_v1_interviews__resource__vision_checks_post"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VisionState"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    transcribe_api_v1_interviews__resource__transcriptions_post: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                resource: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["Body_transcribe_api_v1_interviews__resource__transcriptions_post"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TranscriptionView"];
                 };
             };
             /** @description Unauthorized */

@@ -19,7 +19,6 @@ const routes = [
   "/dashboard/interview",
   "/dashboard/interview/setup",
   "/dashboard/analytics",
-  "/dashboard/coding",
   "/dashboard/suggestions",
   "/dashboard/settings",
   "/dashboard/interview/sample-frontend/report",
@@ -302,12 +301,6 @@ test("resume file validation, simulated analysis, history persistence, and impro
     page.getByRole("cell", { name: /sample-resume.pdf/ }),
   ).toBeVisible();
   await page.goto("/dashboard/resume/improve");
-  await page
-    .getByRole("button", { name: "Upgrade to Pro", exact: true })
-    .click();
-  await page
-    .getByRole("button", { name: "Enable Pro demo", exact: true })
-    .click();
   await page.getByRole("button", { name: "Show sample improvement" }).click();
   await expect(
     page.getByText(/Designed and built a React application/),
@@ -373,8 +366,10 @@ test("mobile routes fit the viewport and navigation drawer works", async ({
   }
   await page.goto("/dashboard");
   await page.getByRole("button", { name: "Open navigation" }).click();
-  await page.getByRole("link", { name: "Coding Rounds", exact: true }).click();
-  await expect(page).toHaveURL(/\/dashboard\/coding$/);
+  await page
+    .getByRole("link", { name: "Suggestions & Advice", exact: true })
+    .click();
+  await expect(page).toHaveURL(/\/dashboard\/suggestions$/);
 });
 
 test("unknown sessions and malformed stored state recover gracefully", async ({

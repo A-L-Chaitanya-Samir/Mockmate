@@ -1,8 +1,8 @@
 # Complete locked dependency inventory
 
-Source: `package-lock.json`, reviewed 8 November 2026. See `project-overview-and-architecture.md` for the role of every direct dependency.
+Source: `package-lock.json`, reviewed 10 November 2026. Current scope: `project-overview-and-architecture.md`.
 
-28 direct dependencies; 533 non-root package entries. Entries include nested versions and optional packages for other operating systems. They are the locked graph, not a claim that every entry is installed on this Windows host.
+35 direct dependencies; 595 non-root package entries. Entries include nested versions and optional packages for other operating systems. They are the locked graph, not a claim that every entry is installed on this Windows host.
 
 Flags: direct = declared in package.json; development = lockfile dev flag; optional = lockfile optional flag. Dependency roles for transitive entries are determined by their parent packages, rather than by direct application imports.
 
@@ -39,6 +39,26 @@ Flags: direct = declared in package.json; development = lockfile dev flag; optio
 - **@babel/traverse 7.29.13** — transitive, development. Path: `node_modules/@babel/traverse`
 
 - **@babel/types 7.29.11** — transitive, development. Path: `node_modules/@babel/types`
+
+- **@ecies/ciphers 0.2.6** — transitive, development. Path: `node_modules/@ecies/ciphers`
+
+- **@electric-sql/pglite 0.5.15** — direct, development. Path: `node_modules/@electric-sql/pglite`
+
+- **@electric-sql/pglite-age 0.0.16** — transitive, development. Path: `node_modules/@electric-sql/pglite-age`
+
+- **@electric-sql/pglite-pg_hashids 0.0.16** — transitive, development. Path: `node_modules/@electric-sql/pglite-pg_hashids`
+
+- **@electric-sql/pglite-pg_ivm 0.0.16** — transitive, development. Path: `node_modules/@electric-sql/pglite-pg_ivm`
+
+- **@electric-sql/pglite-pg_textsearch 0.0.17** — transitive, development. Path: `node_modules/@electric-sql/pglite-pg_textsearch`
+
+- **@electric-sql/pglite-pg_uuidv7 0.0.16** — transitive, development. Path: `node_modules/@electric-sql/pglite-pg_uuidv7`
+
+- **@electric-sql/pglite-pgtap 0.0.16** — transitive, development. Path: `node_modules/@electric-sql/pglite-pgtap`
+
+- **@electric-sql/pglite-pgvector 0.0.16** — transitive, development. Path: `node_modules/@electric-sql/pglite-pgvector`
+
+- **@electric-sql/pglite-socket 0.2.18** — direct, development. Path: `node_modules/@electric-sql/pglite-socket`
 
 - **@emnapi/core 1.11.3** — transitive, development, optional. Path: `node_modules/@tailwindcss/oxide-wasm32-wasi/node_modules/@emnapi/core`
 
@@ -152,6 +172,8 @@ Flags: direct = declared in package.json; development = lockfile dev flag; optio
 
 - **@jridgewell/trace-mapping 0.3.31** — transitive, development. Path: `node_modules/@jridgewell/trace-mapping`
 
+- **@mediapipe/tasks-vision 0.10.32** — direct, not marked dev. Path: `node_modules/@mediapipe/tasks-vision`
+
 - **@napi-rs/wasm-runtime 1.2.2** — transitive, development, optional. Path: `node_modules/@tailwindcss/oxide-wasm32-wasi/node_modules/@napi-rs/wasm-runtime`
 
 - **@next/env 16.4.5** — transitive, not marked dev. Path: `node_modules/@next/env`
@@ -173,6 +195,12 @@ Flags: direct = declared in package.json; development = lockfile dev flag; optio
 - **@next/swc-win32-arm64-msvc 16.4.5** — transitive, not marked dev, optional. Path: `node_modules/@next/swc-win32-arm64-msvc`
 
 - **@next/swc-win32-x64-msvc 16.4.5** — transitive, not marked dev, optional. Path: `node_modules/@next/swc-win32-x64-msvc`
+
+- **@noble/ciphers 1.3.0** — transitive, development. Path: `node_modules/@noble/ciphers`
+
+- **@noble/curves 1.9.7** — transitive, development. Path: `node_modules/@noble/curves`
+
+- **@noble/hashes 1.8.0** — transitive, development. Path: `node_modules/@noble/hashes`
 
 - **@nodelib/fs.scandir 2.1.5** — transitive, development. Path: `node_modules/@nodelib/fs.scandir`
 
@@ -240,6 +268,12 @@ Flags: direct = declared in package.json; development = lockfile dev flag; optio
 
 - **@radix-ui/rect 1.1.3** — transitive, not marked dev. Path: `node_modules/@radix-ui/rect`
 
+- **@redocly/ajv 8.11.2** — transitive, development. Path: `node_modules/@redocly/ajv`
+
+- **@redocly/config 0.22.0** — transitive, development. Path: `node_modules/@redocly/config`
+
+- **@redocly/openapi-core 1.34.24** — transitive, development. Path: `node_modules/@redocly/openapi-core`
+
 - **@reduxjs/toolkit 2.14.0** — transitive, not marked dev. Path: `node_modules/@reduxjs/toolkit`
 
 - **@rtsao/scc 1.1.0** — transitive, development. Path: `node_modules/@rtsao/scc`
@@ -247,6 +281,38 @@ Flags: direct = declared in package.json; development = lockfile dev flag; optio
 - **@standard-schema/spec 1.1.0** — transitive, not marked dev. Path: `node_modules/@standard-schema/spec`
 
 - **@standard-schema/utils 0.3.0** — transitive, not marked dev. Path: `node_modules/@standard-schema/utils`
+
+- **@supabase/auth-js 2.119.0** — transitive, not marked dev. Path: `node_modules/@supabase/auth-js`
+
+- **@supabase/cli-darwin-arm64 3.0.0** — transitive, development, optional. Path: `node_modules/@supabase/cli-darwin-arm64`
+
+- **@supabase/cli-darwin-x64 3.0.0** — transitive, development, optional. Path: `node_modules/@supabase/cli-darwin-x64`
+
+- **@supabase/cli-linux-arm64 3.0.0** — transitive, development, optional. Path: `node_modules/@supabase/cli-linux-arm64`
+
+- **@supabase/cli-linux-arm64-musl 3.0.0** — transitive, development, optional. Path: `node_modules/@supabase/cli-linux-arm64-musl`
+
+- **@supabase/cli-linux-x64 3.0.0** — transitive, development, optional. Path: `node_modules/@supabase/cli-linux-x64`
+
+- **@supabase/cli-linux-x64-musl 3.0.0** — transitive, development, optional. Path: `node_modules/@supabase/cli-linux-x64-musl`
+
+- **@supabase/cli-windows-arm64 3.0.0** — transitive, development, optional. Path: `node_modules/@supabase/cli-windows-arm64`
+
+- **@supabase/cli-windows-x64 3.0.0** — transitive, development, optional. Path: `node_modules/@supabase/cli-windows-x64`
+
+- **@supabase/functions-js 2.119.0** — transitive, not marked dev. Path: `node_modules/@supabase/functions-js`
+
+- **@supabase/phoenix 0.4.5** — transitive, not marked dev. Path: `node_modules/@supabase/phoenix`
+
+- **@supabase/postgrest-js 2.119.0** — transitive, not marked dev. Path: `node_modules/@supabase/postgrest-js`
+
+- **@supabase/realtime-js 2.119.0** — transitive, not marked dev. Path: `node_modules/@supabase/realtime-js`
+
+- **@supabase/ssr 0.12.7** — direct, not marked dev. Path: `node_modules/@supabase/ssr`
+
+- **@supabase/storage-js 2.119.0** — transitive, not marked dev. Path: `node_modules/@supabase/storage-js`
+
+- **@supabase/supabase-js 2.119.0** — direct, not marked dev. Path: `node_modules/@supabase/supabase-js`
 
 - **@swc/helpers 0.5.23** — transitive, not marked dev. Path: `node_modules/@swc/helpers`
 
@@ -380,9 +446,13 @@ Flags: direct = declared in package.json; development = lockfile dev flag; optio
 
 - **acorn-jsx 5.3.2** — transitive, development. Path: `node_modules/acorn-jsx`
 
+- **agent-base 7.1.4** — transitive, development. Path: `node_modules/agent-base`
+
 - **ajv 6.15.0** — transitive, development. Path: `node_modules/@eslint/eslintrc/node_modules/ajv`
 
 - **ajv 6.15.0** — transitive, development. Path: `node_modules/eslint/node_modules/ajv`
+
+- **ansi-colors 4.1.3** — transitive, development. Path: `node_modules/ansi-colors`
 
 - **ansi-styles 4.3.0** — transitive, development. Path: `node_modules/ansi-styles`
 
@@ -424,6 +494,8 @@ Flags: direct = declared in package.json; development = lockfile dev flag; optio
 
 - **baseline-browser-mapping 2.11.35** — transitive, not marked dev. Path: `node_modules/baseline-browser-mapping`
 
+- **brace-expansion 2.1.7** — transitive, development. Path: `node_modules/@redocly/openapi-core/node_modules/brace-expansion`
+
 - **brace-expansion 5.0.12** — transitive, development. Path: `node_modules/@typescript-eslint/typescript-estree/node_modules/brace-expansion`
 
 - **brace-expansion 1.1.21** — transitive, development. Path: `node_modules/brace-expansion`
@@ -444,6 +516,8 @@ Flags: direct = declared in package.json; development = lockfile dev flag; optio
 
 - **chalk 4.1.2** — transitive, development. Path: `node_modules/chalk`
 
+- **change-case 5.4.4** — transitive, development. Path: `node_modules/change-case`
+
 - **class-variance-authority 0.7.1** — direct, not marked dev. Path: `node_modules/class-variance-authority`
 
 - **client-only 0.0.1** — transitive, not marked dev. Path: `node_modules/client-only`
@@ -454,9 +528,13 @@ Flags: direct = declared in package.json; development = lockfile dev flag; optio
 
 - **color-name 1.1.4** — transitive, development. Path: `node_modules/color-name`
 
+- **colorette 1.4.0** — transitive, development. Path: `node_modules/colorette`
+
 - **concat-map 0.0.1** — transitive, development. Path: `node_modules/concat-map`
 
 - **convert-source-map 2.0.0** — transitive, development. Path: `node_modules/convert-source-map`
+
+- **cookie 1.1.1** — transitive, not marked dev. Path: `node_modules/cookie`
 
 - **cross-spawn 7.0.6** — transitive, development. Path: `node_modules/cross-spawn`
 
@@ -515,6 +593,8 @@ Flags: direct = declared in package.json; development = lockfile dev flag; optio
 - **doctrine 2.1.0** — transitive, development. Path: `node_modules/doctrine`
 
 - **dunder-proto 1.0.1** — transitive, development. Path: `node_modules/dunder-proto`
+
+- **eciesjs 0.5.0** — transitive, development. Path: `node_modules/eciesjs`
 
 - **electron-to-chromium 1.5.478** — transitive, development. Path: `node_modules/electron-to-chromium`
 
@@ -662,6 +742,10 @@ Flags: direct = declared in package.json; development = lockfile dev flag; optio
 
 - **hermes-parser 0.25.1** — transitive, development. Path: `node_modules/hermes-parser`
 
+- **https-proxy-agent 7.0.6** — transitive, development. Path: `node_modules/https-proxy-agent`
+
+- **iceberg-js 0.8.1** — transitive, not marked dev. Path: `node_modules/iceberg-js`
+
 - **ignore 7.0.14** — transitive, development. Path: `node_modules/@typescript-eslint/eslint-plugin/node_modules/ignore`
 
 - **ignore 5.3.2** — transitive, development. Path: `node_modules/ignore`
@@ -671,6 +755,8 @@ Flags: direct = declared in package.json; development = lockfile dev flag; optio
 - **import-fresh 3.3.1** — transitive, development. Path: `node_modules/import-fresh`
 
 - **imurmurhash 0.1.4** — transitive, development. Path: `node_modules/imurmurhash`
+
+- **index-to-position 1.2.0** — transitive, development. Path: `node_modules/index-to-position`
 
 - **internal-slot 1.1.0** — transitive, development. Path: `node_modules/internal-slot`
 
@@ -738,6 +824,10 @@ Flags: direct = declared in package.json; development = lockfile dev flag; optio
 
 - **jiti 2.7.0** — transitive, development. Path: `node_modules/jiti`
 
+- **jose 6.2.16** — transitive, development. Path: `node_modules/jose`
+
+- **js-levenshtein 1.1.6** — transitive, development. Path: `node_modules/js-levenshtein`
+
 - **js-tokens 4.0.0** — transitive, development. Path: `node_modules/js-tokens`
 
 - **js-yaml 4.3.2** — transitive, development. Path: `node_modules/js-yaml`
@@ -749,6 +839,8 @@ Flags: direct = declared in package.json; development = lockfile dev flag; optio
 - **json-schema-traverse 0.4.1** — transitive, development. Path: `node_modules/@eslint/eslintrc/node_modules/json-schema-traverse`
 
 - **json-schema-traverse 0.4.1** — transitive, development. Path: `node_modules/eslint/node_modules/json-schema-traverse`
+
+- **json-schema-traverse 1.0.0** — transitive, development. Path: `node_modules/json-schema-traverse`
 
 - **json-stable-stringify-without-jsonify 1.0.1** — transitive, development. Path: `node_modules/json-stable-stringify-without-jsonify`
 
@@ -808,6 +900,8 @@ Flags: direct = declared in package.json; development = lockfile dev flag; optio
 
 - **micromatch 4.0.8** — transitive, development. Path: `node_modules/micromatch`
 
+- **minimatch 5.1.9** — transitive, development. Path: `node_modules/@redocly/openapi-core/node_modules/minimatch`
+
 - **minimatch 10.2.6** — transitive, development. Path: `node_modules/@typescript-eslint/typescript-estree/node_modules/minimatch`
 
 - **minimatch 3.1.5** — transitive, development. Path: `node_modules/minimatch`
@@ -846,6 +940,8 @@ Flags: direct = declared in package.json; development = lockfile dev flag; optio
 
 - **object.values 1.2.1** — transitive, development. Path: `node_modules/object.values`
 
+- **openapi-typescript 7.13.0** — direct, development. Path: `node_modules/openapi-typescript`
+
 - **optionator 0.9.4** — transitive, development. Path: `node_modules/optionator`
 
 - **own-keys 1.0.2** — transitive, development. Path: `node_modules/own-keys`
@@ -855,6 +951,8 @@ Flags: direct = declared in package.json; development = lockfile dev flag; optio
 - **p-locate 5.0.0** — transitive, development. Path: `node_modules/p-locate`
 
 - **parent-module 1.0.1** — transitive, development. Path: `node_modules/parent-module`
+
+- **parse-json 8.3.0** — transitive, development. Path: `node_modules/parse-json`
 
 - **path-exists 4.0.0** — transitive, development. Path: `node_modules/path-exists`
 
@@ -871,6 +969,8 @@ Flags: direct = declared in package.json; development = lockfile dev flag; optio
 - **playwright 1.65.0** — transitive, not marked dev. Path: `node_modules/playwright`
 
 - **playwright-core 1.65.0** — transitive, not marked dev. Path: `node_modules/playwright-core`
+
+- **pluralize 8.0.0** — transitive, development. Path: `node_modules/pluralize`
 
 - **possible-typed-array-names 1.1.0** — transitive, development. Path: `node_modules/possible-typed-array-names`
 
@@ -915,6 +1015,8 @@ Flags: direct = declared in package.json; development = lockfile dev flag; optio
 - **reflect.getprototypeof 1.0.10** — transitive, development. Path: `node_modules/reflect.getprototypeof`
 
 - **regexp.prototype.flags 1.5.4** — transitive, development. Path: `node_modules/regexp.prototype.flags`
+
+- **require-from-string 2.0.2** — transitive, development. Path: `node_modules/require-from-string`
 
 - **reselect 5.2.0** — transitive, not marked dev. Path: `node_modules/reselect`
 
@@ -994,6 +1096,10 @@ Flags: direct = declared in package.json; development = lockfile dev flag; optio
 
 - **styled-jsx 5.1.6** — transitive, not marked dev. Path: `node_modules/styled-jsx`
 
+- **supabase 3.0.0** — direct, development. Path: `node_modules/supabase`
+
+- **supports-color 10.2.2** — transitive, development. Path: `node_modules/openapi-typescript/node_modules/supports-color`
+
 - **supports-color 7.2.0** — transitive, development. Path: `node_modules/supports-color`
 
 - **supports-preserve-symlinks-flag 1.0.0** — transitive, development. Path: `node_modules/supports-preserve-symlinks-flag`
@@ -1014,11 +1120,23 @@ Flags: direct = declared in package.json; development = lockfile dev flag; optio
 
 - **tsconfig-paths 3.15.0** — transitive, development. Path: `node_modules/tsconfig-paths`
 
+- **tslib 2.8.1** — transitive, not marked dev. Path: `node_modules/@supabase/auth-js/node_modules/tslib`
+
+- **tslib 2.8.1** — transitive, not marked dev. Path: `node_modules/@supabase/functions-js/node_modules/tslib`
+
+- **tslib 2.8.1** — transitive, not marked dev. Path: `node_modules/@supabase/postgrest-js/node_modules/tslib`
+
+- **tslib 2.8.1** — transitive, not marked dev. Path: `node_modules/@supabase/realtime-js/node_modules/tslib`
+
+- **tslib 2.8.1** — transitive, not marked dev. Path: `node_modules/@supabase/storage-js/node_modules/tslib`
+
 - **tslib 2.8.1** — transitive, development, optional. Path: `node_modules/@tailwindcss/oxide-wasm32-wasi/node_modules/tslib`
 
 - **tslib 2.9.1** — transitive, not marked dev. Path: `node_modules/tslib`
 
 - **type-check 0.4.0** — transitive, development. Path: `node_modules/type-check`
+
+- **type-fest 4.41.0** — transitive, development. Path: `node_modules/type-fest`
 
 - **typed-array-buffer 1.0.3** — transitive, development. Path: `node_modules/typed-array-buffer`
 
@@ -1028,7 +1146,7 @@ Flags: direct = declared in package.json; development = lockfile dev flag; optio
 
 - **typed-array-length 1.0.8** — transitive, development. Path: `node_modules/typed-array-length`
 
-- **typescript 6.0.3** — direct, development. Path: `node_modules/typescript`
+- **typescript 5.9.3** — direct, development. Path: `node_modules/typescript`
 
 - **typescript-eslint 8.72.1** — transitive, development. Path: `node_modules/typescript-eslint`
 
@@ -1041,6 +1159,8 @@ Flags: direct = declared in package.json; development = lockfile dev flag; optio
 - **update-browserslist-db 1.3.4** — transitive, development. Path: `node_modules/update-browserslist-db`
 
 - **uri-js 4.4.1** — transitive, development. Path: `node_modules/uri-js`
+
+- **uri-js-replace 1.0.2** — transitive, development. Path: `node_modules/uri-js-replace`
 
 - **use-callback-ref 1.3.3** — transitive, not marked dev. Path: `node_modules/use-callback-ref`
 
@@ -1063,6 +1183,10 @@ Flags: direct = declared in package.json; development = lockfile dev flag; optio
 - **word-wrap 1.2.5** — transitive, development. Path: `node_modules/word-wrap`
 
 - **yallist 3.1.1** — transitive, development. Path: `node_modules/yallist`
+
+- **yaml-ast-parser 0.0.43** — transitive, development. Path: `node_modules/yaml-ast-parser`
+
+- **yargs-parser 21.1.1** — transitive, development. Path: `node_modules/yargs-parser`
 
 - **yocto-queue 0.1.0** — transitive, development. Path: `node_modules/yocto-queue`
 

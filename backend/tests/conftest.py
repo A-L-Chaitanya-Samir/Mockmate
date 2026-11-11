@@ -15,6 +15,7 @@ def db():
     settings().database_url = os.environ['TEST_DATABASE_URL']
     with transaction() as conn:
         conn.execute('TRUNCATE auth.users CASCADE')
+        conn.execute("UPDATE vision_provider_limits SET blocked_until=NULL,requests='{}'")
     yield
 
 

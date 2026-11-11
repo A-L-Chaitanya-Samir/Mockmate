@@ -10,6 +10,8 @@ export default defineConfig([
     "playwright-report/**",
     "test-results/**",
     "backend/.venv/**",
+    ".test-deps/**",
+    "public/mediapipe/runtime/**",
     "docs/build-project-reference.cjs",
   ]),
 ]);

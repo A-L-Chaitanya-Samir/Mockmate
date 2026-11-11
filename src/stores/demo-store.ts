@@ -2,15 +2,13 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { z } from "zod";
+import { sessionSchema, resumeSchema, summarySchema } from "@/lib/validation";
 import {
-  sessionSchema,
-  resumeSchema,
-  summarySchema,
-  codingRoundSchema,
-} from "@/lib/validation";
-import { hasFeature, interviewAllowance, type PlanId } from "@/config/plans";
-import { codingConfig } from "@/config/coding";
-import type { CodingRound, IntegrityEvent } from "@/types/coding";
+  interviewAllowance,
+  currentDemoUsage,
+  emptyUsage,
+  type DemoUsage,
+} from "@/config/usage";
 import { demoStorage } from "@/lib/demo-storage";
 import { seedHistory } from "@/data/mock-data";
 import type {
@@ -21,27 +19,24 @@ import type {
   InterviewSummary,
 } from "@/types";
 interface DemoState {
+  usage: DemoUsage;
   authenticated: boolean;
   profile: Profile;
   preferences: Preferences;
   sessions: InterviewSession[];
   resumes: ResumeRecord[];
   history: InterviewSummary[];
-  plan: PlanId;
-  codingRounds: CodingRound[];
-  setPlan: (plan: PlanId) => void;
   beginInterview: (session: InterviewSession) => boolean;
-  saveCodingRound: (round: CodingRound) => void;
-  recordIntegrityEvent: (roundId: string, event: IntegrityEvent) => void;
   login: (profile: Profile) => void;
   logout: () => void;
   saveProfile: (profile: Profile) => void;
   savePreferences: (preferences: Preferences) => void;
   saveSession: (session: InterviewSession) => void;
-  addResume: (resume: ResumeRecord) => void;
+  addResume: (resume: ResumeRecord) => boolean;
   reset: () => void;
 }
 const initial = {
+  usage: emptyUsage,
   authenticated: false,
   profile: {
     name: "Alex Morgan",
@@ -57,8 +52,6 @@ const initial = {
   sessions: [],
   resumes: [],
   history: seedHistory,
-  plan: "free" as PlanId,
-  codingRounds: [],
 };
 // Persist only demo profile/preferences and text practice data. Never passwords or media.
 export const useDemoStore = create<DemoState>()(
@@ -69,39 +62,21 @@ export const useDemoStore = create<DemoState>()(
       logout: () => set({ authenticated: false }),
       saveProfile: (profile) => set({ profile }),
       savePreferences: (preferences) => set({ preferences }),
-      setPlan: (plan) => set({ plan }),
       beginInterview: (session) => {
         const state = get();
-        if (!interviewAllowance(state.plan, state.sessions.length).canStart)
-          return false;
-        set({ sessions: [session, ...state.sessions] });
+        const usage = currentDemoUsage(state.usage);
+        if (state.sessions.some((s) => s.id === session.id)) return true;
+        if (!interviewAllowance(usage.interviews).canStart) return false;
+        set({
+          sessions: [session, ...state.sessions],
+          usage: {
+            ...usage,
+            startedAt: usage.startedAt ?? Date.now(),
+            interviews: usage.interviews + 1,
+          },
+        });
         return true;
       },
-      saveCodingRound: (round) =>
-        set((state) =>
-          hasFeature(state.plan, "codingRounds")
-            ? {
-                codingRounds: [
-                  round,
-                  ...state.codingRounds.filter((r) => r.id !== round.id),
-                ],
-              }
-            : state,
-        ),
-      recordIntegrityEvent: (roundId, event) =>
-        set((state) => ({
-          codingRounds: state.codingRounds.map((round) =>
-            round.id === roundId && round.status === "active"
-              ? {
-                  ...round,
-                  eventCount: round.eventCount + 1,
-                  events: [...round.events, event].slice(
-                    -codingConfig.maxStoredEvents,
-                  ),
-                }
-              : round,
-          ),
-        })),
       saveSession: (session) =>
         set((state) => ({
           sessions: [
@@ -123,8 +98,21 @@ export const useDemoStore = create<DemoState>()(
                 ]
               : state.history,
         })),
-      addResume: (resume) =>
-        set((state) => ({ resumes: [resume, ...state.resumes] })),
+      addResume: (resume) => {
+        const state = get(),
+          usage = currentDemoUsage(state.usage);
+        if (state.resumes.some((r) => r.id === resume.id)) return true;
+        if (usage.resumes >= 10) return false;
+        set({
+          resumes: [resume, ...state.resumes],
+          usage: {
+            ...usage,
+            startedAt: usage.startedAt ?? Date.now(),
+            resumes: usage.resumes + 1,
+          },
+        });
+        return true;
+      },
       reset: () => set(initial),
     }),
     {
@@ -132,10 +120,38 @@ export const useDemoStore = create<DemoState>()(
       version: 1,
       storage: createJSONStorage(() => demoStorage),
       skipHydration: true,
+      partialize: ({
+        usage,
+        authenticated,
+        profile,
+        preferences,
+        sessions,
+        resumes,
+        history,
+      }) => ({
+        usage,
+        authenticated,
+        profile,
+        preferences,
+        sessions,
+        resumes,
+        history,
+      }),
+      onRehydrateStorage: () => (state) => {
+        // Rewrite old saves with the validated retained fields, even before an edit.
+        if (state) state.savePreferences(state.preferences);
+      },
       merge: (persisted, current) => {
         // A corrupt or outdated browser value must never crash the application.
         const parsed = z
           .object({
+            usage: z
+              .object({
+                startedAt: z.number().nullable(),
+                resumes: z.number().int().nonnegative(),
+                interviews: z.number().int().nonnegative(),
+              })
+              .catch(emptyUsage),
             authenticated: z.boolean(),
             profile: z.object({
               name: z.string(),
@@ -148,10 +164,7 @@ export const useDemoStore = create<DemoState>()(
               defaultType: z.enum(["Technical", "HR", "Behavioral", "Mixed"]),
               defaultMode: z.enum(["Text", "Voice", "Video"]),
             }),
-            // Additive migration: preserve existing v1 profiles and interviews.
-            // Zod strips the retired learning-progress property from old saves.
-            plan: z.enum(["free", "pro"]).catch("free"),
-            codingRounds: z.array(codingRoundSchema).catch([]),
+            // Zod strips retired properties while preserving existing records.
             sessions: z.array(sessionSchema).catch([]),
             resumes: z.array(resumeSchema).catch([]),
             history: z.array(summarySchema).catch(seedHistory),

@@ -2,7 +2,7 @@ import hashlib
 from datetime import datetime, timezone
 from typing import Annotated
 from uuid import UUID, uuid4
-from fastapi import APIRouter, Depends, File, Form, Header, UploadFile
+from fastapi import APIRouter, Depends, File, Form, Header, UploadFile, Query
 from psycopg.types.json import Jsonb
 from app.core.auth import identity
 from app.core.config import settings
@@ -11,8 +11,11 @@ from app.core.errors import AppError
 from app.integrations.pdf import extract_pdf
 from app.integrations.storage import Storage
 from app.modules import service
+from app.modules import observations
+from app.modules import vision
+from app.integrations.speech import validate_audio
 from app.modules.schemas import (Workspace, ProfileInput, ResumeView, InterviewView, InterviewCreate,
-    AnswerInput, JobView, FileLink, Capabilities, ErrorResponse)
+    AnswerInput, JobView, FileLink, Capabilities, ErrorResponse, DeviceCheck, ObservationBatch, TranscriptionView, VisionState, VisionConsent)
 
 router = APIRouter(prefix='/api/v1', responses={401: {'model': ErrorResponse}, 404: {'model': ErrorResponse}, 409: {'model': ErrorResponse}, 422: {'model': ErrorResponse}, 429: {'model': ErrorResponse}, 503: {'model': ErrorResponse}})
 User = Annotated[UUID, Depends(identity)]
@@ -82,6 +85,7 @@ def delete_resume(resource: UUID, user: User):
         owned(conn, 'resumes', resource, user, True)
         conn.execute("UPDATE resumes SET status='deleting',pdf_bytes=NULL WHERE id=%s AND user_id=%s", (resource, user))
         conn.execute("UPDATE jobs SET status='cancelled',lease_token=NULL WHERE user_id=%s AND resource_id=%s AND kind='resume' AND status IN ('queued','running','failed')", (user, resource))
+        service.settle(conn, user, resource, 'released')  # Only pending initial work can be refunded.
         return enqueue(conn, user, 'delete_resume', resource, f'delete:{resource}')
 
 
@@ -109,9 +113,79 @@ def answer(resource: UUID, data: AnswerInput, user: User, key: Key):
 
 
 @router.post('/interviews/{resource}/complete', status_code=202, response_model=InterviewView)
-def complete(resource: UUID, user: User):
+def complete(resource: UUID, user: User, observation_gaps: int = Query(default=0, ge=0, le=10000), observed_ms: int = Query(default=0, ge=0, le=3600000)):
     with transaction() as conn:
-        return service.complete(conn, user, resource)
+        return service.complete(conn, user, resource, observation_gaps, observed_ms)
+
+
+@router.post('/interviews/{resource}/device-check', response_model=InterviewView)
+def device_check(resource: UUID, data: DeviceCheck, user: User):
+    with transaction() as conn:
+        observations.check_devices(conn, user, resource, data)
+        return service.interview_view(conn, owned(conn, 'interview_sessions', resource, user))
+
+
+@router.post('/interviews/{resource}/observations')
+def observation_events(resource: UUID, data: ObservationBatch, user: User):
+    with transaction() as conn:
+        observations.ingest(conn, user, resource, data)
+    return {'accepted': True}
+
+
+@router.get('/interviews/{resource}/vision', response_model=VisionState)
+def vision_state(resource: UUID, user: User):
+    with transaction() as conn:
+        return vision.state(conn, owned(conn, 'interview_sessions', resource, user))
+
+
+@router.put('/interviews/{resource}/vision-consent', response_model=VisionState)
+def vision_consent(resource: UUID, data: VisionConsent, user: User):
+    with transaction() as conn:
+        return vision.consent(conn, user, resource, data.enabled)
+
+
+@router.post('/interviews/{resource}/vision-checks', response_model=VisionState)
+def vision_check(resource: UUID, user: User, key: Key, observed_at: datetime = Form(), file: UploadFile = File()):
+    with transaction() as conn:
+        row = owned(conn, 'interview_sessions', resource, user)
+        if not (row['device_check'] or {}).get('phone_vision'):
+            raise AppError(403, 'vision_consent', 'Optional external image checks require your explicit consent.')
+    data = file.file.read(settings().vision_max_image_bytes + 1)
+    return vision.inspect(user, resource, key, data, file.content_type or '', observed_at)
+
+
+@router.post('/interviews/{resource}/transcriptions', status_code=202, response_model=TranscriptionView)
+def transcribe(resource: UUID, user: User, key: Key, question_id: UUID = Form(), file: UploadFile = File()):
+    # Authorize before reading or decoding untrusted media.
+    with transaction() as conn:
+        session = owned(conn, 'interview_sessions', resource, user)
+        question = owned(conn, 'questions', question_id, user)
+        if question['session_id'] != resource:
+            raise AppError(404, 'not_found', 'Question not found.')
+    data = file.file.read(settings().max_audio_bytes + 1)
+    digest = hashlib.sha256(data).hexdigest()
+    with transaction() as conn:
+        session = owned(conn, 'interview_sessions', resource, user, True)
+        previous = conn.execute('SELECT * FROM transcriptions WHERE session_id=%s AND user_id=%s AND idempotency_key=%s', (resource, user, str(key))).fetchone()
+        if previous:
+            if previous['sha256'] != digest or previous['question_id'] != question_id:
+                raise AppError(409, 'idempotency_conflict', 'This key belongs to a different recording.')
+            return {k: previous[k] for k in TranscriptionView.model_fields}
+        if session['config'].get('mode') != 'Spoken' or not session['device_check'] or session['status'] != 'active' or not session['deadline'] or session['deadline'] <= datetime.now(timezone.utc):
+            raise AppError(409, 'session_closed', 'Complete device checks and use an active spoken session before its deadline.')
+        pending = conn.execute('''SELECT q.id FROM questions q LEFT JOIN answers a ON a.question_id=q.id
+            WHERE q.session_id=%s AND a.id IS NULL ORDER BY q.position LIMIT 1''', (resource,)).fetchone()
+        if not pending or pending['id'] != question_id:
+            raise AppError(409, 'turn_order', 'Record the current unanswered question after the interviewer response.')
+        count = conn.execute('SELECT count(*) n FROM transcriptions WHERE session_id=%s', (resource,)).fetchone()['n']
+        if count >= 24:
+            raise AppError(429, 'recording_limit', 'This session has reached its 24-recording allowance.')
+        audio, duration = validate_audio(data, file.content_type or '')
+        record = conn.execute('''INSERT INTO transcriptions(user_id,session_id,question_id,idempotency_key,sha256,audio_bytes,duration_seconds,model)
+            VALUES(%s,%s,%s,%s,%s,%s,%s,%s) RETURNING *''',
+            (user, resource, question_id, str(key), digest, audio, duration, settings().transcription_model)).fetchone()
+        enqueue(conn, user, 'transcribe', resource, f"transcribe:{record['id']}", {'transcription_id': str(record['id'])})
+        return {k: record[k] for k in TranscriptionView.model_fields}
 
 
 @router.get('/jobs', response_model=list[JobView])
@@ -129,9 +203,14 @@ def job(resource: UUID, user: User):
 @router.post('/jobs/{resource}/retry', status_code=202, response_model=JobView)
 def retry_job(resource: UUID, user: User):
     with transaction() as conn:
+        service.capabilities(conn, user)  # Consistent account -> resource -> job lock order.
+        snapshot = owned(conn, 'jobs', resource, user)
+        owned(conn, 'resumes' if snapshot['kind'] in ('resume', 'delete_resume') else 'interview_sessions', snapshot['resource_id'], user, True)
         job = owned(conn, 'jobs', resource, user, True)
         if job['status'] != 'failed':
             return job
+        if job['kind'] == 'transcribe':
+            raise AppError(409, 'audio_removed', 'Temporary audio was removed after retry exhaustion. Re-record your answer in the interview room.')
         if job['kind'] == 'response':
             session = owned(conn, 'interview_sessions', job['resource_id'], user)
             if session['status'] != 'active' or not session['deadline'] or session['deadline'] <= datetime.now(timezone.utc):
@@ -141,10 +220,7 @@ def retry_job(resource: UUID, user: User):
         # Failed initial jobs released their usage; retry must reacquire capacity atomically.
         if job['kind'] in ('resume', 'questions'):
             kind = 'resume' if job['kind'] == 'resume' else 'interview'
-            caps = service.capabilities(conn, user)
-            if caps[f'{kind}s_remaining'] <= 0:
-                raise AppError(429, 'usage_limit', 'Usage allowance reached. Cannot retry yet.')
-            conn.execute("UPDATE usage_reservations SET state='reserved' WHERE user_id=%s AND resource_id=%s AND state='released'", (user, job['resource_id']))
+            service.reacquire(conn, user, kind, job['resource_id'])
         conn.execute("UPDATE jobs SET status='queued',attempts=0,retry_count=retry_count+1,error=NULL,available_at=now(),lease_token=NULL WHERE id=%s AND user_id=%s", (resource, user))
         if job['kind'] == 'resume':
             conn.execute("UPDATE resumes SET status='processing' WHERE id=%s AND user_id=%s AND status!='deleting'", (job['resource_id'], user))

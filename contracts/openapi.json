@@ -1018,6 +1018,30 @@
               "format": "uuid",
               "title": "Resource"
             }
+          },
+          {
+            "name": "observation_gaps",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 10000,
+              "minimum": 0,
+              "default": 0,
+              "title": "Observation Gaps"
+            }
+          },
+          {
+            "name": "observed_ms",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 3600000,
+              "minimum": 0,
+              "default": 0,
+              "title": "Observed Ms"
+            }
           }
         ],
         "responses": {
@@ -1027,6 +1051,644 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/InterviewView"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/interviews/{resource}/device-check": {
+      "post": {
+        "summary": "Device Check",
+        "operationId": "device_check_api_v1_interviews__resource__device_check_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "resource",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Resource"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeviceCheck"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InterviewView"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/interviews/{resource}/observations": {
+      "post": {
+        "summary": "Observation Events",
+        "operationId": "observation_events_api_v1_interviews__resource__observations_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "resource",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Resource"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ObservationBatch"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/interviews/{resource}/vision": {
+      "get": {
+        "summary": "Vision State",
+        "operationId": "vision_state_api_v1_interviews__resource__vision_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "resource",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Resource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VisionState"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/interviews/{resource}/vision-consent": {
+      "put": {
+        "summary": "Vision Consent",
+        "operationId": "vision_consent_api_v1_interviews__resource__vision_consent_put",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "resource",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Resource"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VisionConsent"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VisionState"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/interviews/{resource}/vision-checks": {
+      "post": {
+        "summary": "Vision Check",
+        "operationId": "vision_check_api_v1_interviews__resource__vision_checks_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "resource",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Resource"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Idempotency-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_vision_check_api_v1_interviews__resource__vision_checks_post"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VisionState"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/interviews/{resource}/transcriptions": {
+      "post": {
+        "summary": "Transcribe",
+        "operationId": "transcribe_api_v1_interviews__resource__transcriptions_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "resource",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Resource"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Idempotency-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_transcribe_api_v1_interviews__resource__transcriptions_post"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TranscriptionView"
                 }
               }
             }
@@ -1374,6 +2036,35 @@
   },
   "components": {
     "schemas": {
+      "Allowance": {
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "title": "Limit"
+          },
+          "used": {
+            "type": "integer",
+            "title": "Used"
+          },
+          "reserved": {
+            "type": "integer",
+            "title": "Reserved"
+          },
+          "remaining": {
+            "type": "integer",
+            "title": "Remaining"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "limit",
+          "used",
+          "reserved",
+          "remaining"
+        ],
+        "title": "Allowance"
+      },
       "Analysis": {
         "properties": {
           "score": {
@@ -1477,6 +2168,18 @@
             "maxLength": 2000,
             "minLength": 10,
             "title": "Text"
+          },
+          "transcription_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Transcription Id"
           }
         },
         "additionalProperties": false,
@@ -1486,6 +2189,26 @@
           "text"
         ],
         "title": "AnswerInput"
+      },
+      "Body_transcribe_api_v1_interviews__resource__transcriptions_post": {
+        "properties": {
+          "question_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Question Id"
+          },
+          "file": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream",
+            "title": "File"
+          }
+        },
+        "type": "object",
+        "required": [
+          "question_id",
+          "file"
+        ],
+        "title": "Body_transcribe_api_v1_interviews__resource__transcriptions_post"
       },
       "Body_upload_api_v1_resumes_post": {
         "properties": {
@@ -1507,16 +2230,28 @@
         ],
         "title": "Body_upload_api_v1_resumes_post"
       },
+      "Body_vision_check_api_v1_interviews__resource__vision_checks_post": {
+        "properties": {
+          "observed_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Observed At"
+          },
+          "file": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream",
+            "title": "File"
+          }
+        },
+        "type": "object",
+        "required": [
+          "observed_at",
+          "file"
+        ],
+        "title": "Body_vision_check_api_v1_interviews__resource__vision_checks_post"
+      },
       "Capabilities": {
         "properties": {
-          "plan": {
-            "type": "string",
-            "enum": [
-              "free",
-              "pro"
-            ],
-            "title": "Plan"
-          },
           "resumes_remaining": {
             "type": "integer",
             "title": "Resumes Remaining"
@@ -1525,27 +2260,103 @@
             "type": "integer",
             "title": "Interviews Remaining"
           },
-          "coding": {
-            "type": "boolean",
-            "const": false,
-            "title": "Coding",
-            "default": false
+          "resume": {
+            "$ref": "#/components/schemas/Allowance"
           },
-          "paid_checkout": {
+          "interview": {
+            "$ref": "#/components/schemas/Allowance"
+          },
+          "server_time": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Server Time"
+          },
+          "window_started_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Window Started At"
+          },
+          "reset_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reset At"
+          },
+          "window_hours": {
+            "type": "integer",
+            "title": "Window Hours"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "resumes_remaining",
+          "interviews_remaining",
+          "resume",
+          "interview",
+          "server_time",
+          "window_started_at",
+          "reset_at",
+          "window_hours"
+        ],
+        "title": "Capabilities"
+      },
+      "DeviceCheck": {
+        "properties": {
+          "camera": {
             "type": "boolean",
-            "const": false,
-            "title": "Paid Checkout",
+            "const": true,
+            "title": "Camera"
+          },
+          "microphone": {
+            "type": "boolean",
+            "const": true,
+            "title": "Microphone"
+          },
+          "detector": {
+            "type": "boolean",
+            "const": true,
+            "title": "Detector"
+          },
+          "audio_test": {
+            "type": "boolean",
+            "const": true,
+            "title": "Audio Test"
+          },
+          "consent": {
+            "type": "boolean",
+            "const": true,
+            "title": "Consent"
+          },
+          "phone_vision": {
+            "type": "boolean",
+            "title": "Phone Vision",
             "default": false
           }
         },
         "additionalProperties": false,
         "type": "object",
         "required": [
-          "plan",
-          "resumes_remaining",
-          "interviews_remaining"
+          "camera",
+          "microphone",
+          "detector",
+          "audio_test",
+          "consent"
         ],
-        "title": "Capabilities"
+        "title": "DeviceCheck"
       },
       "Dimension": {
         "properties": {
@@ -1572,6 +2383,16 @@
       },
       "ErrorDetail": {
         "properties": {
+          "quota": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Capabilities"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "code": {
             "type": "string",
             "title": "Code"
@@ -1644,6 +2465,68 @@
         ],
         "title": "FileLink"
       },
+      "IntegritySummary": {
+        "properties": {
+          "configuration": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Configuration"
+          },
+          "device_check": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Device Check"
+          },
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/ObservationView"
+            },
+            "type": "array",
+            "title": "Events"
+          },
+          "gaps": {
+            "type": "integer",
+            "title": "Gaps"
+          },
+          "observed_ms": {
+            "type": "integer",
+            "title": "Observed Ms",
+            "default": 0
+          },
+          "client_reported": {
+            "type": "boolean",
+            "const": true,
+            "title": "Client Reported",
+            "default": true
+          },
+          "vision": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/VisionSummary"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "configuration",
+          "device_check",
+          "events",
+          "gaps"
+        ],
+        "title": "IntegritySummary"
+      },
       "InterviewCreate": {
         "properties": {
           "role": {
@@ -1685,9 +2568,12 @@
           },
           "mode": {
             "type": "string",
-            "const": "Text",
+            "enum": [
+              "Text",
+              "Spoken"
+            ],
             "title": "Mode",
-            "default": "Text"
+            "default": "Spoken"
           },
           "language": {
             "type": "string",
@@ -1770,6 +2656,40 @@
                 "type": "null"
               }
             ]
+          },
+          "device_check": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Device Check"
+          },
+          "observation_config": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Observation Config"
+          },
+          "integrity": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/IntegritySummary"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "transcriptions": {
+            "items": {
+              "$ref": "#/components/schemas/TranscriptionView"
+            },
+            "type": "array",
+            "title": "Transcriptions"
           }
         },
         "additionalProperties": false,
@@ -1838,6 +2758,159 @@
         ],
         "title": "JobView"
       },
+      "ObservationBatch": {
+        "properties": {
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/ObservationInput"
+            },
+            "type": "array",
+            "maxItems": 25,
+            "minItems": 1,
+            "title": "Events"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "events"
+        ],
+        "title": "ObservationBatch"
+      },
+      "ObservationInput": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "episode_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Episode Id"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "no_face",
+              "multiple_faces",
+              "camera_unavailable",
+              "microphone_unavailable",
+              "tab_hidden",
+              "focus_lost",
+              "detection_unavailable",
+              "coverage_gap"
+            ],
+            "title": "Kind"
+          },
+          "phase": {
+            "type": "string",
+            "enum": [
+              "start",
+              "recovered"
+            ],
+            "title": "Phase"
+          },
+          "observed_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Observed At"
+          },
+          "duration_ms": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 86400000.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Duration Ms"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "episode_id",
+          "kind",
+          "phase",
+          "observed_at"
+        ],
+        "title": "ObservationInput"
+      },
+      "ObservationView": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "episode_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Episode Id"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "no_face",
+              "multiple_faces",
+              "camera_unavailable",
+              "microphone_unavailable",
+              "tab_hidden",
+              "focus_lost",
+              "detection_unavailable",
+              "coverage_gap"
+            ],
+            "title": "Kind"
+          },
+          "phase": {
+            "type": "string",
+            "enum": [
+              "start",
+              "recovered"
+            ],
+            "title": "Phase"
+          },
+          "observed_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Observed At"
+          },
+          "duration_ms": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 86400000.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Duration Ms"
+          },
+          "received_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Received At"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "episode_id",
+          "kind",
+          "phase",
+          "observed_at",
+          "received_at"
+        ],
+        "title": "ObservationView"
+      },
       "ProfileInput": {
         "properties": {
           "name": {
@@ -1879,9 +2952,12 @@
           },
           "default_mode": {
             "type": "string",
-            "const": "Text",
+            "enum": [
+              "Text",
+              "Spoken"
+            ],
             "title": "Default Mode",
-            "default": "Text"
+            "default": "Spoken"
           }
         },
         "additionalProperties": false,
@@ -1911,6 +2987,27 @@
             "maxLength": 3000,
             "minLength": 1,
             "title": "Feedback"
+          },
+          "rubric": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/QuestionRubric"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "evidence": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Evidence"
           }
         },
         "additionalProperties": false,
@@ -1921,6 +3018,36 @@
           "feedback"
         ],
         "title": "QuestionFeedback"
+      },
+      "QuestionRubric": {
+        "properties": {
+          "correctness_relevance": {
+            "type": "integer",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Correctness Relevance"
+          },
+          "reasoning_evidence": {
+            "type": "integer",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Reasoning Evidence"
+          },
+          "clarity_structure": {
+            "type": "integer",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Clarity Structure"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "correctness_relevance",
+          "reasoning_evidence",
+          "clarity_structure"
+        ],
+        "title": "QuestionRubric"
       },
       "QuestionView": {
         "properties": {
@@ -1961,6 +3088,33 @@
                 "type": "null"
               }
             ]
+          },
+          "modality": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Modality"
+          },
+          "original_transcript": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Original Transcript"
+          },
+          "user_corrected": {
+            "type": "boolean",
+            "title": "User Corrected",
+            "default": false
           }
         },
         "additionalProperties": false,
@@ -2029,6 +3183,33 @@
             "type": "array",
             "maxItems": 6,
             "title": "Questions"
+          },
+          "rubric_version": {
+            "type": "string",
+            "title": "Rubric Version",
+            "default": "text-v1"
+          },
+          "answered": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Answered"
+          },
+          "total_questions": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Questions"
           }
         },
         "additionalProperties": false,
@@ -2118,6 +3299,316 @@
           "analysis"
         ],
         "title": "ResumeView"
+      },
+      "TranscriptionView": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "question_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Question Id"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "original_text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Original Text"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          },
+          "duration_seconds": {
+            "type": "number",
+            "title": "Duration Seconds"
+          },
+          "model": {
+            "type": "string",
+            "title": "Model"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "question_id",
+          "status",
+          "original_text",
+          "error",
+          "duration_seconds",
+          "model"
+        ],
+        "title": "TranscriptionView"
+      },
+      "VisionCheckView": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "processing",
+              "completed",
+              "unavailable"
+            ],
+            "title": "Status"
+          },
+          "result": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "visible",
+                  "not_visible",
+                  "uncertain"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result"
+          },
+          "model": {
+            "type": "string",
+            "title": "Model"
+          },
+          "observed_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Observed At"
+          },
+          "received_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Received At"
+          },
+          "checked_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Checked At"
+          },
+          "error_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Code"
+          },
+          "episode_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Episode Id"
+          },
+          "phase": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "start",
+                  "recovered"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phase"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "status",
+          "result",
+          "model",
+          "observed_at",
+          "received_at",
+          "checked_at",
+          "error_code",
+          "episode_id",
+          "phase"
+        ],
+        "title": "VisionCheckView"
+      },
+      "VisionConsent": {
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "title": "Enabled"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "enabled"
+        ],
+        "title": "VisionConsent"
+      },
+      "VisionState": {
+        "properties": {
+          "available": {
+            "type": "boolean",
+            "title": "Available"
+          },
+          "enabled": {
+            "type": "boolean",
+            "title": "Enabled"
+          },
+          "model": {
+            "type": "string",
+            "title": "Model"
+          },
+          "interval_seconds": {
+            "type": "integer",
+            "title": "Interval Seconds"
+          },
+          "audit_seconds": {
+            "type": "integer",
+            "title": "Audit Seconds"
+          },
+          "checks": {
+            "type": "integer",
+            "title": "Checks"
+          },
+          "limit": {
+            "type": "integer",
+            "title": "Limit"
+          },
+          "retry_after": {
+            "type": "integer",
+            "title": "Retry After"
+          },
+          "warning_active": {
+            "type": "boolean",
+            "title": "Warning Active"
+          },
+          "latest": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/VisionCheckView"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "available",
+          "enabled",
+          "model",
+          "interval_seconds",
+          "audit_seconds",
+          "checks",
+          "limit",
+          "retry_after",
+          "warning_active",
+          "latest"
+        ],
+        "title": "VisionState"
+      },
+      "VisionSummary": {
+        "properties": {
+          "provider": {
+            "type": "string",
+            "const": "Groq",
+            "title": "Provider",
+            "default": "Groq"
+          },
+          "model": {
+            "type": "string",
+            "title": "Model"
+          },
+          "consented": {
+            "type": "boolean",
+            "title": "Consented"
+          },
+          "checks": {
+            "type": "integer",
+            "title": "Checks"
+          },
+          "unavailable": {
+            "type": "integer",
+            "title": "Unavailable"
+          },
+          "uncertain": {
+            "type": "integer",
+            "title": "Uncertain"
+          },
+          "visible": {
+            "type": "integer",
+            "title": "Visible"
+          },
+          "episodes": {
+            "type": "integer",
+            "title": "Episodes"
+          },
+          "samples": {
+            "items": {
+              "$ref": "#/components/schemas/VisionCheckView"
+            },
+            "type": "array",
+            "title": "Samples"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "model",
+          "consented",
+          "checks",
+          "unavailable",
+          "uncertain",
+          "visible",
+          "episodes",
+          "samples"
+        ],
+        "title": "VisionSummary"
       },
       "Workspace": {
         "properties": {

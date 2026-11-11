@@ -4,6 +4,9 @@ import { DEMO_MODE } from "@/lib/mode";
 
 export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request });
+  // Retired URLs fall through to the normal unmatched-route page without login.
+  if (/^\/dashboard\/coding(?:\/|$)/.test(request.nextUrl.pathname))
+    return response;
   if (DEMO_MODE) return response;
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;

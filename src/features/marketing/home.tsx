@@ -5,7 +5,6 @@ import {
   AudioLines,
   Bot,
   Check,
-  Code2,
   FileText,
   LayoutDashboard,
   MessagesSquare,
@@ -16,8 +15,6 @@ import {
 import { Brand } from "@/components/brand";
 import { Badge, ScoreRing, Progress } from "@/components/ui/primitives";
 import { Button } from "@/components/ui/button";
-import { PricingCards } from "./pricing";
-import { plans } from "@/config/plans";
 import { DEMO_MODE } from "@/lib/mode";
 export function Home() {
   return (
@@ -44,12 +41,16 @@ export function Home() {
           </Button>
           <Button asChild variant="secondary">
             <Link href="/dashboard">
-              {DEMO_MODE ? "Explore the demo" : "Open your workspace"} <ArrowRight size={15} />
+              {DEMO_MODE ? "Explore the demo" : "Open your workspace"}{" "}
+              <ArrowRight size={15} />
             </Link>
           </Button>
         </div>
         <span className="hero-note">
-          No credit card. No pressure. Just progress. · {DEMO_MODE ? "Phase 1 frontend demo" : "Phase 2 text interviews & resume coaching"}
+          Free to use. Practice at your pace. ·{" "}
+          {DEMO_MODE
+            ? "Phase 1 frontend demo"
+            : "Spoken interviews & resume coaching"}
         </span>
       </section>
       <div
@@ -69,11 +70,6 @@ export function Home() {
               icon: MessagesSquare,
               label: "AI Interviews",
               href: "/dashboard/interview",
-            },
-            {
-              icon: Code2,
-              label: "Coding Rounds",
-              href: "/dashboard/coding",
             },
           ].map((n, i) => (
             <Link href={n.href} key={n.href}>
@@ -143,7 +139,7 @@ export function Home() {
             <h2>
               One workspace.
               <br />
-              Four ways to get ready.
+              Three ways to get ready.
             </h2>
           </div>
           <p>
@@ -151,7 +147,7 @@ export function Home() {
             skills, and interview practice into focus.
           </p>
         </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-2 gap-x-8 gap-y-4">
+        <div className="grid md:grid-cols-3 gap-x-8 gap-y-4">
           {[
             {
               icon: MessagesSquare,
@@ -164,12 +160,6 @@ export function Home() {
               title: "Resume Analysis",
               text: "Explore your resume’s strengths and discover ways to make your experience stand out.",
               href: "/dashboard/resume",
-            },
-            {
-              icon: Code2,
-              title: "AI Coding Rounds · Pro",
-              text: "Work through a timed technical interview, explain your approach, and explore simulated evaluation.",
-              href: "/dashboard/coding",
             },
             {
               icon: Target,
@@ -233,48 +223,38 @@ export function Home() {
       <section className="marketing-section">
         <div className="section-intro">
           <div>
-            <p className="eyebrow">ROOM TO GROW</p>
-            <h2>
-              An investment
-              <br />
-              in your next chapter.
-            </h2>
-          </div>
-          <p>
-            Free preparation essentials, or {plans.pro.name} — {plans.pro.price}{" "}
-            for coding rounds and advanced feedback. No payment is taken in this
-            demo.
-          </p>
-        </div>
-        <PricingCards />
-      </section>
-      <section className="marketing-section">
-        <div className="section-intro">
-          <div>
             <p className="eyebrow">GOOD QUESTIONS</p>
             <h2>A little more clarity.</h2>
           </div>
         </div>
         {[
           {
-            q: "Is Mockmate using real AI in this demo?",
-            a: "No. This Phase 1 portfolio frontend uses predefined questions, sample evaluations, and simulated service responses. Real AI processing is planned for Phase 2.",
+            q: "Does Mockmate use real AI?",
+            a: DEMO_MODE
+              ? "This demo uses predefined questions and sample feedback, with browser-local records."
+              : "Yes. Resume excerpts and text interview answers are processed by external AI, with saved results in your private workspace.",
           },
           {
             q: "Do I need to turn on my camera?",
-            a: "No. Text mode works without device access. Camera preview is optional and stays on your device. This demo never records or uploads audio or video.",
+            a: DEMO_MODE
+              ? "No. Text mode works without device access. Optional demo camera previews stay on your device; audio and video are never uploaded."
+              : "No. Interviews use text answers without camera or microphone access.",
           },
           {
             q: "What happens to my resume?",
-            a: "The PDF stays in your browser. Only the file name, size, date, and predefined demo analysis are saved locally. No resume text is extracted or uploaded.",
+            a: DEMO_MODE
+              ? "The demo saves only file metadata and sample analysis in this browser."
+              : "Your PDF is stored privately. Resume excerpts are processed by external AI for coaching. Downloads require account authorization and use short-lived links.",
           },
           {
             q: "Can I use this to prepare for a real interview?",
-            a: "Use the practice prompts and career suggestions to rehearse. The sample scores do not measure your actual ability or predict hiring outcomes.",
+            a: "Use the practice prompts and career suggestions to rehearse. Scores are coaching feedback and do not predict hiring outcomes.",
           },
           {
-            q: "How does demo sign-in work?",
-            a: "Any valid form input opens a local demo session. No real account is created and no password is saved. You can also use the demo login button.",
+            q: "How does sign-in work?",
+            a: DEMO_MODE
+              ? "Demo sign-in opens a browser-local session; no password is saved."
+              : "Sign in to your own account to access your saved resumes, interviews, and reports. Mockmate is free, with ordinary AI usage limits.",
           },
         ].map((f) => (
           <details key={f.q}>

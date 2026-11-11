@@ -26,6 +26,7 @@ jobs:
           cache: pip
       - run: npm ci
       - run: pip install -r backend/requirements.txt
+      - run: npm run test:migrations
       - run: python scripts/init-test-db.py
       - run: python scripts/export-openapi.py && npx openapi-typescript contracts/openapi.json -o src/lib/api/generated.ts
       - run: git diff --exit-code -- contracts/openapi.json src/lib/api/generated.ts

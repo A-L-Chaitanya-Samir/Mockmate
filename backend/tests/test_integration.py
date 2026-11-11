@@ -3,13 +3,14 @@ from concurrent.futures import ThreadPoolExecutor
 import os
 import pytest
 from psycopg.errors import ForeignKeyViolation, InsufficientPrivilege
+from psycopg.types.json import Jsonb
 from app.core.auth import identity
 from app.core.config import settings
 from app.core.db import transaction, owned
 from app.core.errors import AppError, ProviderError
 from app.main import app
 from app.modules import service
-from app.modules.schemas import Analysis, Questions, Response, Report
+from app.modules.schemas import Analysis, Questions, Response, Report, InterviewEvaluation
 from app.workers.runner import Worker, claim
 from test_core import pdf
 
@@ -34,6 +35,12 @@ class DeterministicProvider:
             return Questions(questions=[{'prompt':f"{cfg['difficulty']} {cfg['type']} question {i} for {cfg['role']} in {cfg['language']}", 'topic':cfg['type']} for i in range(4)])
         if schema == Response:
             return Response(message='You gave a relevant example. Explain the trade-offs next time.', follow_up='What trade-off did you consider?')
+        if schema == InterviewEvaluation:
+            return InterviewEvaluation(strengths=['Relevant examples.'], improvements=['Explain trade-offs.'], recommendations=['Practice giving evidence for each decision.'],
+                questions=[{'question_id':str(q['id']),
+                    'rubric':{'correctness_relevance':66 if q['answer'] else 0,'reasoning_evidence':66 if q['answer'] else 0,'clarity_structure':66 if q['answer'] else 0},
+                    'evidence':q['answer'][:160] if q['answer'] else None,
+                    'feedback':f"Answer received: {q['answer'] or 'Unanswered'}"} for q in content['history']])
         if schema == Report:
             history = content['history']
             return Report(overall=66, scores=[{'skill':'Text clarity','score':66}], strengths=['Relevant examples.'], improvements=['Explain trade-offs.'], recommendations=['Practice giving evidence for each decision.'],
@@ -97,13 +104,13 @@ def test_actual_questions_answers_context_report_and_idempotency(client, account
     saved = client.get(f'/api/v1/interviews/{resource}').json()
     assert saved['status'] == 'completed'
     assert payload['text'] in saved['report']['questions'][0]['feedback']
-    evaluation = next(call for call in provider.calls if call[2] == Report)
+    evaluation = next(call for call in provider.calls if call[2] == InterviewEvaluation)
     assert evaluation[1]['history'][0]['answer'] == payload['text']
     with transaction() as conn:
         assert conn.execute('SELECT count(*) n FROM interview_reports').fetchone()['n'] == 1
         assert conn.execute('SELECT count(*) n FROM usage_reservations').fetchone()['n'] == 1
         assert conn.execute("SELECT count(*) n FROM jobs WHERE kind='evaluate'").fetchone()['n'] == 1
-    assert client.get('/api/v1/workspace').json()['interviews'][0]['report']['overall'] == 66
+    assert client.get('/api/v1/workspace').json()['interviews'][0]['report']['overall'] == 13
 
 
 def test_cross_account_routes_nested_resources_jobs_and_private_files(client, accounts):
@@ -169,19 +176,38 @@ def test_provider_failure_releases_usage_and_retry(client, accounts):
         with transaction() as conn: conn.execute('UPDATE jobs SET available_at=now()')
     job = client.get('/api/v1/jobs').json()[0]
     assert job['status'] == 'failed'
-    assert client.get('/api/v1/capabilities').json()['interviews_remaining'] == settings().free_interview_limit
+    assert client.get('/api/v1/capabilities').json()['interviews_remaining'] == settings().interview_limit
     assert client.post(f"/api/v1/jobs/{job['id']}/retry").status_code == 202
     Worker(DeterministicProvider(),MemoryStorage()).run_once()
     assert client.get(f'/api/v1/interviews/{resource}').json()['status'] == 'active'
 
 
 def test_deadline_and_quota(client, accounts):
-    for _ in range(settings().free_interview_limit): assert create(client).status_code == 202
+    for _ in range(settings().interview_limit): assert create(client).status_code == 202
     assert create(client).status_code == 429
     Worker(DeterministicProvider(),MemoryStorage()).run_once()
     session = next(s for s in client.get('/api/v1/workspace').json()['interviews'] if s['status']=='active')
     with transaction() as conn: conn.execute("UPDATE interview_sessions SET deadline=now()-interval '1 second'")
     assert client.post(f"/api/v1/interviews/{session['id']}/answers",headers={'Idempotency-Key':str(uuid4())},json={'question_id':session['questions'][0]['id'],'text':'A late answer should be refused.'}).status_code == 409
+
+
+def test_account_usage_has_no_plan_selection_or_paid_capabilities(client, accounts):
+    with transaction() as conn:
+        assert conn.execute("SELECT to_regclass('public.entitlements') retired").fetchone()['retired'] is None
+        # Legacy user-editable metadata cannot restore a plan or change allowances.
+        conn.execute("UPDATE auth.users SET raw_user_meta_data=%s WHERE id=%s",
+                     (Jsonb({'name': 'Existing member', 'plan': 'pro'}), accounts[0]))
+    before = client.get('/api/v1/workspace').json()
+    caps = before['capabilities']
+    assert caps['resumes_remaining'] == settings().resume_limit
+    assert caps['interviews_remaining'] == settings().interview_limit
+    assert caps['reset_at'] is None
+    assert create(client).status_code == 202
+    after = client.get('/api/v1/capabilities').json()
+    assert after['interviews_remaining'] == settings().interview_limit - 1
+    assert after['interview']['reserved'] == 1
+    assert after['reset_at'] is not None
+
 
 
 @pytest.mark.skipif(os.getenv('TEST_DB_CONCURRENCY') != '1', reason='Requires native PostgreSQL, not the single-connection WASM test engine')
@@ -198,7 +224,7 @@ def test_atomic_quota_under_concurrent_connections(accounts):
             return False
     with ThreadPoolExecutor(max_workers=8) as pool:
         results = list(pool.map(reserve_one, range(8)))
-    assert sum(results) == settings().free_interview_limit
+    assert sum(results) == settings().interview_limit
 
 
 def test_invalid_ai_evidence_is_not_saved(client):

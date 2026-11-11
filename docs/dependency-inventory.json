@@ -1,9 +1,9 @@
 {
   "source": "package-lock.json",
-  "reviewedDate": "2026-11-08",
+  "reviewedDate": "2026-11-10",
   "note": "Lockfile entries, not proof of installed packages. Includes nested versions and platform-specific optional packages. Development and optional flags follow lockfile metadata.",
-  "directCount": 28,
-  "packageEntryCount": 533,
+  "directCount": 35,
+  "packageEntryCount": 595,
   "packages": [
     {
       "name": "@alloc/quick-lru",
@@ -157,6 +157,96 @@
       "optional": false,
       "direct": false,
       "license": "MIT"
+    },
+    {
+      "name": "@ecies/ciphers",
+      "version": "0.2.6",
+      "packagePath": "node_modules/@ecies/ciphers",
+      "development": true,
+      "optional": false,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
+      "name": "@electric-sql/pglite",
+      "version": "0.5.15",
+      "packagePath": "node_modules/@electric-sql/pglite",
+      "development": true,
+      "optional": false,
+      "direct": true,
+      "license": "Apache-2.0"
+    },
+    {
+      "name": "@electric-sql/pglite-age",
+      "version": "0.0.16",
+      "packagePath": "node_modules/@electric-sql/pglite-age",
+      "development": true,
+      "optional": false,
+      "direct": false,
+      "license": "Apache-2.0"
+    },
+    {
+      "name": "@electric-sql/pglite-pg_hashids",
+      "version": "0.0.16",
+      "packagePath": "node_modules/@electric-sql/pglite-pg_hashids",
+      "development": true,
+      "optional": false,
+      "direct": false,
+      "license": "Apache-2.0"
+    },
+    {
+      "name": "@electric-sql/pglite-pg_ivm",
+      "version": "0.0.16",
+      "packagePath": "node_modules/@electric-sql/pglite-pg_ivm",
+      "development": true,
+      "optional": false,
+      "direct": false,
+      "license": "Apache-2.0"
+    },
+    {
+      "name": "@electric-sql/pglite-pg_textsearch",
+      "version": "0.0.17",
+      "packagePath": "node_modules/@electric-sql/pglite-pg_textsearch",
+      "development": true,
+      "optional": false,
+      "direct": false,
+      "license": "Apache-2.0"
+    },
+    {
+      "name": "@electric-sql/pglite-pg_uuidv7",
+      "version": "0.0.16",
+      "packagePath": "node_modules/@electric-sql/pglite-pg_uuidv7",
+      "development": true,
+      "optional": false,
+      "direct": false,
+      "license": "Apache-2.0"
+    },
+    {
+      "name": "@electric-sql/pglite-pgtap",
+      "version": "0.0.16",
+      "packagePath": "node_modules/@electric-sql/pglite-pgtap",
+      "development": true,
+      "optional": false,
+      "direct": false,
+      "license": "Apache-2.0"
+    },
+    {
+      "name": "@electric-sql/pglite-pgvector",
+      "version": "0.0.16",
+      "packagePath": "node_modules/@electric-sql/pglite-pgvector",
+      "development": true,
+      "optional": false,
+      "direct": false,
+      "license": "Apache-2.0"
+    },
+    {
+      "name": "@electric-sql/pglite-socket",
+      "version": "0.2.18",
+      "packagePath": "node_modules/@electric-sql/pglite-socket",
+      "development": true,
+      "optional": false,
+      "direct": true,
+      "license": "Apache-2.0"
     },
     {
       "name": "@emnapi/core",
@@ -663,6 +753,15 @@
       "license": "MIT"
     },
     {
+      "name": "@mediapipe/tasks-vision",
+      "version": "0.10.32",
+      "packagePath": "node_modules/@mediapipe/tasks-vision",
+      "development": false,
+      "optional": false,
+      "direct": true,
+      "license": "Apache-2.0"
+    },
+    {
       "name": "@napi-rs/wasm-runtime",
       "version": "1.2.2",
       "packagePath": "node_modules/@tailwindcss/oxide-wasm32-wasi/node_modules/@napi-rs/wasm-runtime",
@@ -758,6 +857,33 @@
       "packagePath": "node_modules/@next/swc-win32-x64-msvc",
       "development": false,
       "optional": true,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
+      "name": "@noble/ciphers",
+      "version": "1.3.0",
+      "packagePath": "node_modules/@noble/ciphers",
+      "development": true,
+      "optional": false,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
+      "name": "@noble/curves",
+      "version": "1.9.7",
+      "packagePath": "node_modules/@noble/curves",
+      "development": true,
+      "optional": false,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
+      "name": "@noble/hashes",
+      "version": "1.8.0",
+      "packagePath": "node_modules/@noble/hashes",
+      "development": true,
+      "optional": false,
       "direct": false,
       "license": "MIT"
     },
@@ -1059,6 +1185,33 @@
       "license": "MIT"
     },
     {
+      "name": "@redocly/ajv",
+      "version": "8.11.2",
+      "packagePath": "node_modules/@redocly/ajv",
+      "development": true,
+      "optional": false,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
+      "name": "@redocly/config",
+      "version": "0.22.0",
+      "packagePath": "node_modules/@redocly/config",
+      "development": true,
+      "optional": false,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
+      "name": "@redocly/openapi-core",
+      "version": "1.34.24",
+      "packagePath": "node_modules/@redocly/openapi-core",
+      "development": true,
+      "optional": false,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
       "name": "@reduxjs/toolkit",
       "version": "2.14.0",
       "packagePath": "node_modules/@reduxjs/toolkit",
@@ -1092,6 +1245,150 @@
       "development": false,
       "optional": false,
       "direct": false,
+      "license": "MIT"
+    },
+    {
+      "name": "@supabase/auth-js",
+      "version": "2.119.0",
+      "packagePath": "node_modules/@supabase/auth-js",
+      "development": false,
+      "optional": false,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
+      "name": "@supabase/cli-darwin-arm64",
+      "version": "3.0.0",
+      "packagePath": "node_modules/@supabase/cli-darwin-arm64",
+      "development": true,
+      "optional": true,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
+      "name": "@supabase/cli-darwin-x64",
+      "version": "3.0.0",
+      "packagePath": "node_modules/@supabase/cli-darwin-x64",
+      "development": true,
+      "optional": true,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
+      "name": "@supabase/cli-linux-arm64",
+      "version": "3.0.0",
+      "packagePath": "node_modules/@supabase/cli-linux-arm64",
+      "development": true,
+      "optional": true,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
+      "name": "@supabase/cli-linux-arm64-musl",
+      "version": "3.0.0",
+      "packagePath": "node_modules/@supabase/cli-linux-arm64-musl",
+      "development": true,
+      "optional": true,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
+      "name": "@supabase/cli-linux-x64",
+      "version": "3.0.0",
+      "packagePath": "node_modules/@supabase/cli-linux-x64",
+      "development": true,
+      "optional": true,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
+      "name": "@supabase/cli-linux-x64-musl",
+      "version": "3.0.0",
+      "packagePath": "node_modules/@supabase/cli-linux-x64-musl",
+      "development": true,
+      "optional": true,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
+      "name": "@supabase/cli-windows-arm64",
+      "version": "3.0.0",
+      "packagePath": "node_modules/@supabase/cli-windows-arm64",
+      "development": true,
+      "optional": true,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
+      "name": "@supabase/cli-windows-x64",
+      "version": "3.0.0",
+      "packagePath": "node_modules/@supabase/cli-windows-x64",
+      "development": true,
+      "optional": true,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
+      "name": "@supabase/functions-js",
+      "version": "2.119.0",
+      "packagePath": "node_modules/@supabase/functions-js",
+      "development": false,
+      "optional": false,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
+      "name": "@supabase/phoenix",
+      "version": "0.4.5",
+      "packagePath": "node_modules/@supabase/phoenix",
+      "development": false,
+      "optional": false,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
+      "name": "@supabase/postgrest-js",
+      "version": "2.119.0",
+      "packagePath": "node_modules/@supabase/postgrest-js",
+      "development": false,
+      "optional": false,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
+      "name": "@supabase/realtime-js",
+      "version": "2.119.0",
+      "packagePath": "node_modules/@supabase/realtime-js",
+      "development": false,
+      "optional": false,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
+      "name": "@supabase/ssr",
+      "version": "0.12.7",
+      "packagePath": "node_modules/@supabase/ssr",
+      "development": false,
+      "optional": false,
+      "direct": true,
+      "license": "MIT"
+    },
+    {
+      "name": "@supabase/storage-js",
+      "version": "2.119.0",
+      "packagePath": "node_modules/@supabase/storage-js",
+      "development": false,
+      "optional": false,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
+      "name": "@supabase/supabase-js",
+      "version": "2.119.0",
+      "packagePath": "node_modules/@supabase/supabase-js",
+      "development": false,
+      "optional": false,
+      "direct": true,
       "license": "MIT"
     },
     {
@@ -1689,6 +1986,15 @@
       "license": "MIT"
     },
     {
+      "name": "agent-base",
+      "version": "7.1.4",
+      "packagePath": "node_modules/agent-base",
+      "development": true,
+      "optional": false,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
       "name": "ajv",
       "version": "6.15.0",
       "packagePath": "node_modules/@eslint/eslintrc/node_modules/ajv",
@@ -1701,6 +2007,15 @@
       "name": "ajv",
       "version": "6.15.0",
       "packagePath": "node_modules/eslint/node_modules/ajv",
+      "development": true,
+      "optional": false,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
+      "name": "ansi-colors",
+      "version": "4.1.3",
+      "packagePath": "node_modules/ansi-colors",
       "development": true,
       "optional": false,
       "direct": false,
@@ -1888,6 +2203,15 @@
     },
     {
       "name": "brace-expansion",
+      "version": "2.1.7",
+      "packagePath": "node_modules/@redocly/openapi-core/node_modules/brace-expansion",
+      "development": true,
+      "optional": false,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
+      "name": "brace-expansion",
       "version": "5.0.12",
       "packagePath": "node_modules/@typescript-eslint/typescript-estree/node_modules/brace-expansion",
       "development": true,
@@ -1977,6 +2301,15 @@
       "license": "MIT"
     },
     {
+      "name": "change-case",
+      "version": "5.4.4",
+      "packagePath": "node_modules/change-case",
+      "development": true,
+      "optional": false,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
       "name": "class-variance-authority",
       "version": "0.7.1",
       "packagePath": "node_modules/class-variance-authority",
@@ -2022,6 +2355,15 @@
       "license": "MIT"
     },
     {
+      "name": "colorette",
+      "version": "1.4.0",
+      "packagePath": "node_modules/colorette",
+      "development": true,
+      "optional": false,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
       "name": "concat-map",
       "version": "0.0.1",
       "packagePath": "node_modules/concat-map",
@@ -2035,6 +2377,15 @@
       "version": "2.0.0",
       "packagePath": "node_modules/convert-source-map",
       "development": true,
+      "optional": false,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
+      "name": "cookie",
+      "version": "1.1.1",
+      "packagePath": "node_modules/cookie",
+      "development": false,
       "optional": false,
       "direct": false,
       "license": "MIT"
@@ -2295,6 +2646,15 @@
       "name": "dunder-proto",
       "version": "1.0.1",
       "packagePath": "node_modules/dunder-proto",
+      "development": true,
+      "optional": false,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
+      "name": "eciesjs",
+      "version": "0.5.0",
+      "packagePath": "node_modules/eciesjs",
       "development": true,
       "optional": false,
       "direct": false,
@@ -2958,6 +3318,24 @@
       "license": "MIT"
     },
     {
+      "name": "https-proxy-agent",
+      "version": "7.0.6",
+      "packagePath": "node_modules/https-proxy-agent",
+      "development": true,
+      "optional": false,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
+      "name": "iceberg-js",
+      "version": "0.8.1",
+      "packagePath": "node_modules/iceberg-js",
+      "development": false,
+      "optional": false,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
       "name": "ignore",
       "version": "7.0.14",
       "packagePath": "node_modules/@typescript-eslint/eslint-plugin/node_modules/ignore",
@@ -2997,6 +3375,15 @@
       "name": "imurmurhash",
       "version": "0.1.4",
       "packagePath": "node_modules/imurmurhash",
+      "development": true,
+      "optional": false,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
+      "name": "index-to-position",
+      "version": "1.2.0",
+      "packagePath": "node_modules/index-to-position",
       "development": true,
       "optional": false,
       "direct": false,
@@ -3300,6 +3687,24 @@
       "license": "MIT"
     },
     {
+      "name": "jose",
+      "version": "6.2.16",
+      "packagePath": "node_modules/jose",
+      "development": true,
+      "optional": false,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
+      "name": "js-levenshtein",
+      "version": "1.1.6",
+      "packagePath": "node_modules/js-levenshtein",
+      "development": true,
+      "optional": false,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
       "name": "js-tokens",
       "version": "4.0.0",
       "packagePath": "node_modules/js-tokens",
@@ -3348,6 +3753,15 @@
       "name": "json-schema-traverse",
       "version": "0.4.1",
       "packagePath": "node_modules/eslint/node_modules/json-schema-traverse",
+      "development": true,
+      "optional": false,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
+      "name": "json-schema-traverse",
+      "version": "1.0.0",
+      "packagePath": "node_modules/json-schema-traverse",
       "development": true,
       "optional": false,
       "direct": false,
@@ -3616,6 +4030,15 @@
     },
     {
       "name": "minimatch",
+      "version": "5.1.9",
+      "packagePath": "node_modules/@redocly/openapi-core/node_modules/minimatch",
+      "development": true,
+      "optional": false,
+      "direct": false,
+      "license": "ISC"
+    },
+    {
+      "name": "minimatch",
       "version": "10.2.6",
       "packagePath": "node_modules/@typescript-eslint/typescript-estree/node_modules/minimatch",
       "development": true,
@@ -3786,6 +4209,15 @@
       "license": "MIT"
     },
     {
+      "name": "openapi-typescript",
+      "version": "7.13.0",
+      "packagePath": "node_modules/openapi-typescript",
+      "development": true,
+      "optional": false,
+      "direct": true,
+      "license": "MIT"
+    },
+    {
       "name": "optionator",
       "version": "0.9.4",
       "packagePath": "node_modules/optionator",
@@ -3825,6 +4257,15 @@
       "name": "parent-module",
       "version": "1.0.1",
       "packagePath": "node_modules/parent-module",
+      "development": true,
+      "optional": false,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
+      "name": "parse-json",
+      "version": "8.3.0",
+      "packagePath": "node_modules/parse-json",
       "development": true,
       "optional": false,
       "direct": false,
@@ -3901,6 +4342,15 @@
       "optional": false,
       "direct": false,
       "license": "Apache-2.0"
+    },
+    {
+      "name": "pluralize",
+      "version": "8.0.0",
+      "packagePath": "node_modules/pluralize",
+      "development": true,
+      "optional": false,
+      "direct": false,
+      "license": "MIT"
     },
     {
       "name": "possible-typed-array-names",
@@ -4095,6 +4545,15 @@
       "name": "regexp.prototype.flags",
       "version": "1.5.4",
       "packagePath": "node_modules/regexp.prototype.flags",
+      "development": true,
+      "optional": false,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
+      "name": "require-from-string",
+      "version": "2.0.2",
+      "packagePath": "node_modules/require-from-string",
       "development": true,
       "optional": false,
       "direct": false,
@@ -4452,6 +4911,24 @@
       "license": "MIT"
     },
     {
+      "name": "supabase",
+      "version": "3.0.0",
+      "packagePath": "node_modules/supabase",
+      "development": true,
+      "optional": false,
+      "direct": true,
+      "license": "MIT"
+    },
+    {
+      "name": "supports-color",
+      "version": "10.2.2",
+      "packagePath": "node_modules/openapi-typescript/node_modules/supports-color",
+      "development": true,
+      "optional": false,
+      "direct": false,
+      "license": "MIT"
+    },
+    {
       "name": "supports-color",
       "version": "7.2.0",
       "packagePath": "node_modules/supports-color",
@@ -4544,6 +5021,51 @@
     {
       "name": "tslib",
       "version": "2.8.1",
+      "packagePath": "node_modules/@supabase/auth-js/node_modules/tslib",
+      "development": false,
+      "optional": false,
+      "direct": false,
+      "license": "0BSD"
+    },
+    {
+      "name": "tslib",
+      "version": "2.8.1",
+      "packagePath": "node_modules/@supabase/functions-js/node_modules/tslib",
+      "development": false,
+      "optional": false,
+      "direct": false,
+      "license": "0BSD"
+    },
+    {
+      "name": "tslib",
+      "version": "2.8.1",
+      "packagePath": "node_modules/@supabase/postgrest-js/node_modules/tslib",
+      "development": false,
+      "optional": false,
+      "direct": false,
+      "license": "0BSD"
+    },
+    {
+      "name": "tslib",
+      "version": "2.8.1",
+      "packagePath": "node_modules/@supabase/realtime-js/node_modules/tslib",
+      "development": false,
+      "optional": false,
+      "direct": false,
+      "license": "0BSD"
+    },
+    {
+      "name": "tslib",
+      "version": "2.8.1",
+      "packagePath": "node_modules/@supabase/storage-js/node_modules/tslib",
+      "development": false,
+      "optional": false,
+      "direct": false,
+      "license": "0BSD"
+    },
+    {
+      "name": "tslib",
+      "version": "2.8.1",
       "packagePath": "node_modules/@tailwindcss/oxide-wasm32-wasi/node_modules/tslib",
       "development": true,
       "optional": true,
@@ -4567,6 +5089,15 @@
       "optional": false,
       "direct": false,
       "license": "MIT"
+    },
+    {
+      "name": "type-fest",
+      "version": "4.41.0",
+      "packagePath": "node_modules/type-fest",
+      "development": true,
+      "optional": false,
+      "direct": false,
+      "license": "(MIT OR CC0-1.0)"
     },
     {
       "name": "typed-array-buffer",
@@ -4606,7 +5137,7 @@
     },
     {
       "name": "typescript",
-      "version": "6.0.3",
+      "version": "5.9.3",
       "packagePath": "node_modules/typescript",
       "development": true,
       "optional": false,
@@ -4666,6 +5197,15 @@
       "optional": false,
       "direct": false,
       "license": "BSD-2-Clause"
+    },
+    {
+      "name": "uri-js-replace",
+      "version": "1.0.2",
+      "packagePath": "node_modules/uri-js-replace",
+      "development": true,
+      "optional": false,
+      "direct": false,
+      "license": "MIT"
     },
     {
       "name": "use-callback-ref",
@@ -4761,6 +5301,24 @@
       "name": "yallist",
       "version": "3.1.1",
       "packagePath": "node_modules/yallist",
+      "development": true,
+      "optional": false,
+      "direct": false,
+      "license": "ISC"
+    },
+    {
+      "name": "yaml-ast-parser",
+      "version": "0.0.43",
+      "packagePath": "node_modules/yaml-ast-parser",
+      "development": true,
+      "optional": false,
+      "direct": false,
+      "license": "Apache-2.0"
+    },
+    {
+      "name": "yargs-parser",
+      "version": "21.1.1",
+      "packagePath": "node_modules/yargs-parser",
       "development": true,
       "optional": false,
       "direct": false,

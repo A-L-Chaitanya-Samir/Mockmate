@@ -38,10 +38,19 @@ export async function api<T>(
     await browserAuth().auth.signOut({ scope: "local" });
     location.assign("/login?error=session_expired");
   }
+  if (
+    options.method &&
+    options.method !== "GET" &&
+    (/^\/resumes/.test(path) ||
+      path === "/interviews" ||
+      path.endsWith("/retry"))
+  ) {
+    window.dispatchEvent(new Event("mockmate:usage-changed"));
+  }
   if (!response.ok) {
     const body = await response.json().catch(() => null);
     throw new Error(
-      `${body?.error?.message || "Request failed. Please retry."}${body?.error?.request_id ? ` (Request ${body.error.request_id})` : ""}`,
+      `${body?.error?.message || "Request failed. Please retry."}${body?.error?.quota?.reset_at ? ` Both allowances renew ${new Date(body.error.quota.reset_at).toLocaleString()} (your local time).` : ""}${body?.error?.request_id ? ` (Request ${body.error.request_id})` : ""}`,
     );
   }
   return response.json() as Promise<T>;

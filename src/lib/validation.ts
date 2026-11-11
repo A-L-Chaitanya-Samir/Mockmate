@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { codingConfig } from "@/config/coding";
 export const interviewTypeSchema = z.enum([
   "Technical",
   "HR",
@@ -56,46 +55,4 @@ export const summarySchema = z.object({
   date,
   score,
   duration: z.number().nonnegative(),
-});
-export const codingRoundSchema = z.object({
-  id: z.string(),
-  problemId: z.string(),
-  language: z.enum(codingConfig.languages),
-  startedAt: date,
-  durationMinutes: z.number().positive(),
-  drafts: z.object({
-    JavaScript: z.string(),
-    Python: z.string(),
-    Java: z.string(),
-    "C++": z.string(),
-  }),
-  status: z.enum(["active", "submitted", "ended"]),
-  events: z
-    .array(
-      z.object({
-        id: z.string(),
-        type: z.enum([
-          "copy",
-          "paste",
-          "context-menu",
-          "tab-hidden",
-          "focus-lost",
-        ]),
-        detail: z.string(),
-        timestamp: date,
-      }),
-    )
-    .max(codingConfig.maxStoredEvents),
-  eventCount: z.number().int().nonnegative(),
-  followupAnswers: z.record(z.string(), z.string()),
-  evaluation: z
-    .object({
-      dimensions: z.array(
-        z.object({ label: z.string(), feedback: z.string() }),
-      ),
-      suggestions: z.array(z.string()),
-      notice: z.string(),
-    })
-    .optional(),
-  completedAt: date.optional(),
 });

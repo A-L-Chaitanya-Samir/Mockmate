@@ -1,13 +1,12 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { X, LogOut, Sparkles, ArrowUpRight } from "lucide-react";
+import { X, LogOut } from "lucide-react";
 import { navigation } from "@/constants/navigation";
 import { useDemoStore } from "@/stores/demo-store";
 import { cn } from "@/lib/utils";
 import { Brand } from "./brand";
 import { Button } from "./ui/button";
-import { useFeatureAccess } from "@/hooks/use-feature-access";
 import { DEMO_MODE } from "@/lib/mode";
 import { useOptionalWorkspace } from "@/features/live/workspace";
 import { signOut } from "@/services/live-api";
@@ -30,7 +29,6 @@ export function SidebarContent({
   const live = useOptionalWorkspace();
   const profile = live?.data?.profile ?? demoProfile;
   const logout = useDemoStore((s) => s.logout);
-  const { definition } = useFeatureAccess();
   return (
     <>
       <div className="sidebar-brand">
@@ -51,7 +49,8 @@ export function SidebarContent({
         <div>
           <strong>Personal workspace</strong>
           <small>
-            {DEMO_MODE ? `${definition.name} · Demo` : `${live?.data?.capabilities.plan === "pro" ? "Mockmate Pro" : "Free"} · Account`} <span className="status-dot" />
+            {DEMO_MODE ? "Demo workspace" : "Personal account"}{" "}
+            <span className="status-dot" />
           </small>
         </div>
       </div>
@@ -85,14 +84,6 @@ export function SidebarContent({
         })}
       </nav>
       <div className="sidebar-bottom">
-        <div className="practice-note">
-          <Sparkles size={20} />
-          <h3>Your next chapter starts here.</h3>
-          <p>A little practice. A lot more confidence.</p>
-          <Link href="/dashboard/interview/setup" onClick={close}>
-            Start a session <ArrowUpRight size={15} />
-          </Link>
-        </div>
         <div className="sidebar-profile">
           <Link
             href="/dashboard/settings"
@@ -116,7 +107,10 @@ export function SidebarContent({
             size="icon"
             aria-label="Log out"
             onClick={() => {
-              if (!DEMO_MODE) { void signOut().catch(e => toast.error(String(e))); return; }
+              if (!DEMO_MODE) {
+                void signOut().catch((e) => toast.error(String(e)));
+                return;
+              }
               logout();
               close();
               router.push("/login");

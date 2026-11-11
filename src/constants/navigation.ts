@@ -2,7 +2,6 @@ import {
   LayoutDashboard,
   FileText,
   MessagesSquare,
-  Code2,
   Lightbulb,
   Settings,
 } from "lucide-react";
@@ -14,7 +13,6 @@ export const navigation = [
     label: "AI Interviews",
     icon: MessagesSquare,
   },
-  { href: "/dashboard/coding", label: "Coding Rounds", icon: Code2 },
   {
     href: "/dashboard/suggestions",
     label: "Suggestions & Advice",

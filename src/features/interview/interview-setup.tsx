@@ -30,16 +30,20 @@ import { errorMessage } from "@/services/api-client";
 import type { InterviewConfig } from "@/types";
 import { useDemoReady } from "@/hooks/use-demo-ready";
 import { Skeleton } from "@/components/ui/primitives";
-import { useFeatureAccess } from "@/hooks/use-feature-access";
-import { InterviewLimitNotice } from "@/components/plan-access";
+import { useUsage } from "@/hooks/use-usage";
+import { InterviewLimitNotice } from "@/components/usage-limit";
 import { DEMO_MODE } from "@/lib/mode";
 import { LiveInterviewSetup } from "@/features/live/interviews";
 export function InterviewSetup({ initialType }: { initialType?: string }) {
-  return DEMO_MODE ? <DemoInterviewSetup initialType={initialType} /> : <LiveInterviewSetup initialType={initialType} />;
+  return DEMO_MODE ? (
+    <DemoInterviewSetup initialType={initialType} />
+  ) : (
+    <LiveInterviewSetup initialType={initialType} />
+  );
 }
 function DemoInterviewSetup({ initialType }: { initialType?: string }) {
   const ready = useDemoReady();
-  const { interviews } = useFeatureAccess();
+  const { interviews } = useUsage();
   if (!ready) return <Skeleton />;
   return interviews.canStart ? (
     <SetupForm initialType={initialType} />
@@ -47,7 +51,7 @@ function DemoInterviewSetup({ initialType }: { initialType?: string }) {
     <>
       <PageHeading
         title="Your next practice session"
-        description="Your current demo plan has reached its interview allowance."
+        description="This browser has reached its demo interview allowance."
       />
       <InterviewLimitNotice />
     </>
@@ -57,7 +61,7 @@ function SetupForm({ initialType }: { initialType?: string }) {
   const router = useRouter();
   const preferences = useDemoStore((s) => s.preferences);
   const beginInterview = useDemoStore((s) => s.beginInterview);
-  const { interviews, definition } = useFeatureAccess();
+  const { interviews, resetAt } = useUsage();
   const type = configSchema.shape.type.safeParse(initialType);
   const {
     register,
@@ -82,7 +86,7 @@ function SetupForm({ initialType }: { initialType?: string }) {
       const session = await interviewService.create(values);
       if (!beginInterview(session)) {
         toast.error(
-          "Your demo interview allowance is used. Review plan access to continue.",
+          "Your demo interview allowance is used. Existing sessions and reports remain available.",
         );
         return;
       }
@@ -96,7 +100,7 @@ function SetupForm({ initialType }: { initialType?: string }) {
       <PageHeading
         eyebrow="MAKE THIS SESSION YOURS"
         title="A little setup. A better practice."
-        description={`Choose your focus and pace. ${definition.name}: ${interviews.remaining} of ${interviews.limit} demo sessions remaining.`}
+        description={`Choose your focus and pace. ${interviews.remaining} of ${interviews.limit} demo sessions remaining per 24 hours. ${resetAt ? `Both allowances renew ${new Date(resetAt).toLocaleString()}.` : "The window starts with your first use."}`}
       />
       <form
         onSubmit={handleSubmit(start)}

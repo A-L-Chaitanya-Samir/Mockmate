@@ -25,8 +25,9 @@ cfg.database_url = os.environ['TEST_DATABASE_URL']
 cfg.supabase_url = 'http://127.0.0.1:8011'
 cfg.supabase_publishable_key = 'test-publishable'
 cfg.cors_origins = ['http://localhost:3100']
-cfg.free_resume_limit = 3
-cfg.free_interview_limit = 3
+cfg.resume_limit = 3
+cfg.interview_limit = 20
+cfg.groq_api_key = 'test-only-not-a-real-provider-key'
 app.add_middleware(CORSMiddleware, allow_origins=['http://localhost:3100'], allow_methods=['*'], allow_headers=['*'])
 users = [UUID('11111111-1111-4111-8111-111111111111'), UUID('22222222-2222-4222-8222-222222222222')]
 with transaction() as conn:
@@ -77,7 +78,21 @@ def recover(): return {}
 @app.post('/auth/v1/signup')
 def signup(): return {'user':user_view(users[0]),'session':None, **user_view(users[0])}
 
-worker = Worker(DeterministicProvider(), MemoryStorage())
+class DeterministicSpeech:
+    def transcribe(self, data, model):
+        if not data.startswith(b'RIFF'):
+            raise RuntimeError('Expected server-decoded audio')
+        return 'I built a Python API with explicit transactions to preserve data consistency.'
+
+worker = Worker(DeterministicProvider(), MemoryStorage(), DeterministicSpeech())
+
+# Explicit deterministic vision adapter, available only inside this guarded harness.
+from app.modules import vision
+from app.modules.schemas import PhoneFinding
+class DeterministicVision:
+    def inspect(self, data, model):
+        return PhoneFinding(phone_visibility='visible')
+vision.GroqVision = DeterministicVision
 def work():
     while True:
         try:

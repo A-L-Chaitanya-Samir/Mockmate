@@ -17,7 +17,8 @@ import { Button } from "@/components/ui/button";
 import { CompetencyChart } from "@/components/charts";
 import { api, exportJson, type DTO } from "@/services/live-api";
 import { JobErrors, useWorkspace } from "./workspace";
-
+import { SpokenRoom } from "@/features/interview/spoken/spoken-room";
+import { IntegrityReport } from "@/features/interview/spoken/integrity-report";
 export function LiveInterviewSetup({ initialType }: { initialType?: string }) {
   const { data } = useWorkspace();
   const router = useRouter();
@@ -32,7 +33,7 @@ export function LiveInterviewSetup({ initialType }: { initialType?: string }) {
     const configuration = {
       ...fields,
       duration: Number(fields.duration),
-      mode: "Text",
+      mode: "Spoken",
       resume_id: fields.resume_id || null,
     };
     try {
@@ -52,7 +53,7 @@ export function LiveInterviewSetup({ initialType }: { initialType?: string }) {
       <PageHeading
         eyebrow="YOUR SPACE TO PRACTICE"
         title="Your next practice session"
-        description="Four generated questions and up to two contextual follow-ups. Your deadline starts when the questions are ready."
+        description="Four generated questions and up to two contextual follow-ups. Your deadline starts after device checks and question preparation."
       />
       <div className="grid lg:grid-cols-[1.2fr_1fr] gap-6">
         <Panel>
@@ -127,13 +128,11 @@ export function LiveInterviewSetup({ initialType }: { initialType?: string }) {
               </select>
             </Field>
             <Field label="Interview mode">
-              <select disabled value="Text">
-                <option>Text</option>
-              </select>
+              <input readOnly value="Video" />
             </Field>
             <label className="flex gap-3 text-xs">
-              <input type="checkbox" required />I understand my interview text
-              is processed by Groq.
+              <input type="checkbox" required />I understand my answer audio and
+              confirmed transcripts are processed by Groq.
             </label>
             {error && (
               <p role="alert" className="text-error">
@@ -143,28 +142,32 @@ export function LiveInterviewSetup({ initialType }: { initialType?: string }) {
             <Button
               disabled={busy || data!.capabilities.interviews_remaining === 0}
             >
-              {busy ? <Spinner label="Starting session…" /> : "Start interview"}
+              {busy ? (
+                <Spinner label="Starting session…" />
+              ) : (
+                "Continue to device checks"
+              )}
             </Button>
           </form>
         </Panel>
         <Panel>
-          <Badge>TEXT PRACTICE</Badge>
-          <h2 className="my-5">Think it through. Make it clear.</h2>
+          <Badge>SPOKEN PRACTICE</Badge>
+          <h2 className="my-5">Camera on. Speak it through.</h2>
           <CheckList
             items={[
               "Questions reflect your role, type, difficulty and selected resume.",
               "Answers are saved when you submit each turn.",
-              "A maximum of six answers and eight AI calls per session.",
+              "Up to six questions, with turn-based spoken answers.",
               "End explicitly or complete at the deadline; results use your actual answers.",
             ]}
           />
           <p className="text-muted mt-6">
-            Voice, video, recording, face detection, proctoring and code
-            execution are future features.
+            Check your camera, microphone and local face detector before
+            starting. No full video recording is saved.
           </p>
           <p className="text-xs mt-6">
-            {data!.capabilities.interviews_remaining} introductory sessions
-            remaining. No monthly reset or paid checkout.
+            {data!.capabilities.interviews_remaining} video interviews
+            remaining in this 24-hour window. Saved sessions stay accessible.
           </p>
         </Panel>
       </div>
@@ -179,7 +182,7 @@ export function LiveInterviewList() {
       <PageHeading
         eyebrow="YOUR SPACE TO PRACTICE"
         title="Confidence comes from showing up."
-        description="Continue a saved text session or reflect on your results."
+        description="Continue a saved session or reflect on your results."
         action={
           <Button asChild>
             <Link href="/dashboard/interview/setup">New interview</Link>
@@ -215,7 +218,10 @@ export function LiveHistory({
           {interviews.map((s) => (
             <tr key={s.id}>
               <td>{s.config.role}</td>
-              <td>{s.config.type}</td>
+              <td>
+                {s.config.type} ·{" "}
+                {s.config.mode === "Spoken" ? "Spoken" : "Legacy text"}
+              </td>
               <td>{new Date(s.created_at).toLocaleDateString()}</td>
               <td>{s.report ? `${s.report.overall}/100` : s.status}</td>
               <td>
@@ -238,7 +244,7 @@ export function LiveHistory({
   ) : (
     <EmptyState
       title="Your first session is ahead."
-      description="Start a text interview to build your saved practice history."
+      description="Start a spoken interview to build your saved practice history."
     />
   );
 }
@@ -278,6 +284,7 @@ export function LiveInterviewRoom({ interviewId }: { interviewId: string }) {
         </Button>
       </>
     );
+  if (session.config.mode === "Spoken") return <SpokenRoom session={session} />;
   const remaining = session.deadline
     ? Math.max(0, Math.ceil((Date.parse(session.deadline) - now) / 1000))
     : null;
@@ -445,7 +452,7 @@ export function LiveReport({ interviewId }: { interviewId: string }) {
       <PageHeading
         eyebrow="A MOMENT TO REFLECT"
         title="You showed up. That’s progress."
-        description={`${session.config.role} · ${session.config.type} · Text interview report`}
+        description={`${session.config.role} · ${session.config.type} · ${session.config.mode === "Spoken" ? "Spoken" : "Legacy text"} interview report`}
         action={
           report && (
             <Button
@@ -461,6 +468,7 @@ export function LiveReport({ interviewId }: { interviewId: string }) {
       <JobErrors resource={session.id} />
       {report ? (
         <>
+          <h2 className="mb-5">Interview performance</h2>
           <div className="grid lg:grid-cols-2 gap-6 mb-6">
             <Panel>
               <ScoreRing score={report.overall} />
@@ -469,6 +477,14 @@ export function LiveReport({ interviewId }: { interviewId: string }) {
                 evidence 35%, text clarity and structure 25%. No voice, video or
                 hiring prediction.
               </p>
+              {report.rubric_version === "transcript-v2" && (
+                <p className="text-sm text-muted mt-3">
+                  Calculated average of all question marks; unanswered questions
+                  receive zero. {report.answered} of {report.total_questions}{" "}
+                  questions answered. Marks use the actual question and
+                  difficulty; concise correct answers can earn full credit.
+                </p>
+              )}
             </Panel>
             <Panel>
               <CompetencyChart scores={report.scores} />
@@ -492,13 +508,24 @@ export function LiveReport({ interviewId }: { interviewId: string }) {
             </Panel>
           </div>
           <Panel className="mt-6">
-            <h2>Recorded questions & answers</h2>
+            <h2>Interview performance · Questions & confirmed answers</h2>
             {session.questions.map((q) => (
               <div key={q.id} className="border-b border-border py-5">
                 <h3>{q.prompt}</h3>
                 <p className="whitespace-pre-wrap text-muted mt-3">
                   {q.answer || "Unanswered"}
+                  {q.user_corrected && (
+                    <span className="block text-xs mt-2">
+                      User-corrected transcript
+                    </span>
+                  )}
                 </p>
+                {q.user_corrected && q.original_transcript && (
+                  <details className="text-sm mt-3">
+                    <summary>Original transcription</summary>
+                    <p>{q.original_transcript}</p>
+                  </details>
+                )}
                 <p className="mt-3">
                   {
                     report.questions.find((f) => f.question_id === q.id)
@@ -509,9 +536,44 @@ export function LiveReport({ interviewId }: { interviewId: string }) {
                   {report.questions.find((f) => f.question_id === q.id)?.score}
                   /100
                 </p>
+                {report.questions.find((f) => f.question_id === q.id)
+                  ?.rubric && (
+                  <div className="text-xs text-muted mt-3">
+                    <p>
+                      Correctness/relevance:{" "}
+                      {
+                        report.questions.find((f) => f.question_id === q.id)
+                          ?.rubric?.correctness_relevance
+                      }
+                      /100 · Reasoning/evidence:{" "}
+                      {
+                        report.questions.find((f) => f.question_id === q.id)
+                          ?.rubric?.reasoning_evidence
+                      }
+                      /100 · Text clarity/structure:{" "}
+                      {
+                        report.questions.find((f) => f.question_id === q.id)
+                          ?.rubric?.clarity_structure
+                      }
+                      /100
+                    </p>
+                    {report.questions.find((f) => f.question_id === q.id)
+                      ?.evidence && (
+                      <p className="mt-2">
+                        Answer evidence: “
+                        {
+                          report.questions.find((f) => f.question_id === q.id)
+                            ?.evidence
+                        }
+                        ”
+                      </p>
+                    )}
+                  </div>
+                )}
               </div>
             ))}
           </Panel>
+          {session.integrity && <IntegrityReport summary={session.integrity} />}
         </>
       ) : (
         <Panel>

@@ -25,7 +25,6 @@ import { Tabs } from "@/components/ui/tabs";
 import type { Profile } from "@/types";
 import { useDemoReady } from "@/hooks/use-demo-ready";
 import { Skeleton } from "@/components/ui/primitives";
-import { PlanSettings } from "./plan-settings";
 const profileSchema = z.object({
   name: z.string().trim().min(2, "Use at least 2 characters.").max(60),
   role: z.string().trim().min(3, "Use at least 3 characters.").max(100),
@@ -216,7 +215,6 @@ function SettingsContent() {
             label: "Demo account",
             content: (
               <>
-                <PlanSettings />
                 <Panel>
                   <div className="panel-heading">
                     <h2>Your demo workspace</h2>
@@ -225,11 +223,10 @@ function SettingsContent() {
                   <div className="flex gap-3 p-4 bg-elevated rounded-lg mb-7">
                     <ShieldCheck className="text-primary shrink-0" size={20} />
                     <p className="text-muted text-xs leading-6">
-                      This is not a production account. There is no
-                      subscription, stored password, or backend. Demo
-                      preferences, file metadata, and typed interview answers
-                      are stored in this browser. Clear them below whenever you
-                      want.
+                      This is not a production account. There is no stored
+                      password or backend. Demo preferences, file metadata, and
+                      typed interview answers are stored in this browser. Clear
+                      them below whenever you want.
                     </p>
                   </div>
                   <div className="setting-row">
@@ -276,7 +273,7 @@ function SettingsContent() {
         open={resetOpen}
         onOpenChange={setResetOpen}
         title="A fresh start?"
-        description="This removes locally saved interviews, coding drafts and integrity logs, resume metadata, and profile changes. The Free plan and sample sessions will be restored. This cannot be undone."
+        description="This removes locally saved interviews, resume metadata, and profile changes. The sample sessions will be restored. This cannot be undone."
       >
         <div className="flex flex-wrap justify-end gap-3">
           <Button variant="secondary" onClick={() => setResetOpen(false)}>

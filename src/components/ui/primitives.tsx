@@ -27,9 +27,11 @@ export function DemoNotice({ compact = false }: { compact?: boolean }) {
     <div className={cn("demo-notice", compact && "demo-compact")}>
       <Info size={14} />
       <span>
-        {!DEMO_MODE ? "Phase 2 · External AI processes resume excerpts and interview text. Coding, voice, video and payments are future features." : compact
-          ? "Demo workspace · simulated insights"
-          : "Demo experience. Scores, feedback, AI responses, and code execution are simulated. Your media stays on your device."}
+        {!DEMO_MODE
+          ? "Phase 2 · External AI processes resume excerpts and interview text."
+          : compact
+            ? "Demo workspace · simulated insights"
+            : "Demo experience. Scores, feedback, and AI responses are simulated. Your media stays on your device."}
       </span>
     </div>
   );

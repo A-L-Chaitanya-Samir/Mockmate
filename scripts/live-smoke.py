@@ -17,6 +17,7 @@ from app.core.config import settings
 parser=argparse.ArgumentParser()
 parser.add_argument('--run',action='store_true',help='Authorize synthetic test account/data creation and cleanup')
 parser.add_argument('--browser',action='store_true')
+parser.add_argument('--spoken-audio',type=Path,help='Synthetic speech WAV for real spoken-provider acceptance; device check is client-reported test data, not physical hardware verification')
 args=parser.parse_args()
 if not args.run:
     raise SystemExit('Use --run against your development project to create and clean up synthetic accounts.')
@@ -89,7 +90,7 @@ try:
     path=f'{users[0]["id"]}/{resume_id}.pdf'
     direct=httpx.get(cfg.supabase_url+'/storage/v1/object/authenticated/resumes/'+path,headers={'apikey':cfg.supabase_publishable_key,'Authorization':'Bearer '+users[1]['token']},timeout=30)
     check('Direct cross-account Storage request denied',direct.status_code!=200)
-    config={'role':'Python Backend Engineer','type':'Technical','difficulty':'Medium','duration':10,'mode':'Text','language':'Python','resume_id':resume_id}
+    config={'role':'Python Backend Engineer','type':'Technical','difficulty':'Medium','duration':10,'mode':'Spoken' if args.spoken_audio else 'Text','language':'Python','resume_id':resume_id}
     interview_key=str(uuid4())
     response=request('POST','/interviews',headers={'Idempotency-Key':interview_key},json=config)
     check('Configured interview queued',response.status_code==202)
@@ -98,6 +99,27 @@ try:
     session=ready('/interviews/'+session_id,'status','active')
     check('Real Groq questions saved with configuration',len(session['questions'])==4 and session['config']==config)
     answer={'question_id':session['questions'][0]['id'],'text':'I use Pydantic for request validation, enforce ownership using the authenticated user ID, and wrap related PostgreSQL writes in a transaction. I test invalid tokens, cross-account access and duplicate requests.'}
+    if args.spoken_audio:
+        check('Spoken deadline waits for device acknowledgement',session['deadline'] is None)
+        check('Client-reported test device acknowledgement accepted (not hardware verification)',request('POST',f'/interviews/{session_id}/device-check',json={'camera':True,'microphone':True,'detector':True,'audio_test':True,'consent':True}).status_code==200)
+        audio_key=str(uuid4())
+        def transcribe():
+            return request('POST',f'/interviews/{session_id}/transcriptions',headers={'Idempotency-Key':audio_key},data={'question_id':answer['question_id']},files={'file':('synthetic-speech.wav',args.spoken_audio.read_bytes(),'audio/wav')})
+        recording=transcribe()
+        check('Authenticated synthetic audio accepted by durable pipeline',recording.status_code==202)
+        transcription_id=recording.json()['id']
+        check('Audio upload idempotency',transcribe().json()['id']==transcription_id)
+        until=time.monotonic()+240
+        while time.monotonic()<until:
+            session=request('GET','/interviews/'+session_id).json()
+            transcription=next(t for t in session['transcriptions'] if t['id']==transcription_id)
+            if transcription['status']=='ready': break
+            if transcription['status'] in ('failed','cancelled'): raise RuntimeError('Real transcription did not complete')
+            time.sleep(3)
+        check('Real Groq spoken transcript saved',transcription['status']=='ready' and 'authentication' in transcription['original_text'].lower())
+        answer['text']=transcription['original_text'];answer['transcription_id']=transcription_id
+        with psycopg.connect(cfg.database_url,connect_timeout=10) as conn:
+            check('Temporary real-provider audio removed after success',conn.execute('SELECT audio_bytes IS NULL FROM transcriptions WHERE id=%s',(transcription_id,)).fetchone()[0])
     answer_key=str(uuid4())
     response=request('POST',f'/interviews/{session_id}/answers',headers={'Idempotency-Key':answer_key},json=answer)
     check('Actual answer saved',response.status_code==202)
@@ -112,6 +134,8 @@ try:
     check('Duplicate completion accepted without extra evaluation',request('POST',f'/interviews/{session_id}/complete').status_code==202)
     session=ready('/interviews/'+session_id,'status','completed')
     check('Real report evaluates saved answers and history',session['questions'][0]['answer']==answer['text'] and bool(session['report']['questions']))
+    if args.spoken_audio:
+        check('Spoken provenance and separate integrity snapshot saved',session['questions'][0]['modality']=='spoken' and session['questions'][0]['original_transcript']==answer['text'] and session['integrity'] is not None)
     check('Cross-account report rejected',request('GET','/interviews/'+session_id,1).status_code==404)
     jobs=request('GET','/jobs').json()
     check('Cross-account job rejected',request('GET','/jobs/'+jobs[0]['id'],1).status_code==404)

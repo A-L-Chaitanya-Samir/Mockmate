@@ -11,3 +11,5 @@ backend/.venv/
 __pycache__/
 .pytest_cache/
 *.pyc
+.test-deps/
+public/mediapipe/runtime/
