@@ -14,6 +14,7 @@ jobs:
       PYTHONPATH: backend
       TEST_DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/postgres
       TEST_DB_CONCURRENCY: '1'
+      PLAYWRIGHT_CHANNEL: chrome
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -32,22 +33,15 @@ jobs:
       - run: git diff --exit-code -- contracts/openapi.json src/lib/api/generated.ts
       - run: python -m pytest backend/tests -q
       - run: npm run typecheck && npm run lint
-      - name: Install Chromium and system dependencies
-        timeout-minutes: 15
-        env:
-          PLAYWRIGHT_DOWNLOAD_CONNECTION_TIMEOUT: '120000'
+      - name: Verify preinstalled Chrome
         run: |
-          for attempt in 1 2 3; do
-            if npx playwright install --with-deps chromium; then
-              exit 0
-            fi
-            if [ "$attempt" -eq 3 ]; then
-              echo "Chromium installation failed after three attempts."
-              exit 1
-            fi
-            echo "Retrying Chromium installation after attempt $attempt."
-            sleep $((attempt * 10))
-          done
+          google-chrome --version
+          node --input-type=module <<'JS'
+          import { chromium } from '@playwright/test';
+          const browser = await chromium.launch({ channel: process.env.PLAYWRIGHT_CHANNEL });
+          console.log(`Browser launch passed: ${browser.version()}`);
+          await browser.close();
+          JS
       - run: npm run build && npm run test:e2e
         env:
           NEXT_PUBLIC_DEMO_MODE: 'true'
