@@ -1,0 +1,15 @@
+node_modules/
+.next/
+out/
+playwright-report/
+test-results/
+*.tsbuildinfo
+.env*
+!.env.example
+!**/.env.example
+backend/.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+.test-deps/
+public/mediapipe/runtime/
